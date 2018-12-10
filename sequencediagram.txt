@@ -1,0 +1,83 @@
+title Sequence diagram
+participant user
+participant agent
+participant clock
+participant sysCom
+
+alt registered=false
+user->agent:Register(nickname)
+else registered=true
+user->agent:login(nickname,pswd)
+agent->sysCom:connect(nickname)
+sysCom->agent:list_of_connected_users
+end 
+
+par
+opt
+user->agent:changeNickname(nickname)
+agent->sysCom:changed_nckname(nickname)
+end
+
+thread notification new connection
+opt
+sysCom->agent:connection(userName)
+end
+
+thread notification disconnection
+opt
+sysCom->agent:disconnection(userName)
+end
+
+thread start conversation
+user->agent:openchat()**
+**agent->lan:requestOpeningChat()**
+**alt
+**lan->agent:requestDenied()
+**else
+**lan->agent:requestOK()
+agent->user:display(connectedUsers)
+user->agent:selectUser(userName)
+note over agent:chat(userName)=opened
+opt history=true
+agent->user:displayHistory()
+end
+user->agent:send(message)
+agent->clock:time()
+activate clock
+agent<-clock:time(time_sent)
+deactivate clock
+agent->sysCom:send(message,userSrc,userDest)
+note over agent:updateHistory(message,time_sent)
+
+thread send message (avec conversation deja ouverte)
+user->agent:send(message)
+agent->clock:time()
+activate clock
+agent<-clock:time(time_sent)
+deactivate clock
+agent->sysCom:send(message,userSrc,userDest)
+note over agent:updateHistory(message,time_sent)
+
+thread receive message
+sysCom->agent:receive(message,userSrc,userDest)
+agent->clock:time()
+activate clock
+agent<-clock:time(time_received)
+deactivate clock
+opt chat(username)=closed
+note over agent:chat(userName)=opened
+opt history=true
+agent->user:displayHistory()
+end
+end
+note over agent:updateHistory(message,time_received)
+agent->user:display(message)
+
+thread chat(userName)=opened
+user->agent:closechat(userName)
+note over agent:chat(userName)=closed
+
+thread
+user->agent:logout()
+agent->sysCom:disconnect(nickname)
+end
