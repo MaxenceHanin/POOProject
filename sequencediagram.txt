@@ -1,31 +1,72 @@
-title Sequence diagram
 participant user
 participant agent
 participant clock
 participant sysCom
 
 alt registered=false
-user->agent:Register(nickname)
+
+loop registered=false
+user->agent:Register(desiredNickname,pswd)
+agent->sysCom:tryNickname(@user,desiredNickname)
+opt
+sysCom->agent:isConnected(@distantUser,distantUserNickname)
+note over agent:updateListConnectedUsers(@distantUser)
+note over agent:updateListUsedNicknames(distantUserNickname)
+end 
+note over agent:checkUnicityNickname(listUsedNicknames)
+alt unicityNickname=false
+agent->user:failwith(nicknameAlreadyTaken)
+else unicityNickname=true
+agent->user:display("Welcome, "+nickname)
+note over agent:registered=true
+agent->sysCom:newConnection(@user,nickname)
+end
+end
+
 else registered=true
 user->agent:login(nickname,pswd)
-agent->sysCom:connect(nickname)
-sysCom->agent:list_of_connected_users
+agent->sysCom:connect(@user,nickname)
+opt
+sysCom->agent:isConnected(@distantUser,distantUserNickname)
+note over agent:updateListConnectedUsers(@distantUser)
+end 
 end 
 
 par
+user->agent:changeNickname(desiredNickname)
+agent->sysCom:tryNickname(@user,desiredNickname)
 opt
-user->agent:changeNickname(nickname)
-agent->sysCom:changed_nckname(nickname)
+sysCom->agent:isConnected(@distantUser,distantUserNickname)
+note over agent:updateListConnectedUsers(@distantUser)
+note over agent:updateListUsedNicknames(distantUserNickname)
+end 
+note over agent:checkUnicityNickname(listUsedNicknames)
+alt unicityNickname=false
+agent->user:failwith(nicknameAlreadyTaken)
+else unicityNickname=true
+agent->user:display("New nickname = "+desiredNickname)
+note over agent:updateNickname(desiredNickname)
+agent->sysCom:changedNickname(@user,nickname)
+agent->sysCom:discardOldNickname(oldNickname)
 end
 
 thread notification new connection
-opt
-sysCom->agent:connection(userName)
+alt
+sysCom->agent:newConnection(@user, nickname)
+note over agent:updateListConnectedUsers(@distantUser)
+else 
+sysCom->agent:connect(@user, nickname)
+note over agent:updateListConnectedUsers(@distantUser)
+else
+agent<-sysCom:tryNickname(@user,desiredNickname)
 end
+agent->sysCom:isConnected(@user,nickname)
+
 
 thread notification disconnection
 opt
-sysCom->agent:disconnection(userName)
+sysCom->agent:disconnection(@user)
+note over agent:updateListConnectedUsers(@distantUser)
 end
 
 thread start conversation
@@ -38,31 +79,36 @@ user->agent:openchat()**
 agent->user:display(connectedUsers)
 user->agent:selectUser(userName)
 note over agent:chat(userName)=opened
-opt history=true
+opt boolhistory=true
 agent->user:displayHistory()
 end
+
+
+thread send message avec chat(userName)=opened
 user->agent:send(message)
-agent->clock:time()
+agent->clock:getTime()
 activate clock
-agent<-clock:time(time_sent)
+agent<-clock:time_sent
 deactivate clock
-agent->sysCom:send(message,userSrc,userDest)
+agent->sysCom:send(0,userSrc,userDest,message)
 note over agent:updateHistory(message,time_sent)
 
-thread send message (avec conversation deja ouverte)
-user->agent:send(message)
-agent->clock:time()
+thread send file avec chat(userName)=opened
+user->agent:sendFile()
+user<-agent:display(listOfFiles)
+user->agent:chooseFile()
+agent->clock:getTime()
 activate clock
-agent<-clock:time(time_sent)
+agent<-clock:time_sent
 deactivate clock
-agent->sysCom:send(message,userSrc,userDest)
-note over agent:updateHistory(message,time_sent)
+agent->sysCom:sendfile(0,userSrc,userDest, file)
+note over agent:updateHistory(file,time_sent)
 
 thread receive message
-sysCom->agent:receive(message,userSrc,userDest)
-agent->clock:time()
+sysCom->agent:send(0,userSrc,userDest,message)
+agent->clock:getTime()
 activate clock
-agent<-clock:time(time_received)
+agent<-clock:time_received
 deactivate clock
 opt chat(username)=closed
 note over agent:chat(userName)=opened
@@ -79,5 +125,5 @@ note over agent:chat(userName)=closed
 
 thread
 user->agent:logout()
-agent->sysCom:disconnect(nickname)
+agent->sysCom:disconnection(@user)
 end
