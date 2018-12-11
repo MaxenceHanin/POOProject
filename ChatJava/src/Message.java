@@ -1,13 +1,20 @@
 import java.net.InetAddress;
 
 public class Message {
+	//structure d'un message :
+	//send(@src, @dest, payload)
+	//payload 
+	//
+	
+	public void newConnection(User user) {
+		SysCom.send(user.getAddr(),Agent.getAddrLAN(),payload);
+	}
+
+	public void connect() {}
+	
 	public void tryNickname() {}
 
 	public void isConnected() {}
-
-	public void newConnection() {}
-
-	public void connect() {}
 
 	public void disconnection() {}
 	
