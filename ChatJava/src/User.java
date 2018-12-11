@@ -6,6 +6,11 @@ public class User {
 	private String pswd;
 	public boolean registered;
 	
+	public User(InetAddress addrUser) {
+		this.addrUser = addrUser;
+		this.registered = false;
+	}
+	
 	public int checkPassword(String pwd, String username){
 		if ((pwd==this.pswd)&&(username==this.nickname)){
 			return 0;
