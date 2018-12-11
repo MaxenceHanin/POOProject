@@ -6,49 +6,30 @@ public class User {
 	private String pswd;
 	public boolean registered;
 
-public int login(String pwd, String username){
-	
-	if ((pwd==this.pswd)&&(username==this.nickname)){
-		controller.updateListConnectedUser(nickname,1);
-		return 0;
-	}
-	return -1;
-}
-
-public void logout(String pwd, String username){
-	controller.updateListConnectedUser(nickname,0);
-}
-
-public void register(String username){
-	while (not registered) loop{
+	public int checkPassword(String pwd, String username){
 		
+		if ((pwd==this.pswd)&&(username==this.nickname)){
+			controller.updateListConnectedUser(nickname,1);
+			return 0;
+		}
+		return -1;
 	}
-}
 
-public void changeNickname(String newname){
-	if(Agent.checkUnicityNickname()){
-		this.nickname = newname;
-		controller.updateListUsedNicknames();
+	public void logout(String username){
+		controller.updateListConnectedUser(nickname,0);
 	}
-}
-public String getNickname(){
-	return this.nickname;
-}
+
+	public void changeNickname(String newname){
+		if(Agent.checkUnicityNickname()){
+			this.nickname = newname;
+			controller.updateListUsedNicknames();
+		}
+	}
 
 	
 	public User(InetAddress addrUser) {
 		this.addrUser = addrUser;
 		this.registered = false;
-	}
-	
-	public int checkPassword(String pwd, String username){
-		if ((pwd==this.pswd)&&(username==this.nickname)){
-			return 0;
-		}
-		return -1;
-	}
-	
-	public void logout(String pwd, String username){
 	}
 	
 	public void register(String username, String pwd){
@@ -57,14 +38,9 @@ public String getNickname(){
 		}
 	}
 	
-	public void changeNickname(String newname){
-		if(Agent.checkUnicityNickname()){
-			this.nickname = newname;
-			controller.UpdateListUsedNicknames();
-		}
-	}
 	
 	public String getNickname(){
 		return this.nickname;
 	}
+	
 }
