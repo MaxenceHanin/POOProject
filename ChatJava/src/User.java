@@ -46,7 +46,10 @@ public String getNickname(){
 	public void logout(String pwd, String username){
 	}
 	
-	public void register(){
+	public void register(String username, String pwd){
+		while (not registered) loop{
+			message.trynickname(username, );
+		}
 	}
 	
 	public void changeNickname(String newname){
