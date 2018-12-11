@@ -6,27 +6,28 @@ public class User {
 	private String pswd;
 	public boolean registered;
 	
-}
-
-public int login(String pwd, String username){
-	if ((pwd==this.pswd)&&(username==this.nickname)){
-		return 0;
+	public int checkPassword(String pwd, String username){
+		if ((pwd==this.pswd)&&(username==this.nickname)){
+			return 0;
+		}
+		return -1;
 	}
-	return -1;
-}
-
-public void logout(String pwd, String username){
-}
-
-public void register(){
-}
-
-public void changeNickname(String newname){
-	if(Agent.checkUnicityNickname()){
-		this.nickname = newname;
-		controller.UpdateListUsedNicknames();
+	
+	public void logout(String pwd, String username){
 	}
-}
-public String getNickname(){
-	return this.nickname;
+	
+	public void register(){
+	}
+	
+	public void changeNickname(String newname){
+		if(Agent.checkUnicityNickname()){
+			this.nickname = newname;
+			controller.UpdateListUsedNicknames();
+		}
+	}
+	
+	public String getNickname(){
+		return this.nickname;
+	}
+	
 }
