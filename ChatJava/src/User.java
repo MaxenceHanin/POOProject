@@ -32,12 +32,18 @@ public class User {
 		this.registered = false;
 	}
 	
-	public void register(String username, String pwd){
+	public void register(String username){
 		while (not registered) loop{
-			message.trynickname(username, );
+			message.trynickname(username);
+			message.isConnected();/*user connectés*/
+			controller.updateListConnectedUsers();
+			controller.updateListUsedNicknames();
+				if (checkUnicityNickname(controller.listUsedNicknames)) {
+					this.registered=true;
+					chatWindow.display();
+				}
 		}
 	}
-	
 	
 	public String getNickname(){
 		return this.nickname;
