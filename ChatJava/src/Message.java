@@ -19,9 +19,12 @@ public class Message {
 	private static String SEND_MSG = "0";
 	private static String SEND_FILE = "1";
 	
+	//static public class Message {
+	//	String message;
+	//	ArrayList<Integer> array;
+	//}
 	
-	
-	public void newConnection(User user) {
+	public void newConnection(User user, Agent agent) {
 		String payload = new String();
 		payload.concat(FLAG_SPE);
 		payload.concat(NEW_CO);
@@ -32,7 +35,7 @@ public class Message {
 		SysCom.send(user.getAddr(),Agent.getAddrLAN(),payload);
 	}
 
-	public void connect() {
+	public void connect(User user, Agent agent) {
 		String payload = new String();
 		payload.concat(FLAG_SPE);
 		payload.concat(NEW_CO);
@@ -40,7 +43,7 @@ public class Message {
 		
 		//la payload doit contenir le flag special mis sur true (1),
 		//le nickname de l'utilisateur envoyant le message de nouvelle connection
-		SysCom.send(user.getAddr(),Agent.getAddrLAN(),payload);
+		SysCom.send(user.getAddr(), user.getAddrLAN(),payload);
 	}
 	
 	public void tryNickname() {}
