@@ -11,9 +11,6 @@ public class Agent {
 		return this.addrLAN;
 	}
 	
-	public void checkUnicityNickname() {
-		
-	}
 	
 	public void chooseFile() {
 		
