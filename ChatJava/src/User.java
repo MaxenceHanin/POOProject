@@ -49,4 +49,8 @@ public class User {
 		return this.nickname;
 	}
 	
+	public InetAddress getAddr(){
+		return this.addrUser;
+	}
+	
 }
