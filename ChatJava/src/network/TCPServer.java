@@ -22,7 +22,6 @@ public class TCPServer implements Runnable {
 		
 	}
 
-	@Override
 	public void run() {
 		while(true){
 			try {
