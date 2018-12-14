@@ -8,18 +8,6 @@ import java.util.Date;
 
 public class ServerMain {
     public static void main(String[] args) {
-        int port = 8045;
-        try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            while(true) {
-                System.out.println("About to accept client connection...");
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("Accepted connection from " + clientSocket);
-                TCPServer server = new TCPServer();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    	
     }
-
 }

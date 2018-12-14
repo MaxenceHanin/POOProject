@@ -7,6 +7,10 @@ public class Agent {
 	private InetAddress addrLAN;
 	public List listChatOpened = new LinkedList();
 	
+	public Agent {
+		this.addrLAN = InetAddress.getLocalHost();
+	}
+	
 	public InetAddress getAddrLAN() {
 		return this.addrLAN;
 	}
