@@ -22,7 +22,7 @@ public class BuildMessage {
 	private static String SEND_FILE = "1";
 	
 	
-	public void newConnection(User user, Agent agent) {
+	public void newConnection(LocalUser user, Agent agent) {
 		String payload = new String();
 		payload.concat(FLAG_SPE);
 		payload.concat(NEW_CO);
@@ -33,7 +33,7 @@ public class BuildMessage {
 		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
 	}
 
-	public void connect(User user, Agent agent) {
+	public void connect(LocalUser user, Agent agent) {
 		String payload = new String();
 		payload.concat(FLAG_SPE);
 		payload.concat(CONNECT);
@@ -42,7 +42,7 @@ public class BuildMessage {
 		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
 	}
 	
-	public void tryNickname(User user, Agent agent) {
+	public void tryNickname(LocalUser user, Agent agent) {
 		String payload = new String();
 		payload.concat(FLAG_SPE);
 		payload.concat(TRY_NKNM);
@@ -51,7 +51,7 @@ public class BuildMessage {
 		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
 	}
 
-	public void isConnected(User user, Agent agent) {
+	public void isConnected(LocalUser user, Agent agent) {
 		String payload = new String();
 		payload.concat(FLAG_SPE);
 		payload.concat(IS_CONNECTED);
@@ -60,7 +60,7 @@ public class BuildMessage {
 		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
 	}
 
-	public void disconnection(User user, Agent agent) {
+	public void disconnection(LocalUser user, Agent agent) {
 		String payload = new String();
 		payload.concat(FLAG_SPE);
 		payload.concat(DISCONNECT);
@@ -69,7 +69,7 @@ public class BuildMessage {
 		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
 	}
 	
-	public void changedNickname(User user, Agent agent, String oldNickname) {
+	public void changedNickname(LocalUser user, Agent agent, String oldNickname) {
 		String payload = new String();
 		payload.concat(FLAG_SPE);
 		payload.concat(CHGD_NKMN);
@@ -79,7 +79,7 @@ public class BuildMessage {
 		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
 	}
 
-	public void sendMsg(User user, InetAddress destAddr, String message) {
+	public void sendMsg(LocalUser user, InetAddress destAddr, String message) {
 		String payload = new String();
 		payload.concat(FLAG_NORM);
 		payload.concat(SEND_MSG);
@@ -91,7 +91,7 @@ public class BuildMessage {
 		SysCom.send(user.getAddr(), destAddr, payload);
 	}
 
-	public void sendFile(User user, InetAddress destAddr, File inFile) {
+	public void sendFile(LocalUser user, InetAddress destAddr, File inFile) {
 		String payload = new String();
 		payload.concat(FLAG_NORM);
 		payload.concat(SEND_FILE);
