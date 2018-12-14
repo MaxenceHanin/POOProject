@@ -1,5 +1,6 @@
 package network;
 
+import java.io.*;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,12 +13,12 @@ import java.net.Socket;
 public class TCPClient implements Runnable {
 	
 	private Socket sock;
-	private String fileName;
+	private String message;
 	private InetAddress ipToSend;
 
-	public TCPClient(String fileName, InetAddress ipToSend) {
+	public TCPClient(String message, InetAddress ipToSend) {
 		this.sock = new Socket();
-		this.fileName = fileName;
+		this.message = message;
 		this.ipToSend = ipToSend;
 	}
 
@@ -26,9 +27,10 @@ public class TCPClient implements Runnable {
 			this.sock.connect(new InetSocketAddress(this.ipToSend, 8045));
 			int count;
 			byte[] buffer = new byte[1024];
-
+			InputStream StringStream = new ByteArrayInputStream(message.getBytes()); 
+				
 			OutputStream out = sock.getOutputStream();
-			BufferedInputStream in = new BufferedInputStream(new FileInputStream(new File(this.fileName)));
+			BufferedInputStream in = new BufferedInputStream(StringStream);
 			while ((count = in.read(buffer)) >= 0) {
 			     out.write(buffer, 0, count);
 			     out.flush();
