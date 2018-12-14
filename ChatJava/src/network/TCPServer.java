@@ -13,7 +13,7 @@ public class TCPServer implements Runnable {
 
 	public TCPServer() {
 		try {
-			this.sockserv = new ServerSocket(8045);
+			this.sockserv = new ServerSocket(8046);
 		} catch (IOException e) {
 			System.err.println("ServerSocket couldn't be created");
 			e.printStackTrace();
@@ -22,7 +22,6 @@ public class TCPServer implements Runnable {
 		
 	}
 
-	@Override
 	public void run() {
 		while(true){
 			try {

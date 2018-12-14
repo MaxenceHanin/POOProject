@@ -2,24 +2,21 @@ package network;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Date;
 
 public class ServerMain {
-    public static void main(String[] args) {
-        int port = 8045;
-        try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            while(true) {
-                System.out.println("About to accept client connection...");
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("Accepted connection from " + clientSocket);
-                TCPServer server = new TCPServer();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws UnknownHostException {
+    	Thread s = new Thread (new TCPServer());
+    	Thread c1 = new Thread (new TCPClient("coucou cest max",InetAddress.getLocalHost()));
+    	Thread c2 = new Thread (new TCPClient("coucou cest patou",InetAddress.getByName("10.1.5.75")));
+    	s.start();
+    	c1.start();
+    	c2.start();
+       
     }
 
 }
