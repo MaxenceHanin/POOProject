@@ -102,4 +102,17 @@ public class BuildMessage {
 		SysCom.sendFile(user.getAddr(), destAddr, payload, inFile);
 	}
 	
+	public String receive (DistantUser user){
+		String receivedMessage;
+		receivedMessage = SysCom.receive();
+		if (Character.toString(receivedMessage.charAt(0)).equals(FLAG_NORM)) {
+			if (Character.toString(receivedMessage.charAt(1)).equals(SEND_MSG)) {
+				char textchar[];
+				receivedMessage.getChars(2,receivedMessage.length(),textchar,0);
+				String text = String.valueOf(textchar);
+				return text;
+			}
+		} else 
+	}
+	
 }

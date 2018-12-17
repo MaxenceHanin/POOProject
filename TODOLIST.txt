@@ -1,0 +1,5 @@
+finir d'implementer la partie réseau : implementer les fonctions de syscom dans le serveur main?
+
+finir d'implementer l'interface graphique
+
+

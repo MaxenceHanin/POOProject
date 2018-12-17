@@ -6,10 +6,10 @@ public class Controller {
 	
 	public LinkedList<DistantUser> listConnectedUsers = new LinkedList<DistantUser>();
 	public LinkedList<String> listUsedNicknames = new LinkedList<String>();
-	public Message history[] = new Message[1000];
+	public HistoryMessage history[] = new HistoryMessage[1000];
 	public boolean boolHistory;
 	
-	public void updateHistory(Message message){
+	public void updateHistory(HistoryMessage message){
 		int i =0;
 		int j=999;
 		if (history[j] != null){
