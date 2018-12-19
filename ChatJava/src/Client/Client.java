@@ -57,11 +57,18 @@ public class Client {
             System.err.println("Connection échouée.");
         } else {
             System.out.println("Connection réussie");
+            
+            if (client.register("LocalUser")) {
+                System.out.println("inscription réussie");
 
-            if (client.login("guest", "guest")) {
+                client.msg("LocalUser", "Bienvenue");
+            }else {
+                System.err.println("Login échoué");
+                }
+
+            if (client.login("LocalUser")) {
                 System.out.println("Login réussi");
 
-                client.msg("Patou", "Bienvenue");
             } else {
                 System.err.println("Login échoué");
             }
@@ -74,15 +81,30 @@ public class Client {
         String cmd = "msg " + destUser + " " + msgBody + "\n";
         serverOut.write(cmd.getBytes());
     }
-    /*connexion*/
-    private boolean login(String login, String password) throws IOException {
-        String cmd = "login " + login + " " + password + "\n";
+    /*register*/
+    private boolean register(String nickname) throws IOException {
+        String cmd = "register " + nickname + "\n";
         serverOut.write(cmd.getBytes());
 
         String response = bufferedIn.readLine();
-        System.out.println("Response Line:" + response);
+        System.out.println("Réponse:" + response);
 
-        if ("login bon".equalsIgnoreCase(response)) {
+        if ("Inscription réalisée avec succès".equals(response)) {
+        	startMessageReader();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /*connexion*/
+    private boolean login(String login) throws IOException {
+        String cmd = "login " + login + "\n";
+        serverOut.write(cmd.getBytes());
+
+        String response = bufferedIn.readLine();
+        System.out.println("Réponse:" + response);
+
+        if ("login bon".equals(response)) {
             startMessageReader();
             return true;
         } else {
@@ -112,11 +134,11 @@ public class Client {
                 String[] frags = line.split("\\s+");
                 if (frags != null && frags.length > 0) {
                     String cmd = frags[0];
-                    if ("online".equalsIgnoreCase(cmd)) {
+                    if ("online".equals(cmd)) {
                         handleOnline(frags);
-                    } else if ("offline".equalsIgnoreCase(cmd)) {
+                    } else if ("offline".equals(cmd)) {
                         handleOffline(frags);
-                    } else if ("msg".equalsIgnoreCase(cmd)) {
+                    } else if ("msg".equals(cmd)) {
                         String[] fragsMsg = line.split("\\s+", 3);
                         handleMessage(fragsMsg);
                     }

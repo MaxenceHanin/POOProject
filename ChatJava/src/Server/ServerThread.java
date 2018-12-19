@@ -1,6 +1,7 @@
 package Server;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,8 +16,10 @@ public class ServerThread extends Thread {
     private final Server server;
     private String login = null;
     private OutputStream outputStream;
-    /*on a decide de faire une collection pur pouvoir creer des conversations de groupe*/
+    /*on a decide de faire une collection pour pouvoir creer des conversations de groupe*/
     private HashSet<String> chatGroupSet = new HashSet<>();
+    public ArrayList<String> listlog = new ArrayList<>(); 
+ 
 
     public ServerThread(Server server, Socket clientSocket) {
         this.server = server;
@@ -44,10 +47,12 @@ public class ServerThread extends Thread {
             String[] frags = line.split("\\s+");
             if (frags != null && frags.length > 0) {
                 String cmd = frags[0];
-                if ("logoff".equals(cmd) || "quit".equalsIgnoreCase(cmd)) {
+                if ("logoff".equals(cmd) || "quit".equals(cmd)) {
                     handleLogoff();
                     break;
-                } else if ("login".equals(cmd)) {
+                } else if ("register".equals(cmd)) {
+                    handleReg(outputStream, frags);
+                }else if ("login".equals(cmd)) {
                     handleLogin(outputStream, frags);
                 } else if ("msg".equals(cmd)) {
                     String[] fragsMsg = line.split("\\s+", 3);
@@ -126,13 +131,11 @@ public class ServerThread extends Thread {
     }
 
     private void handleLogin(OutputStream outputStream, String[] frags) throws IOException {
-        if (frags.length == 3) {
+        if (frags.length == 2) {
             String login = frags[1];
-            String password = frags[2];
 
-            /*a modifier faire collection login password*/
-            if ((login.equals("guest") && password.equals("guest")) || (login.equals("Patou") && password.equals("Patou")) ) {
-                String msg = "login bon\n";
+            if (listlog.contains(login)) {
+            	String msg = "login bon\n";
                 outputStream.write(msg.getBytes());
                 this.login = login;
                 System.out.println("User s'est connecté avec succes: " + login);
@@ -160,6 +163,25 @@ public class ServerThread extends Thread {
                 String msg = "erreur login\n";
                 outputStream.write(msg.getBytes());
                 System.err.println("Le login a échoué pour " + login);
+            }
+        }
+    }
+    
+    private void handleReg(OutputStream outputStream, String[] frags) throws IOException {
+        if (frags.length == 2) {
+            String nickname = frags[1];
+
+            if (!listlog.contains(nickname)) {
+            	String msg = "Inscription réalisée avec succès\n";
+                outputStream.write(msg.getBytes());
+                listlog.add(nickname);
+                this.login = nickname;
+                System.out.println(msg);
+
+            } else {
+            	String msg = "Erreur, Pseudo déjà utilisé\n";
+                outputStream.write(msg.getBytes());
+                System.err.println(msg);
             }
         }
     }
