@@ -3,7 +3,7 @@ import java.net.InetAddress;
 
 public class LocalUser {
 	private String localNickname;
-	public InetAddress addrUser;
+	private InetAddress addrUser;
 	private String pswd;
 	public boolean registered;
 
