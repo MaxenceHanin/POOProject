@@ -35,11 +35,11 @@ public class Client {
         	/*notification connexion deconnexion*/
             @Override
             public void online(String login) {
-                System.out.println("ONLINE: " + login);
+                System.out.println("[EnLigne]: " + login);
             }
             @Override
             public void offline(String login) {
-                System.out.println("OFFLINE: " + login);
+                System.out.println("[HorsLigne]: " + login);
             }
         });
         
@@ -47,23 +47,23 @@ public class Client {
         client.addMessageListener(new MessageListener() {
             @Override
             public void onMessage(String fromLogin, String msgBody) {
-                System.out.println("message from " + fromLogin + " -> " + msgBody);
+                System.out.println("message de " + fromLogin + " -> " + msgBody);
             }
         });
         
         /*verification si le client est connecté*/
 
         if (!client.connect()) {
-            System.err.println("Connect failed.");
+            System.err.println("Connection échouée.");
         } else {
-            System.out.println("Connect successful");
+            System.out.println("Connection réussie");
 
             if (client.login("guest", "guest")) {
-                System.out.println("Login successful");
+                System.out.println("Login réussi");
 
-                client.msg("jim", "Hello World!");
+                client.msg("Patou", "Bienvenue");
             } else {
-                System.err.println("Login failed");
+                System.err.println("Login échoué");
             }
 
         }
@@ -158,7 +158,7 @@ public class Client {
     private boolean connect() {
         try {
             this.socket = new Socket(serverName, serverPort);
-            System.out.println("Client port is " + socket.getLocalPort());
+            System.out.println("Port client : " + socket.getLocalPort());
             this.serverOut = socket.getOutputStream();
             this.serverIn = socket.getInputStream();
             this.bufferedIn = new BufferedReader(new InputStreamReader(serverIn));

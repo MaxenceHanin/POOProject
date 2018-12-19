@@ -21,12 +21,12 @@ public class Server extends Thread {
     @Override
     public void run() {
         try {
-        	/*attention : socket jamais fermée*/
+        	/*attention : socket jamais fermé*/
             ServerSocket serverSocket = new ServerSocket(serverPort);
             while(true) {
-                System.out.println("Waiting for accept client connection...");
+                System.out.println("En attente d'acceptation de connection des clients...");
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("Accepted connection from " + clientSocket);
+                System.out.println("Connexion acceptée depuis " + clientSocket);
                 ServerThread tserver = new ServerThread(this, clientSocket);
                 tserverList.add(tserver);
                 tserver.start();

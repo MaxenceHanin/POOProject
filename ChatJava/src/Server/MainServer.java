@@ -8,8 +8,8 @@ package Server;
     msg <user> <contenu du message, peut contenir des espaces>
     msg <#ChatGroup> <contenu du message, peut contenir des espaces>
 
-    join <Nom_De_Conversation_De_Groupe_Qui_Commence_Par_#>
-    leave <Nom_De_Conversation_De_Groupe_Qui_Commence_Par_#>
+    joingrp <Nom_De_Conversation_De_Groupe_Qui_Commence_Par_#>
+    leavegrp <Nom_De_Conversation_De_Groupe_Qui_Commence_Par_#>
 *****************************************************/
 public class MainServer {
     public static void main(String[] args) {

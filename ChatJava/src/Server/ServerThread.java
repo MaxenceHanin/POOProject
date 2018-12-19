@@ -47,17 +47,17 @@ public class ServerThread extends Thread {
                 if ("logoff".equals(cmd) || "quit".equalsIgnoreCase(cmd)) {
                     handleLogoff();
                     break;
-                } else if ("login".equalsIgnoreCase(cmd)) {
+                } else if ("login".equals(cmd)) {
                     handleLogin(outputStream, frags);
-                } else if ("msg".equalsIgnoreCase(cmd)) {
+                } else if ("msg".equals(cmd)) {
                     String[] fragsMsg = line.split("\\s+", 3);
                     handleMessage(fragsMsg);
-                } else if ("join".equalsIgnoreCase(cmd)) {
+                } else if ("joingrp".equals(cmd)) {
                     handleJoin(frags);
-                } else if ("leave".equalsIgnoreCase(cmd)) {
+                } else if ("leavegrp".equals(cmd)) {
                     handleLeave(frags);
                 } else {
-                    String msg = "unknown " + cmd + "\n";
+                    String msg = "cmd non reconnue " + cmd + "\n";
                     outputStream.write(msg.getBytes());
                 }
             }
@@ -112,7 +112,7 @@ public class ServerThread extends Thread {
         ArrayList<ServerThread> tserverList = server.gettserverList();
 
         // envoie aux autres user en ligne le status du localuser
-        String onlineMsg = "offline " + login + "\n";
+        String onlineMsg = "horsLigne " + login + "\n";
         for(ServerThread tserver : tserverList) {
             if (!login.equals(tserver.getLogin())) {
                 tserver.send(onlineMsg);
@@ -131,11 +131,11 @@ public class ServerThread extends Thread {
             String password = frags[2];
 
             /*a modifier faire collection login password*/
-            if ((login.equals("guest") && password.equals("guest")) || (login.equals("jim") && password.equals("jim")) ) {
+            if ((login.equals("guest") && password.equals("guest")) || (login.equals("Patou") && password.equals("Patou")) ) {
                 String msg = "login bon\n";
                 outputStream.write(msg.getBytes());
                 this.login = login;
-                System.out.println("User logged in succesfully: " + login);
+                System.out.println("User s'est connecté avec succes: " + login);
 
                 ArrayList<ServerThread> tserverList = server.gettserverList();
 
@@ -143,23 +143,23 @@ public class ServerThread extends Thread {
                 for(ServerThread tserver : tserverList) {
                     if (tserver.getLogin() != null) {
                         if (!login.equals(tserver.getLogin())) {
-                            String msg2 = "online " + tserver.getLogin() + "\n";
+                            String msg2 = "enLigne " + tserver.getLogin() + "\n";
                             send(msg2);
                         }
                     }
                 }
 
                 // envoie aux autres user en ligne du status du localuser
-                String onlineMsg = "online " + login + "\n";
+                String onlineMsg = "enLigne " + login + "\n";
                 for(ServerThread tserver : tserverList) {
                     if (!login.equals(tserver.getLogin())) {
                         tserver.send(onlineMsg);
                     }
                 }
             } else {
-                String msg = "error login\n";
+                String msg = "erreur login\n";
                 outputStream.write(msg.getBytes());
-                System.err.println("Login failed for " + login);
+                System.err.println("Le login a échoué pour " + login);
             }
         }
     }
