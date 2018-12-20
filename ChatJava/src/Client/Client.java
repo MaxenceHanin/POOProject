@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import Client.UserStatusListener;
+
 public class Client {
     private final String addr;
     private final int serverPort;
@@ -61,11 +63,11 @@ public class Client {
             System.out.println("Connection réussie");
             
             if (client.register("LocalUser")) {
-                System.out.println("inscription réussie");
+                System.out.println("Inscription réussie");
 
                 client.msg("LocalUser", "Bienvenue");
-            }else {
-                System.err.println("Login échoué");
+            } else {
+                System.err.println("echec de l'inscription");
                 }
 
             if (client.login("LocalUser")) {

@@ -36,7 +36,7 @@ public class LocalUser {
 	}
 	
 	public void register(String nickname){
-		while (not registered) loop{
+		while (!(registered)) loop{
 			message.trynickname(nickname);
 			message.isConnected();/*user connectés*/
 			Controller.updateListConnectedUsers();
