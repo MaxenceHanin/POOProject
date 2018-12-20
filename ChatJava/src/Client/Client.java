@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class Client {
-    private final String serverName;
+    private final String addr;
     private final int serverPort;
     private Socket socket;
     private InputStream serverIn;
@@ -21,14 +23,14 @@ public class Client {
     /*liste des messages envoyés*/
     private ArrayList<MessageListener> messageListeners = new ArrayList<>();
 
-    public Client(String serverName, int serverPort) {
-        this.serverName = serverName;
+    public Client(String addr, int serverPort) {
+        this.addr = addr;
         this.serverPort = serverPort;
     }
 
     public static void main(String[] args) throws IOException {
     	
-        Client client = new Client("localhost", 6666);
+        Client client = new Client("10.32.0.221", 6666);
      
         client.addUserStatusListener(new UserStatusListener() {
         	
@@ -177,7 +179,8 @@ public class Client {
         }
     }
 
-    private boolean connect() {
+    private boolean connect() throws UnknownHostException {
+    	InetAddress serverName = InetAddress.getByName(addr);
         try {
             this.socket = new Socket(serverName, serverPort);
             System.out.println("Port client : " + socket.getLocalPort());
