@@ -35,11 +35,11 @@ public class Client {
         	/*notification connexion deconnexion*/
             @Override
             public void online(String login) {
-                System.out.println("[EnLigne]: " + login);
+                System.out.println("enLigne: " + login);
             }
             @Override
             public void offline(String login) {
-                System.out.println("[HorsLigne]: " + login);
+                System.out.println("horsLigne: " + login);
             }
         });
         
