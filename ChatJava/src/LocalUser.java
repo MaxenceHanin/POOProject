@@ -5,27 +5,28 @@ public class LocalUser {
 	private String localNickname;
 	private InetAddress addrUser;
 	private String pswd;
+	private Controller controller;
 	public boolean registered;
 
 	public int checkPassword(String pwd, String nickname){
 		
 		if ((pwd==this.pswd)&&(nickname==this.localNickname)){
-			Controller.updateListConnectedUser(nickname,1);
+			controller.updateListConnectedUsers(new DistantUser(nickname),1);
 			return 0;
 		}
 		return -1;
 	}
 
 	public void logout(String username){
-		Controller.updateListConnectedUser(nickname,0);
+		controller.updateListConnectedUsers(new DistantUser(username),0);
 	}
 
-	public void changeNickname(String newname){
+	public void changeNickname(String newname, LocalUser user){
 		//il manque le trynickname pour demander aux autres users si le nickname est deja pris
-		if(Controller.checkUnicityNickname()){
-			Controller.updateListUsedNicknames();
+		if(controller.checkUnicityNickname(newname)){
+			controller.updateListUsedNicknames(user.getNickname(), 0);
 			this.localNickname = newname;
-			Controller.updateListUsedNicknames();
+			controller.updateListUsedNicknames(newname, 1);
 		}
 	}
 
@@ -36,16 +37,16 @@ public class LocalUser {
 	}
 	
 	public void register(String nickname){
-		while (!(registered)) loop{
-			message.trynickname(nickname);
-			message.isConnected();/*user connectés*/
+		/*while (!(registered)) loop{
+			Message.trynickname(nickname);
+			message.isConnected(); // user connectés
 			Controller.updateListConnectedUsers();
 			Controller.updateListUsedNicknames();
 				if (checkUnicityNickname(Controller.listUsedNicknames)) {
 					this.registered=true;
 					chatWindow.display();
 				}
-		}
+		}*/
 	}
 	
 	public String getNickname(){

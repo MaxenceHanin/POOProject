@@ -13,5 +13,12 @@ public class Message {
 		this.FlagType = InFlagType;
 		this.FlagTypeNotif = InFlagNotif;
 	}
-	
+
+	public char getFlagTypeNotif() {
+		return FlagTypeNotif;
+	}
+
+	public char getFlagType() {
+		return FlagType;
+	}
 }

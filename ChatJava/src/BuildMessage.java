@@ -8,111 +8,69 @@ public class BuildMessage {
 	//send(@src, @dest, payload)
 	//sendFile(@src, @dest, payload, file)
 	
-	private static String FLAG_NORM = "0";
-	private static String FLAG_SPE = "1";
+	private static char FLAG_NORM = '0';
+	private static char FLAG_SPE = '1';
 	
-	private static String NEW_CO = "0";
-	private static String CONNECT = "1";
-	private static String IS_CONNECTED = "2";
-	private static String DISCONNECT = "3";
-	private static String TRY_NKNM = "4";
-	private static String CHGD_NKMN = "5";
+	private static char NEW_CO = '0';
+	private static char CONNECT = '1';
+	private static char IS_CONNECTED = '2';
+	private static char DISCONNECT = '3';
+	private static char TRY_NKNM = '4';
+	private static char CHGD_NKMN = '5';
 
-	private static String SEND_MSG = "0";
-	private static String SEND_FILE = "1";
+	private static char SEND_MSG = '0';
+	private static char SEND_FILE = '1';
 	
 	
 	public void newConnection(LocalUser user, Agent agent) {
-		String payload = new String();
-		payload.concat(FLAG_SPE);
-		payload.concat(NEW_CO);
-		payload.concat(user.getNickname());
-		
-		//la payload doit contenir le flag special mis sur true (1),
-		//le nickname de l'utilisateur envoyant le message de nouvelle connection
-		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
+		Message newCoMsg = new Message(user.getNickname(),"all",FLAG_SPE,NEW_CO,"");
+		SysCom.send(user.getAddr(), agent.getAddrLAN(), newCoMsg);
 	}
 
 	public void connect(LocalUser user, Agent agent) {
-		String payload = new String();
-		payload.concat(FLAG_SPE);
-		payload.concat(CONNECT);
-		payload.concat(user.getNickname());
-		
-		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
+		Message Msg = new Message(user.getNickname(),"all",FLAG_SPE,CONNECT,"");
+		SysCom.send(user.getAddr(), agent.getAddrLAN(), Msg);
 	}
 	
 	public void tryNickname(LocalUser user, Agent agent) {
-		String payload = new String();
-		payload.concat(FLAG_SPE);
-		payload.concat(TRY_NKNM);
-		payload.concat(user.getNickname());
-		
-		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
+		Message Msg = new Message(user.getNickname(),"all",FLAG_SPE,TRY_NKNM,"");
+		SysCom.send(user.getAddr(), agent.getAddrLAN(), Msg);
 	}
 
 	public void isConnected(LocalUser user, Agent agent) {
-		String payload = new String();
-		payload.concat(FLAG_SPE);
-		payload.concat(IS_CONNECTED);
-		payload.concat(user.getNickname());
-		
-		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
+		Message Msg = new Message(user.getNickname(),"all",FLAG_SPE,IS_CONNECTED,"");
+		SysCom.send(user.getAddr(), agent.getAddrLAN(), Msg);
 	}
 
 	public void disconnection(LocalUser user, Agent agent) {
-		String payload = new String();
-		payload.concat(FLAG_SPE);
-		payload.concat(DISCONNECT);
-		payload.concat(user.getNickname());
-		
-		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
+		Message Msg = new Message(user.getNickname(),"all",FLAG_SPE,DISCONNECT,"");
+		SysCom.send(user.getAddr(), agent.getAddrLAN(), Msg);
 	}
 	
 	public void changedNickname(LocalUser user, Agent agent, String oldNickname) {
-		String payload = new String();
-		payload.concat(FLAG_SPE);
-		payload.concat(CHGD_NKMN);
-		payload.concat(oldNickname);
-		payload.concat(user.getNickname());
-		
-		SysCom.send(user.getAddr(), agent.getAddrLAN(), payload);
+		Message Msg = new Message(user.getNickname(),"all",FLAG_SPE,CHGD_NKMN,oldNickname);
+		SysCom.send(user.getAddr(), agent.getAddrLAN(), Msg);
 	}
 
-	public void sendMsg(LocalUser user, InetAddress destAddr, String message) {
-		String payload = new String();
-		payload.concat(FLAG_NORM);
-		payload.concat(SEND_MSG);
-		payload.concat(user.getNickname());
-		//Il serait egalement bien d'envoyer le nickname 
-		//de l'user distant (au cas ou erreur a l'envoi)
-		payload.concat(message);
-		
-		SysCom.send(user.getAddr(), destAddr, payload);
+	public void sendMsg(LocalUser user, DistantUser dest, String message) {
+		Message Msg = new Message(user.getNickname(),dest.getNickname(),FLAG_NORM,SEND_MSG,message);
+		SysCom.send(user.getAddr(), dest.getAddress(), Msg);
 	}
 
-	public void sendFile(LocalUser user, InetAddress destAddr, File inFile) {
-		String payload = new String();
-		payload.concat(FLAG_NORM);
-		payload.concat(SEND_FILE);
-		payload.concat(user.getNickname());
-		//Il serait egalement bien d'envoyer le nickname 
-		//de l'user distant (au cas ou erreur a l'envoi)
-		
-		SysCom.sendFile(user.getAddr(), destAddr, payload, inFile);
+	public void sendFile(LocalUser user, DistantUser dest, String inFile) {
+		Message Msg = new Message(user.getNickname(),dest.getNickname(),FLAG_NORM,SEND_FILE,"");
+		SysCom.sendFile(user.getAddr(), dest.getAddress(), Msg, inFile);
 	}
 	
-	public String receive (DistantUser user){
-		String receivedMessage;
-		receivedMessage = SysCom.receive();
-		if (Character.toString(receivedMessage.charAt(0)).equals(FLAG_NORM)) {
-			if (Character.toString(receivedMessage.charAt(1)).equals(SEND_MSG)) {
-				char textchar[];
-				receivedMessage.getChars(2,receivedMessage.length(),textchar,0);
-				String text = String.valueOf(textchar);
-				return text;
-			}
-		} else 
-	}
+	//public void receive (DistantUser user){
+	//	Message receivedMessage;
+	//	receivedMessage = SysCom.receive();
+	//
+	//	if (FLAG_NORM.equals(receivedMessage.getFlagType())) {
+	//		if (SEND_MSG.equals(receivedMessage.getFlagTypeNotif())) {
+	//			System.out.println(receivedMessage.);
+	//		}
+	//	}
+	//}
 	
 }
