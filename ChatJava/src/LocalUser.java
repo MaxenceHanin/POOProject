@@ -9,31 +9,26 @@ public class LocalUser {
 	public boolean registered;
 
 	public int checkPassword(String pwd, String nickname){
-		
 		if ((pwd==this.pswd)&&(nickname==this.localNickname)){
-			controller.updateListConnectedUsers(new DistantUser(nickname),1);
+			controller.updateListConnectedUsers(BuildDistantUser(),1);
 			return 0;
 		}
 		return -1;
 	}
 
 	public void logout(String username){
-		controller.updateListConnectedUsers(new DistantUser(username),0);
+		controller.updateListConnectedUsers(BuildDistantUser(),0);
+		//il manque la partie ou on previent les autres utilisateurs de son depart --> utiliser BuildMessage.tryNickname
 	}
 
 	public void changeNickname(String newname, LocalUser user){
-		//il manque le trynickname pour demander aux autres users si le nickname est deja pris
+		//il manque le trynickname pour demander aux autres users si le nickname est deja pris --> utiliser BuildMessage.changedNickname
+
 		if(controller.checkUnicityNickname(newname)){
 			controller.updateListUsedNicknames(user.getNickname(), 0);
 			this.localNickname = newname;
 			controller.updateListUsedNicknames(newname, 1);
 		}
-	}
-
-	
-	public LocalUser(InetAddress addrUser) {
-		this.addrUser = addrUser;
-		this.registered = false;
 	}
 	
 	public void register(String nickname){
@@ -56,5 +51,15 @@ public class LocalUser {
 	public InetAddress getAddr(){
 		return this.addrUser;
 	}
-	
+
+	private DistantUser BuildDistantUser() {
+		DistantUser dist = new DistantUser(this.localNickname, this.addrUser);
+		return dist;
+	}
+
+	public LocalUser(InetAddress addrUser) {
+		this.addrUser = addrUser;
+		this.registered = false;
+	}
+
 }
