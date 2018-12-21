@@ -19,7 +19,7 @@ public class Agent {
 		try  {
 			this.addrLAN = InetAddress.getLocalHost();
 		} catch (UnknownHostException e){
-														//handler l'exception
+			e.printStackTrace();
 		}
 	}
 	 static public void main(String[] args) {
