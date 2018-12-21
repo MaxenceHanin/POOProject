@@ -18,7 +18,7 @@ public class Agent {
 	public Agent () {
 		try  {
 			this.addrLAN = InetAddress.getLocalHost();
-		} catch (UnknownHostException e){
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
@@ -31,8 +31,7 @@ public class Agent {
 	public InetAddress getAddrLAN() {
 		return this.addrLAN;
 	}
-	
-	
+
 	public void chooseFile() {
 		
 	}
