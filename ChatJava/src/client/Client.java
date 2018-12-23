@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import agent.*;
+import server.*;
 
 public class Client {
     private final String serverName;
@@ -30,9 +31,8 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
-    	
-        //Client client = new Client("10.32.0.221", 6666);
-        Client client = new Client("localhost", 6666);
+    
+        Client client = new Client("localhost", 80);
      
         client.addUserStatusListener(new UserStatusListener() {
         	
@@ -81,7 +81,7 @@ public class Client {
     /*envoi des msg*/
 
     private void msg(DistantUser destUser, String msgBody) throws IOException {
-        String cmd = "msg " + destUser + " " + msgBody + "\n";
+        String cmd = "msg " + destUser.getNickname() + " " + msgBody + "\n";
         serverOut.write(cmd.getBytes());
     }
     /*register*/
@@ -92,7 +92,7 @@ public class Client {
         String response = bufferedIn.readLine();
         System.out.println("Reponse:" + response);
 
-        if ("Inscription realisee avec succes".equals(response)) {
+        if ("Inscription réalisée avec succès".equals(response)) {
         	startMessageReader();
             return true;
         } else {
@@ -179,13 +179,20 @@ public class Client {
             listener.online(login);
         }
     }
-
+    
+    private void launchServer() {
+        Server s = new Server(serverPort);
+        s.start();
+    }
+    
     private boolean connect() throws UnknownHostException {
     	//InetAddress serverName = InetAddress.getByName(serverName);
+    	//for(int i = 1; i<=1024; i++) {
+        System.out.println(InetAddress.getByName("localhost"));
+        launchServer();
         try {
-            //this.socket = new Socket(serverName, serverPort);
-            this.socket = new Socket(serverName, serverPort);
-            System.out.println("Port client : " + socket.getLocalPort());
+            this.socket = new Socket(InetAddress.getByName("localhost"), serverPort);
+            System.out.println("Port client : " + this.socket.getLocalPort());
             this.serverOut = socket.getOutputStream();
             this.serverIn = socket.getInputStream();
             this.bufferedIn = new BufferedReader(new InputStreamReader(serverIn));

@@ -1,7 +1,7 @@
 package agent;
 
 /*import a voir*/
-import Database.Access;
+import database.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 public class Agent {
 	private InetAddress addrLAN;
-	public List listChatOpened = new LinkedList();
+	public List<String> listChatOpened = new LinkedList<String>();
 
 	public void DebugDB(){
 		Access a = new Access();
