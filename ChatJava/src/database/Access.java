@@ -1,4 +1,5 @@
-package Database;
+package database;
+
 import java.sql.*;
 
 public class Access { //Driver to access the database

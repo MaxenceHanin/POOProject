@@ -1,4 +1,4 @@
-package Client;
+package client;
 
 public interface UserStatusListener {
     public void online(String login);

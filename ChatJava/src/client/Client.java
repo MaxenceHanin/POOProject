@@ -1,4 +1,4 @@
-package Client;
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,8 +9,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
-import Client.UserStatusListener;
+import agent.*;
 
 public class Client {
     private final String serverName;
@@ -57,33 +56,31 @@ public class Client {
             }
         });
         
-        /*verification si le client est connecté*/
+        /*verification si le client est connecte*/
 
         if (!client.connect()) {
-            System.err.println("Connection échouée.");
+            System.err.println("Connection echouee.");
         } else {
-            System.out.println("Connection réussie");
+            System.out.println("Connection reussie");
             
             if (client.register("LocalUser")) {
-                System.out.println("Inscription réussie");
-
-                client.msg("LocalUser", "Bienvenue");
+                System.out.println("Inscription reussie");
             } else {
                 System.err.println("echec de l'inscription");
                 }
 
             if (client.login("LocalUser")) {
-                System.out.println("Login réussi");
+                System.out.println("Login reussi");
 
             } else {
-                System.err.println("Login échoué");
+                System.err.println("Login eechoue");
             }
 
         }
     }
     /*envoi des msg*/
 
-    private void msg(String destUser, String msgBody) throws IOException {
+    private void msg(DistantUser destUser, String msgBody) throws IOException {
         String cmd = "msg " + destUser + " " + msgBody + "\n";
         serverOut.write(cmd.getBytes());
     }
@@ -93,9 +90,9 @@ public class Client {
         serverOut.write(cmd.getBytes());
 
         String response = bufferedIn.readLine();
-        System.out.println("Réponse:" + response);
+        System.out.println("Reponse:" + response);
 
-        if ("Inscription réalisée avec succès".equals(response)) {
+        if ("Inscription realisee avec succes".equals(response)) {
         	startMessageReader();
             return true;
         } else {

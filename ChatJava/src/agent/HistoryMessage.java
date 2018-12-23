@@ -1,3 +1,5 @@
+package agent;
+
 import java.util.Date;
 
 public class HistoryMessage {

@@ -1,3 +1,5 @@
+package agent;
+
 import java.net.InetAddress;
 
 public class DistantUser {

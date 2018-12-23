@@ -1,3 +1,5 @@
+package agent;
+
 /*import a voir*/
 import java.net.InetAddress;
 

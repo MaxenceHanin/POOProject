@@ -1,4 +1,5 @@
-package Server;
+package server;
+
 /******************************************************
  liste des commandes, à modifier pour adater au GUI
 
