@@ -13,8 +13,9 @@ public class Agent {
 	public List<String> listChatOpened = new LinkedList<String>();
 
 	public void DebugDB(){
-		Access a = new Access();
-		a.StoreIncomingMsg("Maxence", "Pitou", "Coucou");
+		LaunchDatabases a = new LaunchDatabases();
+		//a.StoreIncomingMsg("PITOU","MAXOU","TG lol");
+		//a.ShowPreviousMsg();
 	}
 	
 	public Agent () {
@@ -24,10 +25,10 @@ public class Agent {
 			e.printStackTrace();
 		}
 	}
-	 static public void main(String[] args) {
+	public static void main(String[] args) {
 		Agent agent = new Agent();
 		agent.DebugDB();
-	 }
+	}
 
 	
 	public InetAddress getAddrLAN() {

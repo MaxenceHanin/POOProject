@@ -1,15 +1,12 @@
 package display;
-
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
-import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
 
 public class LoginWindow extends Parent {
 	/*private int btnWidth = 0;*/
