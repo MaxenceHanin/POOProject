@@ -12,9 +12,21 @@ public class Agent {
 	private InetAddress addrLAN;
 	public List<String> listChatOpened = new LinkedList<String>();
 
-	public void DebugDB(){
-		LaunchDatabases a = new LaunchDatabases();
-		//a.StoreIncomingMsg("PITOU","MAXOU","TG lol");
+	public void DebugDB() {
+		//LaunchDatabases a = new LaunchDatabases();
+		try {
+			Access a = new Access();
+			InetAddress lol = InetAddress.getByName("localhost");
+			DistantUser Src = new DistantUser("Pitou",lol);
+			DistantUser Dest = new DistantUser("Maxou",lol);
+			HistoryMessage Msg = new HistoryMessage("Lolilol", Src, Dest);
+
+			a.StoreMsg(Msg);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+
+
 		//a.ShowPreviousMsg();
 	}
 	

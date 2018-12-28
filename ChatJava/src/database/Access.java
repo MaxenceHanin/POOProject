@@ -1,10 +1,14 @@
 package database;
 
+import agent.DistantUser;
+import agent.HistoryMessage;
+import agent.LocalUser;
+
 import java.sql.*;
 
 public class Access { //Driver to access the database
 
-	public void StoreIncomingMsg(String fromUser, String localuser,  String text) {
+	public void StoreMsg(HistoryMessage msg) {
 		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
 		String userDB = "pitou";
 		String pass = "pwd";
@@ -14,11 +18,37 @@ public class Access { //Driver to access the database
 
 			Statement myStmt = myConn.createStatement();
 
-			String update = "insert into message " +
-					"(user_src, user_dest, text)" +
-					"values ('"+fromUser+"','"+localuser+"','"+text+ "')";
+			String getSrcUserId = "SELECT @src := idUsr FROM User " +
+					"WHERE nickname = '"+msg.getUsrSrc().getNickname()+"' ";
+			ResultSet srcRs = myStmt.executeQuery(getSrcUserId);
 
-			myStmt.executeUpdate(update);
+			if (srcRs.getString("idUsr").equals("")) {
+				String updateUsr = "INSERT INTO User " +
+						"(nickname) VALUE '"+msg.getUsrSrc().getNickname()+"'";
+				myStmt.executeUpdate(updateUsr);
+
+				String idSrcUsr = " SELECT @src := LAST_INSERT_ID()";
+				ResultSet srcIdRs = myStmt.executeQuery(idSrcUsr);
+			}
+
+			String getDestUserId = "SELECT @dest := idUsr FROM User " +
+					"WHERE nickname = '"+msg.getUsrDest().getNickname()+"' ";
+			ResultSet destRs = myStmt.executeQuery(getDestUserId);
+
+			if (destRs.getString("idUsr").equals("")) {
+				String updateUsr = "INSERT INTO User " +
+						"(nickname) VALUE '"+msg.getUsrDest().getNickname()+"'";
+				myStmt.executeUpdate(updateUsr);
+
+				String idDistUsr = " SELECT @dest := LAST_INSERT_ID()";
+				ResultSet destIdRs = myStmt.executeQuery(idDistUsr);
+			}
+
+			String updateMsg = "insert into Message " +
+					"(time, user_src, user_dest, text) VALUE " +
+					"('"+msg.getTime()+"',@src,@dest,'"+msg.getText()+"')";
+
+			myStmt.executeUpdate(updateMsg);
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new IllegalStateException("Cannot connect the database!", e);
@@ -36,10 +66,10 @@ public class Access { //Driver to access the database
 
 			Statement myStmt = myConn.createStatement();
 
-			ResultSet myRs = myStmt.executeQuery("SELECT * FROM message");
+			ResultSet myRs = myStmt.executeQuery("SELECT * FROM Message");
 
 			while (myRs.next()) {
-				System.out.println("message n°"+myRs.getString("idmessage")+" from "+myRs.getString("user_src")+" to "+myRs.getString("user_dest")+" : "+myRs.getString("text"));
+				System.out.println("message n°"+myRs.getString("idMsg")+" from "+myRs.getString("user_src")+" to "+myRs.getString("user_dest")+" : "+myRs.getString("text"));
 			}
 
 		} catch(SQLException e) {
