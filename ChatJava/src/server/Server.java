@@ -26,6 +26,8 @@ public class Server extends Thread {
         		socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
         		this.serverAddress = socket.getLocalAddress();
         	}
+            DiscoveryThread dthread = new DiscoveryThread();
+            dthread.start();
             ServerSocket serverSocket = new ServerSocket(this.serverPort, 1, this.serverAddress);
             while(true) {
                 System.out.println("En attente d'acceptation de connection des clients...");

@@ -179,16 +179,16 @@ public class Client {
     	        broadSocket.setBroadcast(true);
     	        String message = "Looking for server";
     	        byte[] buffer = message.getBytes();
-    	        InetAddress broadAddress = InetAddress.getByName("broadcast");
-    	        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, broadAddress, 4445);
+    	        InetAddress broadAddress = InetAddress.getByName("255.255.255.255");
+    	        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, broadAddress, 6664);
     	        broadSocket.send(packet);
-    	        broadSocket.receive(packet);
     	        packet = new DatagramPacket(buffer, buffer.length);
     	        broadSocket.receive(packet);
     	        String response = new String(packet.getData(), 0, packet.getLength());
-    	        if (response == "I am the server") {
-    	        this.serverAddress = packet.getAddress();
-    	        this.serverPort = packet.getPort();
+    	        if (response.equals("I am the server")) {
+    	        	System.out.println("Found server");
+    	        	this.serverAddress = packet.getAddress();
+    	        	this.serverPort = packet.getPort();
     	        }
     	        broadSocket.close();
     	    }
