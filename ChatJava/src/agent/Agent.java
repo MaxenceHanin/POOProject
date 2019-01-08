@@ -17,9 +17,7 @@ public class Agent {
 		try {
 			Access a = new Access();
 			InetAddress lol = InetAddress.getByName("localhost");
-			DistantUser Src = new DistantUser("Pitou",lol);
-			DistantUser Dest = new DistantUser("Maxou",lol);
-			HistoryMessage Msg = new HistoryMessage("Lolilol", Src, Dest);
+			HistoryMessage Msg = new HistoryMessage("Lolilol", "Pitou", "Maxou");
 
 			a.StoreMsg(Msg);
 		} catch (UnknownHostException e) {

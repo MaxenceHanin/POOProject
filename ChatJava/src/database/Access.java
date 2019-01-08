@@ -7,46 +7,66 @@ import agent.LocalUser;
 import java.sql.*;
 
 public class Access { //Driver to access the database
+	Connection myConn;
+
+	public Access() {
+		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
+		String userDB = "pitou";
+		String pass = "pwd";
+		try {
+			this.myConn = DriverManager.getConnection(dataBaseURL,userDB,pass);
+			System.out.println("Database connected!");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+
+	}
 
 	public void StoreMsg(HistoryMessage msg) {
 		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
 		String userDB = "pitou";
 		String pass = "pwd";
 		try {
-			Connection myConn = DriverManager.getConnection(dataBaseURL,userDB,pass);
-			System.out.println("Database connected!");
+			PreparedStatement statement = myConn.prepareStatement("SELECT idUsr FROM User WHERE nickname = ?");
+			statement.setString(1, "Pitou");
+			statement.executeUpdate();
 
-			Statement myStmt = myConn.createStatement();
-
-			String getSrcUserId = "SELECT @src := idUsr FROM User " +
-					"WHERE nickname = '"+msg.getUsrSrc().getNickname()+"' ";
+			String getSrcUserId = "SELECT idUsr FROM User WHERE nickname = ?";// +
+					//"WHERE User.nickname = '"+msg.getUsrSrc()+"' ";
 			ResultSet srcRs = myStmt.executeQuery(getSrcUserId);
-
-			if (srcRs.getString("idUsr").equals("")) {
-				String updateUsr = "INSERT INTO User " +
-						"(nickname) VALUE '"+msg.getUsrSrc().getNickname()+"'";
+			String srcUserID;
+			if (srcRs.next()) {
+			srcUserID = srcRs.getString("idUsr");
+			} else  {
+				String updateUsr = "INSERT INTO User "+
+						"(nickname) VALUE '"+msg.getUsrSrc()+"'";
 				myStmt.executeUpdate(updateUsr);
 
-				String idSrcUsr = " SELECT @src := LAST_INSERT_ID()";
-				ResultSet srcIdRs = myStmt.executeQuery(idSrcUsr);
+				String idSrcUsr = " SELECT LAST_INSERT_ID()";
+				ResultSet srcInsertRs = myStmt.executeQuery(idSrcUsr);
+				srcUserID = srcInsertRs.getString("idUsr");
 			}
 
-			String getDestUserId = "SELECT @dest := idUsr FROM User " +
-					"WHERE nickname = '"+msg.getUsrDest().getNickname()+"' ";
+			String getDestUserId = "SELECT idUsr FROM User " +
+					"WHERE nickname = '"+msg.getUsrDest()+"' ";
 			ResultSet destRs = myStmt.executeQuery(getDestUserId);
-
-			if (destRs.getString("idUsr").equals("")) {
+			String destUserID;
+			if (destRs.next()) {
+				 destUserID= srcRs.getString("idUsr");
+			} else {
 				String updateUsr = "INSERT INTO User " +
-						"(nickname) VALUE '"+msg.getUsrDest().getNickname()+"'";
+						"(nickname) VALUE '"+msg.getUsrDest()+"'";
 				myStmt.executeUpdate(updateUsr);
 
-				String idDistUsr = " SELECT @dest := LAST_INSERT_ID()";
-				ResultSet destIdRs = myStmt.executeQuery(idDistUsr);
+				String idDistUsr = " SELECT LAST_INSERT_ID()";
+				ResultSet destInsertRs = myStmt.executeQuery(idDistUsr);
+				destUserID = destInsertRs.getString("idUsr");
 			}
 
 			String updateMsg = "insert into Message " +
 					"(time, user_src, user_dest, text) VALUE " +
-					"('"+msg.getTime()+"',@src,@dest,'"+msg.getText()+"')";
+					"('"+msg.getTime()+"','"+srcUserID+"','"+destUserID+"','"+msg.getText()+"')";
 
 			myStmt.executeUpdate(updateMsg);
 		} catch(SQLException e) {

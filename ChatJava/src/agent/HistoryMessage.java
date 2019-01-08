@@ -5,20 +5,20 @@ import java.util.Date;
 public class HistoryMessage {
 	private String text;
 	private long Time;
-	private DistantUser usrSrc, usrDest;
+	private String usrSrc, usrDest;
 	
-	public HistoryMessage(String text, DistantUser src, DistantUser dest){
+	public HistoryMessage(String text, String src, String dest){
 		this.text = text;
 		this.usrSrc = src;
 		this.usrDest = dest;
 		this.Time = (new Date()).getTime();
 	}
 
-	public DistantUser getUsrDest() {
+	public String getUsrDest() {
 		return usrDest;
 	}
 
-	public DistantUser getUsrSrc() {
+	public String getUsrSrc() {
 		return usrSrc;
 	}
 
