@@ -7,7 +7,7 @@ import agent.LocalUser;
 import java.sql.*;
 
 public class Access { //Driver to access the database
-	Connection myConn;
+	private Connection myConn = null;
 
 	public Access() {
 		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
@@ -28,47 +28,45 @@ public class Access { //Driver to access the database
 		String userDB = "pitou";
 		String pass = "pwd";
 		try {
-			PreparedStatement statement = myConn.prepareStatement("SELECT idUsr FROM User WHERE nickname = ?");
-			statement.setString(1, "Pitou");
-			statement.executeUpdate();
+			CallableStatement statement = myConn.prepareCall("SELECT idUsr FROM User WHERE nickname = ?");
+			statement.setString(1, msg.getUsrSrc());
 
-			String getSrcUserId = "SELECT idUsr FROM User WHERE nickname = ?";// +
-					//"WHERE User.nickname = '"+msg.getUsrSrc()+"' ";
-			ResultSet srcRs = myStmt.executeQuery(getSrcUserId);
-			String srcUserID;
-			if (srcRs.next()) {
-			srcUserID = srcRs.getString("idUsr");
-			} else  {
-				String updateUsr = "INSERT INTO User "+
-						"(nickname) VALUE '"+msg.getUsrSrc()+"'";
-				myStmt.executeUpdate(updateUsr);
+			Integer srcUserID;
 
-				String idSrcUsr = " SELECT LAST_INSERT_ID()";
-				ResultSet srcInsertRs = myStmt.executeQuery(idSrcUsr);
-				srcUserID = srcInsertRs.getString("idUsr");
+			statement.registerOutParameter("idUsr", Types.SMALLINT);
+			statement.execute();
+			srcUserID = statement.getInt("idUsr");
+
+			if (srcUserID == 0)  {
+				statement = myConn.prepareCall("INSERT INTO User (nickname) VALUE ?");
+				statement.setString(1, msg.getUsrSrc());
+				statement.registerOutParameter("idUsr", Types.SMALLINT);
+				statement.execute();
+				srcUserID = statement.getInt("idUsr");
 			}
 
-			String getDestUserId = "SELECT idUsr FROM User " +
-					"WHERE nickname = '"+msg.getUsrDest()+"' ";
-			ResultSet destRs = myStmt.executeQuery(getDestUserId);
-			String destUserID;
-			if (destRs.next()) {
-				 destUserID= srcRs.getString("idUsr");
-			} else {
-				String updateUsr = "INSERT INTO User " +
-						"(nickname) VALUE '"+msg.getUsrDest()+"'";
-				myStmt.executeUpdate(updateUsr);
+			statement = myConn.prepareCall("SELECT idUsr FROM User WHERE nickname = ?");
+			statement.setString(1, msg.getUsrDest());
 
-				String idDistUsr = " SELECT LAST_INSERT_ID()";
-				ResultSet destInsertRs = myStmt.executeQuery(idDistUsr);
-				destUserID = destInsertRs.getString("idUsr");
+			Integer destUserID;
+
+			statement.registerOutParameter("idUsr", Types.SMALLINT);
+			statement.execute();
+			destUserID = statement.getInt("idUsr");
+
+			if (srcUserID == 0)  {
+				statement = myConn.prepareCall("INSERT INTO User (nickname) VALUE ?");
+				statement.setString(1, msg.getUsrDest());
+				statement.registerOutParameter("idUsr", Types.SMALLINT);
+				statement.execute();
+				destUserID = statement.getInt("idUsr");
 			}
 
-			String updateMsg = "insert into Message " +
-					"(time, user_src, user_dest, text) VALUE " +
-					"('"+msg.getTime()+"','"+srcUserID+"','"+destUserID+"','"+msg.getText()+"')";
-
-			myStmt.executeUpdate(updateMsg);
+			statement = myConn.prepareCall("INSERT INTO Message (time, user_src, user_dest, text) VALUE (?,?,?,?)");
+			statement.setTime(1,msg.getTime());
+			statement.setInt(2,srcUserID);
+			statement.setInt(3,destUserID);
+			statement.setString(4,msg.getText());
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new IllegalStateException("Cannot connect the database!", e);
