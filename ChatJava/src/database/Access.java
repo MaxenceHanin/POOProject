@@ -28,7 +28,7 @@ public class Access { //Driver to access the database
 		String userDB = "pitou";
 		String pass = "pwd";
 		try {
-			CallableStatement statement = myConn.prepareCall("SELECT idUsr FROM User WHERE nickname = ?");
+			CallableStatement statement = myConn.prepareCall("SELECT idUsr FROM User WHERE User.nickname = ?");
 			statement.setString(1, msg.getUsrSrc());
 
 			Integer srcUserID;
@@ -45,7 +45,7 @@ public class Access { //Driver to access the database
 				srcUserID = statement.getInt("idUsr");
 			}
 
-			statement = myConn.prepareCall("SELECT idUsr FROM User WHERE nickname = ?");
+			statement = myConn.prepareCall("SELECT idUsr FROM User WHERE User.nickname = ?");
 			statement.setString(1, msg.getUsrDest());
 
 			Integer destUserID;
