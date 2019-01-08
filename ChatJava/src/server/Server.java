@@ -1,12 +1,12 @@
 package server;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 
 public class Server extends Thread {
 	
+	private InetAddress serverAddress;
     private final int serverPort;
     private ArrayList<ServerThread> tserverList = new ArrayList<>();
 
@@ -22,7 +22,11 @@ public class Server extends Thread {
     public void run() {
         try {
         	/*attention : socket jamais fermé*/
-            ServerSocket serverSocket = new ServerSocket(this.serverPort);
+        	try(final DatagramSocket socket = new DatagramSocket()){
+        		socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+        		this.serverAddress = socket.getLocalAddress();
+        	}
+            ServerSocket serverSocket = new ServerSocket(this.serverPort, 1, this.serverAddress);
             while(true) {
                 System.out.println("En attente d'acceptation de connection des clients...");
                 Socket clientSocket = serverSocket.accept();
