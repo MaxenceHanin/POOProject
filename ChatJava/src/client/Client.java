@@ -5,16 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.ArrayList;
 import agent.*;
 import server.*;
 
 public class Client {
-    private final String serverName;
-    private final int serverPort;
+	private InetAddress serverAddress;
+    private int serverPort;
     private Socket socket;
     private InputStream serverIn;
     private OutputStream serverOut;
@@ -25,14 +23,10 @@ public class Client {
     /*liste des messages envoyés*/
     private ArrayList<MessageListener> messageListeners = new ArrayList<>();
 
-    public Client(String serverName, int serverPort) {
-        this.serverName = serverName;
-        this.serverPort = serverPort;
-    }
 
     public static void main(String[] args) throws IOException {
     
-        Client client = new Client("localhost", 6666);
+        Client client = new Client();
      
         client.addUserStatusListener(new UserStatusListener() {
         	
@@ -180,18 +174,29 @@ public class Client {
         }
     }
     
-    private void launchServer() {
-        Server s = new Server(serverPort);
-        s.start();
-    }
+    private void findServer() throws IOException {
+    	        DatagramSocket broadSocket = new DatagramSocket(6665);
+    	        broadSocket.setBroadcast(true);
+    	        String message = "Looking for server";
+    	        byte[] buffer = message.getBytes();
+    	        InetAddress broadAddress = InetAddress.getByName("broadcast");
+    	        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, broadAddress, 4445);
+    	        broadSocket.send(packet);
+    	        broadSocket.receive(packet);
+    	        packet = new DatagramPacket(buffer, buffer.length);
+    	        broadSocket.receive(packet);
+    	        String response = new String(packet.getData(), 0, packet.getLength());
+    	        if (response == "I am the server") {
+    	        this.serverAddress = packet.getAddress();
+    	        this.serverPort = packet.getPort();
+    	        }
+    	        broadSocket.close();
+    	    }
     
     private boolean connect() throws UnknownHostException {
-    	//InetAddress serverName = InetAddress.getByName(serverName);
-    	//for(int i = 1; i<=1024; i++) {
-        System.out.println(InetAddress.getByName("localhost"));
-        launchServer();
         try {
-            this.socket = new Socket(InetAddress.getByName("localhost"), serverPort);
+			findServer();
+            this.socket = new Socket(serverAddress, serverPort);
             System.out.println("Port client : " + this.socket.getLocalPort());
             this.serverOut = socket.getOutputStream();
             this.serverIn = socket.getInputStream();
