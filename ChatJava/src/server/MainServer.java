@@ -2,8 +2,8 @@ package server;
 
 /******************************************************
  liste des commandes, à modifier pour adater au GUI
-
-	login <user> <password>
+	register <user>
+	login <user>
     logoff
 
     msg <user> <contenu du message, peut contenir des espaces>

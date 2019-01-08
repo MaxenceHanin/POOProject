@@ -12,8 +12,8 @@ import javafx.scene.shape.Rectangle;
 public class ChatWindow extends Parent {
 	
 	public void setBtn(Button btn, int x, int y, String txt){
-        btn.setLayoutX((int)(0.85*Display.X)-90);
-        btn.setLayoutY((int)(0.6*Display.Y));
+        btn.setLayoutX((int)(0.85*Display.X));
+        btn.setLayoutY((int)(Display.Y-35));
         btn.setText(txt);
         btn.setMinWidth(80);
 	}
@@ -21,8 +21,6 @@ public class ChatWindow extends Parent {
 	public void setRect(Rectangle r, int x, int y){
 		r.setX(x);
 		r.setY(y);
-		r.setWidth((int)(0.3*Display.X));
-		r.setHeight(Display.Y);
 		r.setArcWidth(20);
 		r.setArcHeight(20);
 		r.setFill(Color.BEIGE);
@@ -31,7 +29,7 @@ public class ChatWindow extends Parent {
     public ChatWindow() {
 
     	Button btn = new Button();
-    	setBtn(btn, (int)(Display.X*0.7), Display.Y/2,"login");
+    	setBtn(btn, (int)(Display.X*0.7), Display.Y/2,"send");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 /*a definir*/
@@ -41,15 +39,23 @@ public class ChatWindow extends Parent {
         
         Rectangle r = new Rectangle();
         setRect(r,0,0);
+		r.setWidth((int)(0.3*Display.X));
+		r.setHeight(Display.Y);
+        
+        Rectangle notif = new Rectangle();
+        setRect(notif,(int)(0.31*Display.X),0);
+		notif.setWidth((int)(0.68*Display.X));
+		notif.setHeight((int)(0.1*Display.Y));
         
         TextField txtLog = new TextField();
         PasswordField txtPwd = new PasswordField();
         
-        txtLog.setLayoutX((int)(Display.X)-500);
+        txtLog.setLayoutX((int)(Display.X)-530);
         txtLog.setLayoutY((int)(Display.Y-35));
-        txtLog.setMinWidth((int)(0.6*Display.X));
+        txtLog.setMinWidth((int)(0.45*Display.X));
         
         this.getChildren().add(r);
+        this.getChildren().add(notif);
         this.getChildren().add(btn);
         this.getChildren().add(txtLog);
     }

@@ -32,7 +32,7 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
     
-        Client client = new Client("localhost", 80);
+        Client client = new Client("localhost", 6666);
      
         client.addUserStatusListener(new UserStatusListener() {
         	
