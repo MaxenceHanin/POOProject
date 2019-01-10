@@ -28,21 +28,19 @@ public class Access { //Driver to access the database
 		String userDB = "pitou";
 		String pass = "pwd";
 		try {
-			CallableStatement statement = myConn.prepareCall("SELECT idUsr FROM User WHERE User.nickname = ?");
+			PreparedStatement statement = myConn.prepareCall("SELECT idUsr FROM User WHERE User.nickname = ?");
 			statement.setString(1, msg.getUsrSrc());
 
 			Integer srcUserID;
 
-			statement.registerOutParameter("idUsr", Types.SMALLINT);
-			statement.execute();
-			srcUserID = statement.getInt("idUsr");
+			statement.executeQuery();
+			srcUserID = ((CallableStatement) statement).getInt("idUsr");
 
 			if (srcUserID == 0)  {
 				statement = myConn.prepareCall("INSERT INTO User (nickname) VALUE ?");
 				statement.setString(1, msg.getUsrSrc());
-				statement.registerOutParameter("idUsr", Types.SMALLINT);
-				statement.execute();
-				srcUserID = statement.getInt("idUsr");
+				statement.executeQuery();
+				srcUserID = ((CallableStatement) statement).getInt("idUsr");
 			}
 
 			statement = myConn.prepareCall("SELECT idUsr FROM User WHERE User.nickname = ?");
@@ -50,16 +48,14 @@ public class Access { //Driver to access the database
 
 			Integer destUserID;
 
-			statement.registerOutParameter("idUsr", Types.SMALLINT);
-			statement.execute();
-			destUserID = statement.getInt("idUsr");
+			statement.executeQuery();
+			destUserID = ((CallableStatement) statement).getInt("idUsr");
 
 			if (srcUserID == 0)  {
 				statement = myConn.prepareCall("INSERT INTO User (nickname) VALUE ?");
 				statement.setString(1, msg.getUsrDest());
-				statement.registerOutParameter("idUsr", Types.SMALLINT);
-				statement.execute();
-				destUserID = statement.getInt("idUsr");
+				statement.executeQuery();
+				destUserID = ((CallableStatement) statement).getInt("idUsr");
 			}
 
 			statement = myConn.prepareCall("INSERT INTO Message (time, user_src, user_dest, text) VALUE (?,?,?,?)");
