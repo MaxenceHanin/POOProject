@@ -1,6 +1,8 @@
 DELIMITER ;
 
-
+DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Conversations;
+DROP TABLE IF EXISTS Conv02;
 
 DROP PROCEDURE IF EXISTS insertUser;
 DROP PROCEDURE IF EXISTS createNewConversation;
@@ -34,7 +36,7 @@ CREATE PROCEDURE insertUser (IN UsrNickname TEXT)
 
 CREATE PROCEDURE createNewConversation (IN srcNickname TEXT,
                                         IN destNickname TEXT,
-                                        IN tblname VARCHAR(60))
+                                        IN tblname CHAR(60))
   BEGIN
   DECLARE srcUser SMALLINT UNSIGNED;
   DECLARE destUser SMALLINT UNSIGNED;
@@ -55,7 +57,9 @@ CREATE PROCEDURE createNewConversation (IN srcNickname TEXT,
   SET @q = CONCAT('CREATE TABLE `', @tablename, '` (idMsg SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
                     conv SMALLINT UNSIGNED NOT NULL REFERENCES Conversations(id),
                     user_src SMALLINT UNSIGNED NOT NULL REFERENCES User(id),
+                    snick CHAR(60) NOT NULL,
                     user_dest SMALLINT UNSIGNED NOT NULL REFERENCES User(id),
+                    dnick CHAR(60) NOT NULL,
                     time TIME NOT NULL,
                     text TEXT,
                     PRIMARY KEY (idMsg)
@@ -70,12 +74,12 @@ CREATE PROCEDURE createNewConversation (IN srcNickname TEXT,
 
 
 
-CREATE PROCEDURE insertMessage (IN ConvNum VARCHAR(60),
-                                IN srcNick TEXT,
-                                IN destNick TEXT,
+CREATE PROCEDURE insertMessage (IN ConvNum CHAR(60),
+                                IN srcNick CHAR(60),
+                                IN destNick CHAR(60),
                                 IN InTime TIME,
                                 IN InText TEXT)
-  BEGIN
+BEGIN
   DECLARE srcUser SMALLINT UNSIGNED;
   DECLARE destUser SMALLINT UNSIGNED;
   DECLARE Convid SMALLINT UNSIGNED;
@@ -91,11 +95,22 @@ CREATE PROCEDURE insertMessage (IN ConvNum VARCHAR(60),
 
 
   SET @tableName = ConvNum;
-  SET @q = CONCAT('INSERT INTO `', @tablename, '` (conv,user_src,user_dest,time,text) VALUES (',Convid,',',srcUser,',',destUser,',"',InTime,'","',InText,'");');
+  SET @q = CONCAT('INSERT INTO `', @tablename, '` (conv,user_src,snick,user_dest,dnick,time,text) VALUES (',Convid,',',srcUser,',"',srcNick,'",',destUser,',"',destNick,'","',InTime,'","',InText,'");');
   PREPARE stmt FROM @q;
   EXECUTE stmt;
   DEALLOCATE PREPARE stmt;
 
   END //
+
+/*
+CREATE FUNCTION getUser (IN idUser SMALLINT)
+  RETURNS CHAR(60) DETERMINISTIC
+  BEGIN
+    DECLARE nick CHAR(60);
+    SET @nick = (SELECT nickname FROM User WHERE (idUsr = idUser));
+    RETURN @nick;
+  END //
+*/
+
 
 DELIMITER ;

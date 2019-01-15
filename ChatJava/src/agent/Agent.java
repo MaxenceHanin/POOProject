@@ -24,21 +24,14 @@ public class Agent {
 	public List<String> listChatOpened = new LinkedList<String>();
 
 	public void DebugDB() {
-		//LaunchDatabases a = new LaunchDatabases();
-		try {
-			Access a = new Access();
-			InetAddress lol = InetAddress.getByName("localhost");
-			HistoryMessage Msg = new HistoryMessage("", "Pitou", "Maxou","Conv02");
-			HistoryMessage Msg2 = new HistoryMessage("OK", "Maxou", "Pitou","Conv02");
-
+		Access a = new Access();
+		 /* débug de l'insertion de message dans la database */
+			HistoryMessage Msg = new HistoryMessage("La BDD marche", "Pitou", "Maxou","Conv02");
+			HistoryMessage Msg2 = new HistoryMessage("Oui", "Maxou", "Pitou","Conv02");
 			a.StoreMsg(Msg);
 			a.StoreMsg(Msg2);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
 
-
-		//a.ShowPreviousMsg();
+		a.ShowPreviousMsg("Conv02");
 	}
 	
 	public Agent () {

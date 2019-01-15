@@ -3,6 +3,7 @@ package database;
 import agent.DistantUser;
 import agent.HistoryMessage;
 import agent.LocalUser;
+import com.sun.jndi.cosnaming.CNCtx;
 
 import java.sql.*;
 
@@ -43,13 +44,12 @@ public class Access { //Driver to access the database
 		try {
 			System.out.println("Database connected!");
 
-
-			CallableStatement statement = myConn.prepareCall("SELECT * FROM ?");
-			statement.setString(1, ConvNo);
+			String query="SELECT * FROM ".concat(ConvNo).concat(";");
+			CallableStatement statement = myConn.prepareCall(query);
 			ResultSet myRs = statement.executeQuery();
 
 			while (myRs.next()) {
-				System.out.println("message n°"+myRs.getString("idMsg")+" from "+myRs.getString("user_src")+" to "+myRs.getString("user_dest")+" : "+myRs.getString("text"));
+                System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
 			}
 
 		} catch(SQLException e) {
