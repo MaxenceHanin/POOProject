@@ -1,3 +1,14 @@
+/*
+
+ * @startuml
+
+ * car --|> wheel
+
+ * @enduml
+
+ */
+
+
 package agent;
 
 /*import a voir*/
@@ -17,9 +28,11 @@ public class Agent {
 		try {
 			Access a = new Access();
 			InetAddress lol = InetAddress.getByName("localhost");
-			HistoryMessage Msg = new HistoryMessage("Lolilol", "Pitou", "Maxou");
+			HistoryMessage Msg = new HistoryMessage("", "Pitou", "Maxou","Conv02");
+			HistoryMessage Msg2 = new HistoryMessage("OK", "Maxou", "Pitou","Conv02");
 
 			a.StoreMsg(Msg);
+			a.StoreMsg(Msg2);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}

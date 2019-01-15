@@ -6,12 +6,13 @@ import java.util.Date;
 public class HistoryMessage {
 	private String text;
 	private Time Time;
-	private String usrSrc, usrDest;
+	private String usrSrc, usrDest, conv;
 	
-	public HistoryMessage(String text, String src, String dest){
+	public HistoryMessage(String text, String src, String dest, String conversation){
 		this.text = text;
 		this.usrSrc = src;
 		this.usrDest = dest;
+		this.conv = conversation;
 		this.Time = new Time((new Date()).getTime());
 	}
 
@@ -22,6 +23,8 @@ public class HistoryMessage {
 	public String getUsrSrc() {
 		return usrSrc;
 	}
+
+	public String getConv() { return conv; }
 
 	public Time getTime() {
 		return Time;

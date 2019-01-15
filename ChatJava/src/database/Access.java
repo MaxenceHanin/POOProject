@@ -24,63 +24,29 @@ public class Access { //Driver to access the database
 	}
 
 	public void StoreMsg(HistoryMessage msg) {
-		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
-		String userDB = "pitou";
-		String pass = "pwd";
 		try {
-			PreparedStatement statement = myConn.prepareCall("SELECT idUsr FROM User WHERE User.nickname = ?");
-			statement.setString(1, msg.getUsrSrc());
-
-			Integer srcUserID;
-
-			statement.executeQuery();
-			srcUserID = ((CallableStatement) statement).getInt("idUsr");
-
-			if (srcUserID == 0)  {
-				statement = myConn.prepareCall("INSERT INTO User (nickname) VALUE ?");
-				statement.setString(1, msg.getUsrSrc());
-				statement.executeQuery();
-				srcUserID = ((CallableStatement) statement).getInt("idUsr");
-			}
-
-			statement = myConn.prepareCall("SELECT idUsr FROM User WHERE User.nickname = ?");
-			statement.setString(1, msg.getUsrDest());
-
-			Integer destUserID;
-
-			statement.executeQuery();
-			destUserID = ((CallableStatement) statement).getInt("idUsr");
-
-			if (srcUserID == 0)  {
-				statement = myConn.prepareCall("INSERT INTO User (nickname) VALUE ?");
-				statement.setString(1, msg.getUsrDest());
-				statement.executeQuery();
-				destUserID = ((CallableStatement) statement).getInt("idUsr");
-			}
-
-			statement = myConn.prepareCall("INSERT INTO Message (time, user_src, user_dest, text) VALUE (?,?,?,?)");
-			statement.setTime(1,msg.getTime());
-			statement.setInt(2,srcUserID);
-			statement.setInt(3,destUserID);
-			statement.setString(4,msg.getText());
+			CallableStatement statement = myConn.prepareCall("CALL insertMessage(?,?,?,?,?)");
+			statement.setString(1,msg.getConv());
+			statement.setString(2,msg.getUsrSrc());
+			statement.setString(3,msg.getUsrDest());
+			statement.setTime(4,msg.getTime());
+			statement.setString(5,msg.getText());
+			statement.execute();
+			System.out.println("Message inserted!");
 		} catch(SQLException e) {
 			e.printStackTrace();
-			throw new IllegalStateException("Cannot connect the database!", e);
+			throw new IllegalStateException("Cannot insert message into the database!", e);
 		}
 	}
 
-	public void ShowPreviousMsg() {
-		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
-		String userDB = "pitou";
-		String pass = "pwd";
+	public void ShowPreviousMsg(String ConvNo) {
 		try {
-			Connection myConn = DriverManager.getConnection(dataBaseURL,userDB,pass);
 			System.out.println("Database connected!");
 
 
-			Statement myStmt = myConn.createStatement();
-
-			ResultSet myRs = myStmt.executeQuery("SELECT * FROM Message");
+			CallableStatement statement = myConn.prepareCall("SELECT * FROM ?");
+			statement.setString(1, ConvNo);
+			ResultSet myRs = statement.executeQuery();
 
 			while (myRs.next()) {
 				System.out.println("message n°"+myRs.getString("idMsg")+" from "+myRs.getString("user_src")+" to "+myRs.getString("user_dest")+" : "+myRs.getString("text"));
@@ -91,22 +57,5 @@ public class Access { //Driver to access the database
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
 	}
-
-	//public void StoreOutgoingMsg(LocalUser user, String toUser, String text) {
-	//	String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
-	//	String userDB = "pitou";
-	//	String pass = "pwd";
-	//	try {
-	//		Connection myConn = DriverManager.getConnection(dataBaseURL,userDB,pass);
-	//
-	//		Statement myStmt = myConn.createStatement();
-	//		String update = "insert into message " +
-	//				"(user_src, user_dest, text)" +
-	//				"values ('"+user.getNickname()+"', '"+toUser+"', '"+text+"')";
-	//		myStmt.executeUpdate(update);
-	//	} catch(java.sql.SQLException e) {
-	//		System.out.println("mauvaise URL pour la DB ou mauvais identifiants pour y acceder");
-	//	}
-	//}
 
 }
