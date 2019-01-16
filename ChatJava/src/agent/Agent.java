@@ -39,18 +39,8 @@ public class Agent {
 
 
 		a.setUserDisconnected("Maxou");
+		a.setUserConnected("Pitou");
 
-		if (a.isConnected("Maxou")) {
-			System.out.println("isConnected(Maxou) = true");
-		} else {
-			System.out.println("isConnected(Maxou) = false");
-		}
-
-		if (a.userExists("Maxou")) {
-			System.out.println("userExists(Maxou) = true");
-		} else {
-			System.out.println("userExists(Maxou) = false");
-		}
 	}
 	
 	public Agent () {
