@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 public class LoginWindow extends Parent {
 	/*private int btnWidth = 0;*/
 	static GridPane grid3 = new GridPane();
+	static Access BDD = new Access();
 	
 	public void setBtn(Button btn, String txt){
         btn.setText(txt);
@@ -33,7 +34,6 @@ public class LoginWindow extends Parent {
 
     public LoginWindow() {
     	
-    	Access BDD = new Access();
         TextField txtLog = new TextField("Entrez votre identifiant");
         Button btnReg = new Button();
         setBtn(btnReg,"Pas encore inscrit ? inscivez-vous en cliquant");

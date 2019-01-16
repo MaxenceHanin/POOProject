@@ -3,7 +3,6 @@ package database;
 import agent.DistantUser;
 import agent.HistoryMessage;
 import agent.LocalUser;
-import com.sun.jndi.cosnaming.CNCtx;
 
 import java.sql.*;
 
