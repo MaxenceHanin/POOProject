@@ -21,6 +21,7 @@ public class DisplayLogin extends Application {
 
 
     public static void main(String[] args) {
+    	//requete pour mettre base de données à jour
     	Application.launch(DisplayLogin.class, args);
 
     }

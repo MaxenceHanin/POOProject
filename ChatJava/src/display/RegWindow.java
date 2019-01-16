@@ -21,7 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class LoginWindow extends Parent {
+public class RegWindow extends Parent {
 	/*private int btnWidth = 0;*/
 	static GridPane grid3 = new GridPane();
 	
@@ -30,46 +30,21 @@ public class LoginWindow extends Parent {
         btn.setMinWidth(80);
 	}
 
-    public LoginWindow() {
+    public RegWindow() {
     	
     	 
-        TextField txtLog = new TextField("Entrez votre identifiant");
-        Button btnReg = new Button();
-        setBtn(btnReg,"Pas encore inscrit ? inscivez-vous en cliquant");
+        TextField txtLog = new TextField("Entrez l'identifiant souhaité");
         txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
-        btnReg.setMinWidth((int)(0.6*DisplayLogin.X));
-
     	Button btn = new Button();
-    	setBtn(btn,"login");
+    	setBtn(btn,"Inscription");
     	GridPane grid2 = new GridPane();
-    	
-    	btnReg.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-            	StackPane rootReg = new StackPane();
-            	Stage stage = new Stage();
-            	stage.setTitle("Register Window");      
-
-                Scene scene = new Scene(rootReg, DisplayLogin.X, DisplayLogin.Y, Color.BLANCHEDALMOND); 
-                GridPane grid = new GridPane();
-                RegWindow RegWindow = new RegWindow();
-                grid.getChildren().add(RegWindow);
-                grid.setAlignment(Pos.CENTER);
-                rootReg.getChildren().add(grid);
-                
-                stage.setScene(scene);
-                stage.show();
-                
-                // Hide this current window 
-                ((Node)(event.getSource())).getScene().getWindow().hide();
-            }
-        });
     	
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 /*test success login*/
             	String Log = String.valueOf(txtLog.getCharacters());
-                if ("Entrez votre identifiant".equals(Log) | "".equals(Log)) {
-                	Label errLog = new Label("Le login a échoué pour " +"'" + Log + "'");
+                if ("Entrez l'identifiant souhaité".equals(Log) | "".equals(Log)) {
+                	Label errLog = new Label("L'enregistrement a échoué pour " +"'" + Log + "'");
                 	grid2.add(errLog, 0, 4);
                 	
                 }
@@ -100,8 +75,7 @@ public class LoginWindow extends Parent {
         grid2.setHgap(25);
         grid2.setVgap(15);
         grid2.add(txtLog,0,1);
-        grid2.add(btnReg, 0, 2);
-        grid2.add(btn, 0, 3);
+        grid2.add(btn, 0, 2);
         this.getChildren().add(grid2);
     }
 
