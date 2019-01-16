@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 
 
 public class DisplayLogin extends Application {
-	static int X = 400;
-	static int Y = 300;
+	static int X = 300;
+	static int Y = 200;
 	static StackPane root = new StackPane();
 
 

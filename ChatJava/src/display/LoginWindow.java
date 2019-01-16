@@ -73,20 +73,18 @@ public class LoginWindow extends Parent {
                 	grid2.add(errLog, 0, 4);
                 	
                 }
-                else if ("requette pour chercher le login entré".equals(Log)) {
+                else if ("a".equals(Log)) {
                 	
-                	StackPane rootChat = new StackPane();
                     	ChatWindow chatwindow = new ChatWindow();
-                        rootChat.getChildren().add(chatwindow);
+                        //rootChat.getChildren().add(chatwindow);
                         
                         Stage stage = new Stage();
                         grid3.getChildren().add(chatwindow);
                         grid3.setAlignment(Pos.CENTER);
-                        grid3.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
-                        grid3.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
-                        rootChat.getChildren().add(grid3);
+                        //grid3.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
+                        //grid3.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
                         stage.setTitle("Chat Window");
-                        stage.setScene(new Scene(rootChat, 800, 600));
+                        stage.setScene(new Scene(grid3, 600, 400));
                         stage.show();
                         // Hide this current window 
                         ((Node)(event.getSource())).getScene().getWindow().hide();

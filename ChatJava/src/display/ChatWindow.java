@@ -6,8 +6,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class ChatWindow extends Parent {
 	
@@ -32,6 +36,10 @@ public class ChatWindow extends Parent {
         btntxt.setHgap(10);
         btntxt.add(txt,0,0);
         btntxt.add(btn,1,0);
+        GridPane conv = new GridPane();
+        conv.setMinHeight(200);
+        Background backConv = new Background(new BackgroundFill(Color.ORANGERED, new CornerRadii(2), new Insets(2)));
+        conv.setBackground(backConv);
    
 		
 		GridPane grid4 = new GridPane();
@@ -46,15 +54,16 @@ public class ChatWindow extends Parent {
 	    grid4.getColumnConstraints().addAll(UserLogged,Hgap1, Conv);
 		grid4.setVgap(15);
 		grid4.add(btntxt,2,1);
+		grid4.add(conv,2,0);
 		
 		Button UseLog = new Button("utilisateur connecté");
-    	UseLog.setText("send");
+    	UseLog.setText("utilisateur connecté");
         UseLog.setMinWidth(80);
-        UseLog.setStyle("-fx-border-color: #979797; -fx-border-width: 1px;"
-				+"-fx-background-color: #c9c9c9"
-				+ "-fx-font-size: 2em; "
-				+"-fx-text-fill: #282828");
-        grid4.add(UseLog,0,1);
+       //UseLog.setStyle("-fx-border-color: #979797; -fx-border-width: 1px;"
+		//		+"-fx-background-color: #c9c9c9"
+		//		+ "-fx-font-size: 2em; "
+		//		+"-fx-text-fill: #282828");
+        grid4.add(UseLog,0,0);
 
         this.getChildren().add(grid4);
     }
