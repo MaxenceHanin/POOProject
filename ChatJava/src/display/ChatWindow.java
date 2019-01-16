@@ -33,9 +33,11 @@ public class ChatWindow extends Parent {
         TextField txt = new TextField();
         txt.setMinWidth((int)(0.3*Display.X));
         
-        StackPane btntxt = new StackPane();
-        btntxt.getChildren().add(txt);
-        btntxt.getChildren().add(btn);
+        GridPane btntxt = new GridPane();
+        btn.setLayoutX(txt.getWidth()+10);
+        btntxt.setHgap(10);
+        btntxt.add(txt,0,0);
+        btntxt.add(btn,1,0);
    
 		
 		GridPane grid4 = new GridPane();
