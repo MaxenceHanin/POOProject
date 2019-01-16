@@ -1,11 +1,9 @@
-package display;
+package application;
 import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -14,8 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -23,54 +19,63 @@ import javafx.stage.Stage;
 
 public class LoginWindow extends Parent {
 	/*private int btnWidth = 0;*/
-	static GridPane grid3 = new GridPane();
 	
-	public void setBtn(Button btn, String txt){
+	public void setBtn(Button btn, int x, int y, String txt){
+        btn.setLayoutX((int)(0.85*DisplayLogin.X)-90);
+        btn.setLayoutY((int)(0.6*DisplayLogin.Y));
         btn.setText(txt);
         btn.setMinWidth(80);
+	}
+	
+	public void setRect(Rectangle r, int x, int y){
+		r.setX(x);
+		r.setY(y);
+		r.setWidth((int)(0.7*DisplayLogin.X));
+		r.setHeight((int)(0.4*DisplayLogin.Y));
+		r.setArcWidth(20);
+		r.setArcHeight(20);
+		r.setFill(Color.BEIGE);
 	}
 
     public LoginWindow() {
 
     	Button btn = new Button();
-    	setBtn(btn,"login");
+    	setBtn(btn, (int)(DisplayLogin.X*0.7), DisplayLogin.Y/2,"login");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 /*a definir*/
             	
-            	StackPane rootChat = new StackPane();
+            	Group root = new Group();
                 	ChatWindow chatwindow = new ChatWindow();
-                    rootChat.getChildren().add(chatwindow);
+                    root.getChildren().add(chatwindow);
                     
                     Stage stage = new Stage();
-                    grid3.getChildren().add(chatwindow);
-                    grid3.setAlignment(Pos.CENTER);
-                    grid3.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
-                    grid3.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
-                    rootChat.getChildren().add(grid3);
                     stage.setTitle("Chat Window");
-                    stage.setScene(new Scene(rootChat, 800, 600));
+                    stage.setScene(new Scene(root, 800, 600));
                     stage.show();
                     // Hide this current window 
                     ((Node)(event.getSource())).getScene().getWindow().hide();
             }
         });
         
+        
+        Rectangle r = new Rectangle();
+        setRect(r,(int)(DisplayLogin.X*0.15),(int)(DisplayLogin.Y*0.3));
+        
         TextField txtLog = new TextField();
         PasswordField txtPwd = new PasswordField();
+        
+        txtLog.setLayoutX((int)(0.2*DisplayLogin.X));
+        txtLog.setLayoutY((int)(btn.getLayoutY()-65));
         txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
+        txtPwd.setLayoutX((int)(0.2*DisplayLogin.X));
+        txtPwd.setLayoutY((int)(btn.getLayoutY()-35));
         txtPwd.setMinWidth((int)(0.6*DisplayLogin.X));
         
-        GridPane grid2 = new GridPane();
-        //grid2.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
-        //grid2.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
-        grid2.setPadding(new Insets(20));
-        grid2.setHgap(25);
-        grid2.setVgap(15);
-        grid2.add(txtLog,0,1);
-        grid2.add(txtPwd, 0, 2);
-        grid2.add(btn, 0, 3);
-        this.getChildren().add(grid2);
+        this.getChildren().add(r);
+        this.getChildren().add(btn);
+        this.getChildren().add(txtLog);
+        this.getChildren().add(txtPwd);
     }
 
 }

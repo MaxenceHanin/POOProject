@@ -2,76 +2,57 @@ package display;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 public class ChatWindow extends Parent {
 	
-	public void setBtn(Button btn, int x, int y, String txt){
-        btn.setLayoutX((int)(0.85*Display.X));
-        btn.setLayoutY((int)(Display.Y-35));
-        btn.setText(txt);
-        btn.setMinWidth(80);
-	}
-	
-	public void setRect(Rectangle r, int x, int y){
-		r.setX(x);
-		r.setY(y);
-		/*r.setArcWidth(20);
-		r.setArcHeight(20);*/
-		r.setFill(Color.GREY);
-	}
 
     public ChatWindow() {
 
     	Button btn = new Button();
-    	setBtn(btn, (int)(Display.X*0.7), Display.Y/2,"send");
+    	btn.setText("send");
+        btn.setMinWidth(80);
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 /*a definir*/
             }
         });
-        
-        
-        Rectangle r = new Rectangle();
-        setRect(r,0,0);
-		r.setWidth((int)(0.3*Display.X));
-		r.setHeight(Display.Y);
 		
-		Rectangle rmenu = new Rectangle();
-        setRect(rmenu,(int)(0.3*Display.X),(int)(0.9*Display.Y));
-		rmenu.setWidth((int)(0.7*Display.X));
-		rmenu.setHeight((int)(0.1*Display.Y));
+	
+        TextField txt = new TextField();
+        txt.setMinWidth((int)(0.3*Display.X));
         
-        Rectangle notif = new Rectangle();
-        setRect(notif,(int)(0.3*Display.X),0);
-		notif.setWidth((int)(0.7*Display.X));
-		notif.setHeight((int)(0.1*Display.Y));
-        
-        TextField txtLog = new TextField();
-        PasswordField txtPwd = new PasswordField();
-        
-        txtLog.setLayoutX((int)(Display.X)-530);
-        txtLog.setLayoutY((int)(Display.Y-35));
-        txtLog.setMinWidth((int)(0.45*Display.X));
-        
-        Rectangle line = new Rectangle();
-        setRect(line,(int)(0.3*Display.X)-1,0);
-		line.setWidth(1);
-		line.setHeight(Display.Y);
-		line.setFill(Color.BLACK);
-       
-        this.getChildren().add(r);
-        this.getChildren().add(rmenu);
-        this.getChildren().add(notif);
-        this.getChildren().add(btn);
-        this.getChildren().add(txtLog);
-        this.getChildren().add(line);
+        StackPane btntxt = new StackPane();
+        btntxt.getChildren().add(txt);
+        btntxt.getChildren().add(btn);
+   
+		
+		GridPane grid4 = new GridPane();
+        //grid2.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
+        //grid2.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
+		grid4.setPadding(new Insets(20));
+	    ColumnConstraints Conv = new ColumnConstraints();
+	    Conv.setPercentWidth(58);
+	    ColumnConstraints UserLogged = new ColumnConstraints();
+	    UserLogged.setPercentWidth(38);
+	    ColumnConstraints Hgap1 = new ColumnConstraints();
+	    Hgap1.setPercentWidth(2);
+	    grid4.getColumnConstraints().addAll(UserLogged,Hgap1, Conv);
+		grid4.setVgap(15);
+		grid4.add(btntxt,2,1);
+
+        this.getChildren().add(grid4);
     }
 
 }

@@ -1,14 +1,12 @@
-package display;
+package application;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
@@ -17,7 +15,6 @@ import javafx.stage.Stage;
 public class DisplayLogin extends Application {
 	static int X = 400;
 	static int Y = 300;
-	static StackPane root = new StackPane();
 
 
     public static void main(String[] args) {
@@ -31,15 +28,14 @@ public class DisplayLogin extends Application {
 
         primaryStage.setTitle("Chat application");
 
-        
+        Group root = new Group();
 
         Scene scene = new Scene(root, X, Y, Color.BLANCHEDALMOND); 
-        GridPane grid = new GridPane();
         LoginWindow logWindow = new LoginWindow();
-        grid.getChildren().add(logWindow);
-        grid.setAlignment(Pos.CENTER);
+        GridPane grid = new GridPane();
+        grid.add(logWindow, 0, 0);
         root.getChildren().add(grid);
-        
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
 
