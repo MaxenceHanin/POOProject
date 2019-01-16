@@ -31,12 +31,21 @@ public class LoginWindow extends Parent {
 	}
 
     public LoginWindow() {
+    	
+    	 
+        TextField txtLog = new TextField("Entrez votre identifiant");
+        PasswordField txtPwd = new PasswordField();
+        txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
+        txtPwd.setMinWidth((int)(0.6*DisplayLogin.X));
 
     	Button btn = new Button();
     	setBtn(btn,"login");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                /*a definir*/
+                /*test success login*/
+            	StringBuilder sb = new StringBuilder(txtLog.getCharacters().length());
+                sb.append(txtLog);
+                if ("requette pour chercher le login entré".equals(sb.toString())) {
             	
             	StackPane rootChat = new StackPane();
                 	ChatWindow chatwindow = new ChatWindow();
@@ -54,12 +63,11 @@ public class LoginWindow extends Parent {
                     // Hide this current window 
                     ((Node)(event.getSource())).getScene().getWindow().hide();
             }
+                else if ("Entrez votre identifiant".equals(sb.toString()) | "".equals(sb.toString())) {
+                	
+                }
+            }
         });
-        
-        TextField txtLog = new TextField();
-        PasswordField txtPwd = new PasswordField();
-        txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
-        txtPwd.setMinWidth((int)(0.6*DisplayLogin.X));
         
         GridPane grid2 = new GridPane();
         //grid2.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
