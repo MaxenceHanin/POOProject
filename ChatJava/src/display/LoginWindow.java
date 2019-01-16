@@ -1,6 +1,7 @@
 package display;
 import java.io.IOException;
 
+import database.Access;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,7 +33,7 @@ public class LoginWindow extends Parent {
 
     public LoginWindow() {
     	
-    	 
+    	Access BDD = new Access();
         TextField txtLog = new TextField("Entrez votre identifiant");
         Button btnReg = new Button();
         setBtn(btnReg,"Pas encore inscrit ? inscivez-vous en cliquant");
@@ -68,26 +69,26 @@ public class LoginWindow extends Parent {
             public void handle(ActionEvent event) {
                 /*test success login*/
             	String Log = String.valueOf(txtLog.getCharacters());
-                if ("Entrez votre identifiant".equals(Log) | "".equals(Log)) {
+                if (!(BDD.isConnected(Log))&& BDD.userExists(Log)) {
+                	BDD.setUserConnected(Log);
+                	ChatWindow chatwindow = new ChatWindow();
+                    //rootChat.getChildren().add(chatwindow);
+                    
+                    Stage stage = new Stage();
+                    grid3.getChildren().add(chatwindow);
+                    grid3.setAlignment(Pos.CENTER);
+                    //grid3.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
+                    //grid3.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
+                    stage.setTitle("Chat Window");
+                    stage.setScene(new Scene(grid3, 600, 400));
+                    stage.show();
+                    // Hide this current window 
+                    ((Node)(event.getSource())).getScene().getWindow().hide();
+            }
+                else {
                 	Label errLog = new Label("Le login a échoué pour " +"'" + Log + "'");
                 	grid2.add(errLog, 0, 4);
                 	
-                }
-                else if ("a".equals(Log)) {
-                	
-                    	ChatWindow chatwindow = new ChatWindow();
-                        //rootChat.getChildren().add(chatwindow);
-                        
-                        Stage stage = new Stage();
-                        grid3.getChildren().add(chatwindow);
-                        grid3.setAlignment(Pos.CENTER);
-                        //grid3.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
-                        //grid3.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
-                        stage.setTitle("Chat Window");
-                        stage.setScene(new Scene(grid3, 600, 400));
-                        stage.show();
-                        // Hide this current window 
-                        ((Node)(event.getSource())).getScene().getWindow().hide();
                 }
             }
         });
