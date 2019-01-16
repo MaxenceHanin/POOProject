@@ -25,13 +25,32 @@ public class Agent {
 
 	public void DebugDB() {
 		Access a = new Access();
-		 /* débug de l'insertion de message dans la database */
-			HistoryMessage Msg = new HistoryMessage("La BDD marche", "Pitou", "Maxou","Conv02");
+		/* débug de l'insertion de message dans la database */
+		/*	HistoryMessage Msg = new HistoryMessage("La BDD marche", "Pitou", "Maxou","Conv02");
 			HistoryMessage Msg2 = new HistoryMessage("Oui", "Maxou", "Pitou","Conv02");
 			a.StoreMsg(Msg);
 			a.StoreMsg(Msg2);
 
-		a.ShowPreviousMsg("Conv02");
+			if (!(a.userExists("Pitou"))) {
+			System.out.println("you can't use the nickname Pitou because it is already taken");
+			}
+
+		a.ShowPreviousMsg("Conv02"); */
+
+
+		a.setUserDisconnected("Maxou");
+
+		if (a.isConnected("Maxou")) {
+			System.out.println("isConnected(Maxou) = true");
+		} else {
+			System.out.println("isConnected(Maxou) = false");
+		}
+
+		if (a.userExists("Maxou")) {
+			System.out.println("userExists(Maxou) = true");
+		} else {
+			System.out.println("userExists(Maxou) = false");
+		}
 	}
 	
 	public Agent () {

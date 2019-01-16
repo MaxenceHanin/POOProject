@@ -24,6 +24,59 @@ public class Access { //Driver to access the database
 
 	}
 
+	public void setUserConnected (String ConnectedUser) {
+		try {
+			CallableStatement statement = myConn.prepareCall("CALL setUserConnected(?)");
+			statement.setString(1,ConnectedUser);
+			statement.execute();
+			System.out.println("User set to connected!");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot set user to connected!", e);
+		}
+	}
+
+	public void setUserDisconnected (String DisconnectedUser) {
+		try {
+			CallableStatement statement = myConn.prepareCall("CALL setUserDisconnected(?)");
+			statement.setString(1,DisconnectedUser);
+			statement.execute();
+			System.out.println("User set to disconnected!");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot set user to disconnected!", e);
+		}
+	}
+
+	public boolean userExists (String triedNick) {
+		try {
+			CallableStatement statement = myConn.prepareCall("CALL userAlreadyExists(?,?)");
+			statement.setString(1,triedNick);
+			statement.registerOutParameter("userExists", Types.SMALLINT);
+			statement.execute();
+			Integer result = statement.getInt("userExists");
+			return (result == 1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Could not retrieve information about users", e);
+		}
+	}
+
+	public boolean isConnected (String triedNick) {
+		try {
+			CallableStatement statement = myConn.prepareCall("CALL userIsConnected(?,?)");
+			statement.setString(1,triedNick);
+			statement.registerOutParameter("isConnected", Types.SMALLINT);
+			statement.execute();
+			Integer result = statement.getInt("isConnected");
+			return (result == 1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Could not retrieve information about users", e);
+		}
+	}
+
+
 	public void StoreMsg(HistoryMessage msg) {
 		try {
 			CallableStatement statement = myConn.prepareCall("CALL insertMessage(?,?,?,?,?)");

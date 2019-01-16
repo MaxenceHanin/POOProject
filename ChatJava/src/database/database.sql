@@ -7,10 +7,15 @@ DROP TABLE IF EXISTS Conv02;
 DROP PROCEDURE IF EXISTS insertUser;
 DROP PROCEDURE IF EXISTS createNewConversation;
 DROP PROCEDURE IF EXISTS insertMessage;
+DROP PROCEDURE IF EXISTS setUserConnected;
+DROP PROCEDURE IF EXISTS setUserDisconnected;
+DROP PROCEDURE IF EXISTS userAlreadyExists;
+DROP PROCEDURE IF EXISTS userIsConnected;
 
 SELECT 'Creating tables' AS 'Message to print';
 CREATE TABLE User(idUsr SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
                   nickname CHAR(60) NOT NULL,
+                  connected BIT, /*1 is connected, 0 is disconnected*/
                   PRIMARY KEY (idUsr)
                   ) ENGINE=InnoDB;
 
@@ -27,11 +32,31 @@ DELIMITER //
 CREATE PROCEDURE insertUser (IN UsrNickname TEXT)
   BEGIN
     IF NOT EXISTS(SELECT * FROM User where (nickname = UsrNickname)) THEN
-      INSERT INTO User (nickname) VALUES (UsrNickname);
+      INSERT INTO User (nickname,connected) VALUES (UsrNickname,1);
     END IF;
   END //
 
+CREATE PROCEDURE setUserConnected (IN UsrNickname TEXT)
+  BEGIN
+  DECLARE targetid SMALLINT UNSIGNED;
+    IF NOT EXISTS(SELECT * FROM User where (nickname = UsrNickname)) THEN
+      CALL insertUser(UsrNickname);
+    ELSE
+      SET targetid = (SELECT idUsr FROM User WHERE (nickname = UsrNickname));
+      UPDATE User SET connected=1 WHERE idUsr=targetid;
+    END IF;
+  END //
 
+  CREATE PROCEDURE setUserDisconnected (IN UsrNickname TEXT)
+  BEGIN
+  DECLARE targetid SMALLINT UNSIGNED;
+    IF NOT EXISTS(SELECT * FROM User where (nickname = UsrNickname)) THEN
+      CALL insertUser(UsrNickname);
+    END IF;
+    SET targetid = (SELECT idUsr FROM User WHERE (nickname = UsrNickname));
+    UPDATE User SET connected=0 WHERE idUsr=targetid;
+
+  END //
 
 
 CREATE PROCEDURE createNewConversation (IN srcNickname TEXT,
@@ -102,6 +127,27 @@ BEGIN
 
   END //
 
+SELECT 'Creating functions' AS 'Message to print';
+
+CREATE PROCEDURE userAlreadyExists (IN nick CHAR(60),
+                                  OUT userExists BIT)
+BEGIN
+  IF EXISTS (SELECT * FROM User WHERE (nickname = nick)) THEN
+    SET userExists = 1;
+  ELSE
+    SET userExists = 0;
+  END IF;
+END //
+
+CREATE PROCEDURE userIsConnected (IN nick CHAR(60),
+                                  OUT isConnected SMALLINT)
+BEGIN
+  IF EXISTS (SELECT idUsr FROM User WHERE ((nickname = nick) AND (connected = 1))) THEN
+    SET isConnected = 1;
+  ELSE
+    SET isConnected = 0;
+  END IF;
+END //
 /*
 CREATE FUNCTION getUser (IN idUser SMALLINT)
   RETURNS CHAR(60) DETERMINISTIC
