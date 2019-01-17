@@ -1,32 +1,27 @@
 package display;
-import java.io.IOException;
-
 import database.Access;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import java.io.IOException;
+import client.*;
 
 public class LoginWindow extends Parent {
 	/*private int btnWidth = 0;*/
 	static GridPane grid3 = new GridPane();
 	static Access BDD = new Access();
-	static String ActualLogin;
+	static String currentLogin;
 	
 	public void setBtn(Button btn, String txt){
         btn.setText(txt);
@@ -34,6 +29,8 @@ public class LoginWindow extends Parent {
 	}
 
     public LoginWindow() {
+    	
+    	Client client = new Client();
     	
         TextField txtLog = new TextField("Entrez votre identifiant");
         Button btnReg = new Button();
@@ -53,7 +50,7 @@ public class LoginWindow extends Parent {
 
                 Scene scene = new Scene(rootReg, DisplayLogin.X, DisplayLogin.Y, Color.BLANCHEDALMOND); 
                 GridPane grid = new GridPane();
-                RegWindow RegWindow = new RegWindow();
+                RegWindow RegWindow = new RegWindow(client, BDD);
                 grid.getChildren().add(RegWindow);
                 grid.setAlignment(Pos.CENTER);
                 rootReg.getChildren().add(grid);
@@ -67,12 +64,10 @@ public class LoginWindow extends Parent {
         });
     	
         btn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                /*test success login*/
+            public void handle(ActionEvent event) {             
             	String Log = String.valueOf(txtLog.getCharacters());
-                if (!(BDD.isConnected(Log))&& BDD.userExists(Log)) {
-                	BDD.setUserConnected(Log);
-                	ActualLogin = Log;
+            	if(client.login(Log, BDD)) {
+            		currentLogin = Log;
                 	ChatWindow chatwindow = new ChatWindow();
                     //rootChat.getChildren().add(chatwindow);
                     
@@ -86,11 +81,10 @@ public class LoginWindow extends Parent {
                     stage.show();
                     // Hide this current window 
                     ((Node)(event.getSource())).getScene().getWindow().hide();
-            }
+            	}
                 else {
-                	Label errLog = new Label("Le login a échoué pour " +"'" + Log + "'");
+                	Label errLog = new Label("Le login a ï¿½chouï¿½ pour " +"'" + Log + "'");
                 	grid2.add(errLog, 0, 4);
-                	
                 }
             }
         });

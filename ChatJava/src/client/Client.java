@@ -9,6 +9,8 @@ import java.net.*;
 import java.util.ArrayList;
 import agent.*;
 import server.*;
+import database.Access;
+import display.LoginWindow;
 
 public class Client {
 	private InetAddress serverAddress;
@@ -24,11 +26,9 @@ public class Client {
     private ArrayList<MessageListener> messageListeners = new ArrayList<>();
 
 
-    public static void main(String[] args) throws IOException {
-    
-        Client client = new Client();
+    public Client() {
      
-        client.addUserStatusListener(new UserStatusListener() {
+        addUserStatusListener(new UserStatusListener() {
         	
         	/*notification connexion deconnexion*/
         	/*ne fonctionne pas*/
@@ -43,69 +43,35 @@ public class Client {
         });
         
         /*notification nouveau message*/
-        client.addMessageListener(new MessageListener() {
+        addMessageListener(new MessageListener() {
             @Override
             public void onMessage(String fromLogin, String msgBody) {
                 System.out.println("message de " + fromLogin + " -> " + msgBody);
             }
         });
-        
-        /*verification si le client est connecte*/
-
-        if (!client.connect()) {
-            System.err.println("Connection echouee.");
-        } else {
-            System.out.println("Connection reussie");
-            
-            if (client.register("LocalUser")) {
-                System.out.println("Inscription reussie");
-            } else {
-                System.err.println("echec de l'inscription");
-                }
-
-            if (client.login("LocalUser")) {
-                System.out.println("Login reussi");
-
-            } else {
-                System.err.println("Login eechoue");
-            }
-
-        }
     }
     /*envoi des msg*/
 
-    private void msg(DistantUser destUser, String msgBody) throws IOException {
-        String cmd = "msg " + destUser.getNickname() + " " + msgBody + "\n";
-        serverOut.write(cmd.getBytes());
+    private void msg(DistantUser destUser, String msgBody)  {
+        
     }
     /*register*/
-    private boolean register(String nickname) throws IOException {
-        String cmd = "register " + nickname + "\n";
-        serverOut.write(cmd.getBytes());
-
-        String response = bufferedIn.readLine();
-        System.out.println("Reponse:" + response);
-
-        if ("Inscription réalisée avec succès".equals(response)) {
-        	startMessageReader();
-            return true;
-        } else {
-            return false;
-        }
+    public boolean register(String login, Access BDD)  {
+    	if (!BDD.userExists(login)) {
+    		BDD.setUserConnected(login);
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     /*connexion*/
-    private boolean login(String login) throws IOException {
-        String cmd = "login " + login + "\n";
-        serverOut.write(cmd.getBytes());
-
-        String response = bufferedIn.readLine();
-        System.out.println("Réponse:" + response);
-
-        if ("login bon".equals(response)) {
-            startMessageReader();
-            return true;
-        } else {
-            return false;
+    public boolean login(String login, Access BDD) {
+        if (!(BDD.isConnected(login))&& BDD.userExists(login)) {
+        	BDD.setUserConnected(login);
+        	return true;
+        }
+        else {
+        	return false;
         }
     }
     /*deconnexion*/

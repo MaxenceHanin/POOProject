@@ -36,8 +36,8 @@ public class Agent {
 		*/
 		String convo_name = a.databaseAlreadyExists("Maxou","Pitou");
 		System.out.println("nom de la convo : "+convo_name);
-		HistoryMessage Msg = new HistoryMessage("La BDD marche", "Pitou", "Maxou",convo_name);
-		HistoryMessage Msg2 = new HistoryMessage("Oui", "Maxou", "Pitou",convo_name);
+		HistoryMessage Msg = new HistoryMessage("NTM pute", "Pitou", "Maxou",convo_name);
+		HistoryMessage Msg2 = new HistoryMessage("JPP LOL", "Maxou", "Pitou",convo_name);
 		a.StoreMsg(Msg);
 		a.StoreMsg(Msg2);
 		a.ShowPreviousMsg(convo_name);
