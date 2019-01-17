@@ -63,15 +63,16 @@ public class RegWindow extends Parent {
                     ((Node)(event.getSource())).getScene().getWindow().hide();
                 }
             	else {
-                	Label errLog = new Label("L'enregistrement a échoué pour " +"'" + Log + "'");
-                	grid2.add(errLog, 0, 4);
-                	
+            		Label errLog = new Label("L'enregistrement a échoué pour " +"'" + Log + "'"+": "+"pseudo déjà utilisé");
+            	    grid2.add(errLog, 0, 4);
+            		//errLog.setVisible(true);
                 }
             }
         });
         
         //grid2.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
         //grid2.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
+    	//errLog.setVisible(false);
         grid2.setPadding(new Insets(20));
         grid2.setHgap(25);
         grid2.setVgap(15);

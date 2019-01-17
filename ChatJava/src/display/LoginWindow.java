@@ -26,6 +26,7 @@ public class LoginWindow extends Parent {
 	/*private int btnWidth = 0;*/
 	static GridPane grid3 = new GridPane();
 	static Access BDD = new Access();
+	static String ActualLogin;
 	
 	public void setBtn(Button btn, String txt){
         btn.setText(txt);
@@ -71,6 +72,7 @@ public class LoginWindow extends Parent {
             	String Log = String.valueOf(txtLog.getCharacters());
                 if (!(BDD.isConnected(Log))&& BDD.userExists(Log)) {
                 	BDD.setUserConnected(Log);
+                	ActualLogin = Log;
                 	ChatWindow chatwindow = new ChatWindow();
                     //rootChat.getChildren().add(chatwindow);
                     
