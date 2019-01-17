@@ -92,6 +92,22 @@ public class Access { //Driver to access the database
 		}
 	}
 
+	public ResultSet extractMsg(String ConvNo)  {
+		try {
+			System.out.println("Database connected!");
+
+			String query="SELECT * FROM ".concat(ConvNo).concat(";");
+			CallableStatement statement = myConn.prepareCall(query);
+			ResultSet myRs = statement.executeQuery();
+
+			return myRs;
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot connect the database!", e);
+		}
+	}
+
 	public void ShowPreviousMsg(String ConvNo) {
 		try {
 			System.out.println("Database connected!");

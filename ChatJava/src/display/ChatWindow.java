@@ -38,7 +38,7 @@ public class ChatWindow extends Parent {
         btntxt.add(btn,1,0);
         GridPane conv = new GridPane();
         conv.setMinHeight(200);
-        Background backConv = new Background(new BackgroundFill(Color.ORANGERED, new CornerRadii(2), new Insets(2)));
+        Background backConv = new Background(new BackgroundFill(Color.BEIGE, new CornerRadii(2), new Insets(2)));
         conv.setBackground(backConv);
    
 		
@@ -56,9 +56,11 @@ public class ChatWindow extends Parent {
 		grid4.add(btntxt,2,1);
 		grid4.add(conv,2,0);
 		
+
 		Button UseLog = new Button("utilisateur connecté");
     	UseLog.setText("utilisateur connecté");
         UseLog.setMinWidth(UserLogged.getPrefWidth());
+
        //UseLog.setStyle("-fx-border-color: #979797; -fx-border-width: 1px;"
 		//		+"-fx-background-color: #c9c9c9"
 		//		+ "-fx-font-size: 2em; "
