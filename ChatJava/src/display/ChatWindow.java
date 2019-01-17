@@ -57,7 +57,7 @@ public class ChatWindow extends Parent {
         UseLog.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 /*affichage de la conversation entre user actuel et user cliqu�*/
-            	LoginWindow.BDD.extractMsg(databaseAlreadyExists(UseLog.getContentDisplay(),LoginWindow.ActualLogin));
+            	LoginWindow.BDD.extractMsg(LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin));
             }
         });
 
@@ -74,7 +74,7 @@ public class ChatWindow extends Parent {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 String message = txt.getText();
-                String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin));
+                String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin);
                 Client.msg(LoginWindow.ActualLogin, currentDestUser, conv, message);
             }
         });
