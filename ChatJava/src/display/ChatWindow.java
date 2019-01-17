@@ -13,21 +13,14 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import client.*;
 
 public class ChatWindow extends Parent {
-	static String ActualConv = "on verra";
+	static String currentDestUser;
 	static ColumnConstraints UserLogged = new ColumnConstraints();
     public ChatWindow() {
         TextField txt = new TextField();
         txt.setMinWidth((int)(0.3*Display.X));
-    	Button btn = new Button();
-    	btn.setText("send");
-        btn.setMinWidth(80);
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                /*a definir*/
-            }
-        });
         
         GridPane btntxt = new GridPane();
         btn.setLayoutX(txt.getWidth()+10);
@@ -63,7 +56,7 @@ public class ChatWindow extends Parent {
         
         UseLog.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                /*affichage de la conversation entre user actuel et user cliqué*/
+                /*affichage de la conversation entre user actuel et user cliquï¿½*/
             	LoginWindow.BDD.extractMsg(databaseAlreadyExists(UseLog.getContentDisplay(),LoginWindow.ActualLogin));
             }
         });
@@ -74,6 +67,17 @@ public class ChatWindow extends Parent {
 		//		+"-fx-text-fill: #282828");
         grid4.add(UseLog,0,0);
 //---------------------------------------------------------
+
+    	Button btn = new Button();
+    	btn.setText("send");
+        btn.setMinWidth(80);
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String message = txt.getText();
+                String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin));
+                Client.msg(LoginWindow.ActualLogin, currentDestUser, conv, message);
+            }
+        });
         this.getChildren().add(grid4);
     }
 
