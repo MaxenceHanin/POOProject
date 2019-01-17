@@ -58,7 +58,7 @@ public class ChatWindow extends Parent {
 		
 		Button UseLog = new Button("utilisateur connecté");
     	UseLog.setText("utilisateur connecté");
-        UseLog.setMinWidth(80);
+        UseLog.setMinWidth(UserLogged.getPrefWidth());
        //UseLog.setStyle("-fx-border-color: #979797; -fx-border-width: 1px;"
 		//		+"-fx-background-color: #c9c9c9"
 		//		+ "-fx-font-size: 2em; "
