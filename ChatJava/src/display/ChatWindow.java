@@ -1,6 +1,7 @@
 package display;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 
 import javafx.event.ActionEvent;
@@ -50,7 +51,6 @@ public class ChatWindow extends Parent {
 	    Hgap1.setPercentWidth(2);
 	    grid4.getColumnConstraints().addAll(UserLogged,Hgap1, Conv);
 		grid4.setVgap(15);
-		grid4.add(btntxt,2,1);
 		grid4.add(conv,2,0);
 		// a un moment il faut afficher quelque part le nom de la conv affichée sur la grid
 		//Label ConvOuverte = new Label(ActualConv);
@@ -65,11 +65,16 @@ public class ChatWindow extends Parent {
             	String ActualConv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin);
             	ResultSet myRs = LoginWindow.BDD.extractMsg(ActualConv);
             	//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
-            	while (myRs.next()) {
-            		convscroll.getChildren().add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
-            		convscroll.getChildren().add(new Text("           "));
-            		//ConvSet.add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
-    			}
+            	try {
+					while (myRs.next()) {
+						convscroll.getChildren().add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
+						convscroll.getChildren().add(new Text("           "));
+						//ConvSet.add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 /*affichage de la conversation entre user actuel et user cliquï¿½*/
             	LoginWindow.BDD.extractMsg(LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin));
             }
@@ -90,6 +95,7 @@ public class ChatWindow extends Parent {
         btntxt.setHgap(10);
         btntxt.add(txt,0,0);
         btntxt.add(btn,1,0);
+		grid4.add(btntxt,2,1);
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 String message = txt.getText();
