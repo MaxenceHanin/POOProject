@@ -19,29 +19,16 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import client.*;
 
 public class ChatWindow extends Parent {
-	static String ActualConv = "on verra";
+	static String currentDestUser;
 	static ColumnConstraints UserLogged = new ColumnConstraints();
     public ChatWindow() {
         TextField txt = new TextField();
         txt.setMinWidth((int)(0.3*Display.X));
-    	Button btn = new Button();
-    	btn.setText("send");
-        btn.setMinWidth(80);
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                /*a definir*/
-            }
-        });
         
-        GridPane btntxt = new GridPane();
-        btn.setLayoutX(txt.getWidth()+10);
-        btntxt.setHgap(10);
-        btntxt.add(txt,0,0);
-        btntxt.add(btn,1,0);
         FlowPane convscroll = new FlowPane();        
         
         GridPane conv = new GridPane();
@@ -66,7 +53,7 @@ public class ChatWindow extends Parent {
 		grid4.add(btntxt,2,1);
 		grid4.add(conv,2,0);
 		// a un moment il faut afficher quelque part le nom de la conv affichée sur la grid
-		Label ConvOuverte = new Label(ActualConv);
+		//Label ConvOuverte = new Label(ActualConv);
 //---------------------------------------------------------
 		Button UseLog = new Button("Patou");
     	UseLog.setText("Patou");
@@ -80,9 +67,11 @@ public class ChatWindow extends Parent {
             	//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
             	while (myRs.next()) {
             		convscroll.getChildren().add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
-            		convscroll.getChildren().add(new Text("           ***          "));
+            		convscroll.getChildren().add(new Text("           "));
             		//ConvSet.add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
     			}
+                /*affichage de la conversation entre user actuel et user cliquï¿½*/
+            	LoginWindow.BDD.extractMsg(LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin));
             }
         });
 
@@ -92,6 +81,22 @@ public class ChatWindow extends Parent {
 		//		+"-fx-text-fill: #282828");
         grid4.add(UseLog,0,0);
 //---------------------------------------------------------
+
+    	Button btn = new Button();
+    	btn.setText("send");
+        btn.setMinWidth(80);
+        GridPane btntxt = new GridPane();
+        btn.setLayoutX(txt.getWidth()+10);
+        btntxt.setHgap(10);
+        btntxt.add(txt,0,0);
+        btntxt.add(btn,1,0);
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String message = txt.getText();
+                String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin);
+                Client.msg(LoginWindow.ActualLogin, currentDestUser, conv, message);
+            }
+        });
         this.getChildren().add(grid4);
     }
 
