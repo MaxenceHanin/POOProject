@@ -3,6 +3,7 @@ DELIMITER ;
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Conversations;
 DROP TABLE IF EXISTS Conv02;
+DROP TABLE IF EXISTS MaxouPitou;
 
 DROP PROCEDURE IF EXISTS insertUser;
 DROP PROCEDURE IF EXISTS createNewConversation;
@@ -11,6 +12,7 @@ DROP PROCEDURE IF EXISTS setUserConnected;
 DROP PROCEDURE IF EXISTS setUserDisconnected;
 DROP PROCEDURE IF EXISTS userAlreadyExists;
 DROP PROCEDURE IF EXISTS userIsConnected;
+DROP PROCEDURE IF EXISTS databaseAlreadyExists;
 
 SELECT 'Creating tables' AS 'Message to print';
 CREATE TABLE User(idUsr SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -22,7 +24,7 @@ CREATE TABLE User(idUsr SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
 CREATE TABLE Conversations(idConvo SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
                             user_src SMALLINT UNSIGNED NOT NULL REFERENCES User(id),
                             user_dest SMALLINT UNSIGNED NOT NULL REFERENCES User(id),
-                            tbl_name CHAR(60) NOT NULL,
+                            tbl_name CHAR(120) NOT NULL,
                             PRIMARY KEY (idConvo)
                             ) ENGINE=InnoDB;
 
@@ -61,7 +63,7 @@ CREATE PROCEDURE setUserConnected (IN UsrNickname TEXT)
 
 CREATE PROCEDURE createNewConversation (IN srcNickname TEXT,
                                         IN destNickname TEXT,
-                                        IN tblname CHAR(60))
+                                        IN tblname CHAR(120))
   BEGIN
   DECLARE srcUser SMALLINT UNSIGNED;
   DECLARE destUser SMALLINT UNSIGNED;
@@ -99,7 +101,7 @@ CREATE PROCEDURE createNewConversation (IN srcNickname TEXT,
 
 
 
-CREATE PROCEDURE insertMessage (IN ConvNum CHAR(60),
+CREATE PROCEDURE insertMessage (IN ConvNum CHAR(120),
                                 IN srcNick CHAR(60),
                                 IN destNick CHAR(60),
                                 IN InTime TIME,
@@ -148,6 +150,28 @@ BEGIN
     SET isConnected = 0;
   END IF;
 END //
+
+CREATE PROCEDURE databaseAlreadyExists (IN nick1 CHAR(60),
+                                        IN nick2 CHAR(60),
+                                        OUT conv_name CHAR(120))
+
+BEGIN
+  DECLARE temp CHAR(120);
+  DECLARE idUser1 SMALLINT UNSIGNED;
+  DECLARE idUser2 SMALLINT UNSIGNED;
+
+  SET idUser1 = (SELECT idUsr FROM User WHERE (nickname = nick1));
+  SET idUser2 = (SELECT idUsr FROM User WHERE (nickname = nick2));
+
+  IF EXISTS (SELECT tbl_name FROM Conversations WHERE (((user_src = idUser1) AND (user_dest = idUser2)) OR ((user_src = idUser2) AND (user_dest = idUser1))) ) THEN
+    SET conv_name = (SELECT tbl_name FROM Conversations WHERE (((user_src = idUser1) AND (user_dest = idUser2)) OR ((user_src = idUser2) AND (user_dest = idUser1))) );
+  ELSE
+    SET temp = CONCAT(nick1,nick2);
+    CALL createNewConversation(nick1,nick2,temp);
+    SET conv_name = temp;
+  END IF;
+END //
+
 /*
 CREATE FUNCTION getUser (IN idUser SMALLINT)
   RETURNS CHAR(60) DETERMINISTIC

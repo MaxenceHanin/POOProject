@@ -8,7 +8,7 @@ public class HistoryMessage {
 	private Time Time;
 	private String usrSrc, usrDest, conv;
 	
-	public HistoryMessage(String text, String src, String dest, String conversation){
+	public HistoryMessage(String text, String src, String dest, String conversation) {
 		this.text = text;
 		this.usrSrc = src;
 		this.usrDest = dest;
