@@ -52,17 +52,17 @@ public class ChatWindow extends Parent {
 	    grid4.getColumnConstraints().addAll(UserLogged,Hgap1, Conv);
 		grid4.setVgap(15);
 		grid4.add(conv,2,0);
-		// a un moment il faut afficher quelque part le nom de la conv affichée sur la grid
+		// a un moment il faut afficher quelque part le nom de la conv affichï¿½e sur la grid
 		//Label ConvOuverte = new Label(ActualConv);
 //---------------------------------------------------------
-		Button UseLog = new Button("Patou");
-    	UseLog.setText("Patou");
+		Button UseLog = new Button("Pitou");
+    	UseLog.setText("Pitou");
         UseLog.setMinWidth(UserLogged.getPrefWidth());
         UseLog.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
 
-                /*affichage de la conversation entre user actuel et user cliqué*/
-            	String ActualConv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin);
+                /*affichage de la conversation entre user actuel et user cliquï¿½*/
+            	String ActualConv = LoginWindow.BDD.databaseAlreadyExists("Pitou",LoginWindow.ActualLogin);
             	ResultSet myRs = LoginWindow.BDD.extractMsg(ActualConv);
             	//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
             	try {
@@ -100,7 +100,7 @@ public class ChatWindow extends Parent {
             public void handle(ActionEvent event) {
                 String message = txt.getText();
                 String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin);
-                Client.msg(LoginWindow.ActualLogin, currentDestUser, conv, message);
+                //Client.msg(LoginWindow.ActualLogin, currentDestUser, conv, message);
             }
         });
         this.getChildren().add(grid4);
