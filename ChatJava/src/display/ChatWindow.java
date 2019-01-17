@@ -34,6 +34,7 @@ public class ChatWindow extends Parent {
         
         GridPane conv = new GridPane();
         conv.setMinHeight(200);
+        conv.setMinWidth(200);
         Background backConv = new Background(new BackgroundFill(Color.BEIGE, new CornerRadii(2), new Insets(2)));
         conv.setBackground(backConv);
         convscroll.setPrefSize(conv.getPrefWidth(),conv.getPrefHeight()); 
@@ -62,21 +63,22 @@ public class ChatWindow extends Parent {
             public void handle(ActionEvent event) {
 
                 /*affichage de la conversation entre user actuel et user cliqué*/
-            	String ActualConv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin);
+            	String ActualConv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
             	ResultSet myRs = LoginWindow.BDD.extractMsg(ActualConv);
             	//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
             	try {
 					while (myRs.next()) {
-						convscroll.getChildren().add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
-						convscroll.getChildren().add(new Text("           "));
+						if (myRs.getString("snick").equals(LoginWindow.currentLogin)) {
+						convscroll.getChildren().add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")").setLayoutX(100););	
 						//ConvSet.add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
+					}
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
                 /*affichage de la conversation entre user actuel et user cliquï¿½*/
-            	LoginWindow.BDD.extractMsg(LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin));
+            	LoginWindow.BDD.extractMsg(LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin));
             }
         });
 
@@ -99,8 +101,8 @@ public class ChatWindow extends Parent {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 String message = txt.getText();
-                String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.ActualLogin);
-                Client.msg(LoginWindow.ActualLogin, currentDestUser, conv, message);
+                String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
+                Client.msg(LoginWindow.currentLogin, currentDestUser, conv, message);
             }
         });
         this.getChildren().add(grid4);
