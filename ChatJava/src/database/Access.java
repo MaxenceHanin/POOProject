@@ -92,6 +92,19 @@ public class Access { //Driver to access the database
 		}
 	}
 
+	public String databaseAlreadyExists (String user1, String user2) {
+		try {
+			CallableStatement statement = myConn.prepareCall("CALL databaseAlreadyExists(?,?,?)");
+			statement.setString(1,user1);
+			statement.setString(2,user2);
+			statement.execute();
+			return statement.getString("conv_name");
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot retrieve conversation name!", e);
+		}
+	}
+
 	public ResultSet extractMsg(String ConvNo)  {
 		try {
 			System.out.println("Database connected!");

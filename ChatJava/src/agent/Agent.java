@@ -26,21 +26,21 @@ public class Agent {
 	public void DebugDB() {
 		Access a = new Access();
 		/* débug de l'insertion de message dans la database */
-		/*	HistoryMessage Msg = new HistoryMessage("La BDD marche", "Pitou", "Maxou","Conv02");
-			HistoryMessage Msg2 = new HistoryMessage("Oui", "Maxou", "Pitou","Conv02");
-			a.StoreMsg(Msg);
-			a.StoreMsg(Msg2);
+		/*
+		HistoryMessage Msg = new HistoryMessage("La BDD marche", "Pitou", "Maxou","Conv02");
+		HistoryMessage Msg2 = new HistoryMessage("Oui", "Maxou", "Pitou","Conv02");
+		a.StoreMsg(Msg);
+		a.StoreMsg(Msg2);
 
-			if (!(a.userExists("Pitou"))) {
-			System.out.println("you can't use the nickname Pitou because it is already taken");
-			}
-
-		a.ShowPreviousMsg("Conv02"); */
-
-
-		a.setUserDisconnected("Maxou");
-		a.setUserConnected("Pitou");
-
+		a.ShowPreviousMsg("Conv02");
+		*/
+		String convo_name = a.databaseAlreadyExists("Maxou","Pitou");
+		System.out.println("nom de la convo : "+convo_name);
+		HistoryMessage Msg = new HistoryMessage("La BDD marche", "Pitou", "Maxou",convo_name);
+		HistoryMessage Msg2 = new HistoryMessage("Oui", "Maxou", "Pitou",convo_name);
+		a.StoreMsg(Msg);
+		a.StoreMsg(Msg2);
+		a.ShowPreviousMsg(convo_name);
 	}
 	
 	public Agent () {
