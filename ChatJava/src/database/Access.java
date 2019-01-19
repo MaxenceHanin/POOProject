@@ -9,12 +9,10 @@ import java.sql.*;
 public class Access { //Driver to access the database
 	private Connection myConn = null;
 
-	public Access() {
+	public Access(String userDB, String password) {
 		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
-		String userDB = "pitou";
-		String pass = "pwd";
 		try {
-			this.myConn = DriverManager.getConnection(dataBaseURL,userDB,pass);
+			this.myConn = DriverManager.getConnection(dataBaseURL,userDB,password);
 			System.out.println("Database connected!");
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -107,13 +105,9 @@ public class Access { //Driver to access the database
 
 	public ResultSet extractMsg(String ConvNo)  {
 		try {
-			System.out.println("Database connected!");
-
 			String query="SELECT * FROM ".concat(ConvNo).concat(";");
 			CallableStatement statement = myConn.prepareCall(query);
-			ResultSet myRs = statement.executeQuery();
-
-			return myRs;
+			return statement.executeQuery();
 
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -121,10 +115,34 @@ public class Access { //Driver to access the database
 		}
 	}
 
+	public ResultSet extractConv(String nick) {
+		try {
+			String query="SELECT tbl_name FROM Conversations WHERE ((user_src = ".concat(nick).concat(") OR (user_dest = ").concat(nick).concat("));");
+			CallableStatement statement = myConn.prepareCall(query);
+			return statement.executeQuery();
+
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot retrieve conversations from the database!", e);
+		}
+	}
+
+	public ResultSet UsersConnected() {
+		try {
+			String query="SELECT * FROM User WHERE (connected=1)";
+			CallableStatement statement = myConn.prepareCall(query);
+			return statement.executeQuery();
+
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot retrieve Users from the database!", e);
+		}
+	}
+
 	public void ShowPreviousMsg(String ConvNo) {
 		try {
-			System.out.println("Database connected!");
-
 			String query="SELECT * FROM ".concat(ConvNo).concat(";");
 			CallableStatement statement = myConn.prepareCall(query);
 			ResultSet myRs = statement.executeQuery();

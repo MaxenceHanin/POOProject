@@ -20,7 +20,7 @@ import client.*;
 public class LoginWindow extends Parent {
 	/*private int btnWidth = 0;*/
 	static GridPane grid3 = new GridPane();
-	static Access BDD = new Access();
+	static Access BDD = new Access("pitou","pwd");
 	static String currentLogin;
 	
 	public void setBtn(Button btn, String txt){

@@ -69,7 +69,7 @@ public class ChatWindow extends Parent {
 		int i = 0;
 		gridUseConv.getChildren().clear();//normalement inutile mais au cas ou
 		
-        /*affichage de la conversation entre user actuel et user cliqué*/
+        /*affichage de la conversation entre user actuel et user cliquï¿½*/
     	ResultSet myRs1 = LoginWindow.BDD.extractConv(LoginWindow.currentLogin);
     	ResultSet myRs2 = LoginWindow.BDD.UsersConnected();
     	try {
@@ -108,7 +108,7 @@ public class ChatWindow extends Parent {
                 String message = txt.getText();
 
                 String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
-                Client.msg(LoginWindow.currentLogin, currentDestUser, conv, message);
+                //Client.msg(LoginWindow.currentLogin, currentDestUser, conv, message);
 
             }
         });
