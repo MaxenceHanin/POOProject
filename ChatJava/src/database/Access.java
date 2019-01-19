@@ -4,6 +4,7 @@ import agent.DistantUser;
 import agent.HistoryMessage;
 import agent.LocalUser;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 
 public class Access { //Driver to access the database
@@ -117,7 +118,12 @@ public class Access { //Driver to access the database
 
 	public ResultSet extractConv(String nick) {
 		try {
-			String query="SELECT tbl_name FROM Conversations WHERE ((user_src = ".concat(nick).concat(") OR (user_dest = ").concat(nick).concat("));");
+			CallableStatement stmt1 = myConn.prepareCall("CALL getUserId(?,?)");
+			stmt1.setString(1,nick);
+			stmt1.registerOutParameter("ID", Types.SMALLINT);
+			stmt1.execute();
+			String UserID = stmt1.getString("ID");
+			String query="SELECT tbl_name FROM Conversations WHERE ((user_src = ".concat(UserID).concat(") OR (user_dest = ").concat(UserID).concat("));");
 			CallableStatement statement = myConn.prepareCall(query);
 			return statement.executeQuery();
 

@@ -3,6 +3,7 @@ DELIMITER ;
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Conversations;
 DROP TABLE IF EXISTS MaxouPitou;
+DROP TABLE IF EXISTS PitouDharsy;
 
 DROP PROCEDURE IF EXISTS insertUser;
 DROP PROCEDURE IF EXISTS createNewConversation;
@@ -12,6 +13,7 @@ DROP PROCEDURE IF EXISTS setUserDisconnected;
 DROP PROCEDURE IF EXISTS userAlreadyExists;
 DROP PROCEDURE IF EXISTS userIsConnected;
 DROP PROCEDURE IF EXISTS databaseAlreadyExists;
+DROP PROCEDURE IF EXISTS getUserId;
 
 SELECT 'Creating tables' AS 'Message to print';
 CREATE TABLE User(idUsr SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -99,7 +101,6 @@ CREATE PROCEDURE createNewConversation (IN srcNickname TEXT,
   END //
 
 
-
 CREATE PROCEDURE insertMessage (IN ConvNum CHAR(120),
                                 IN srcNick CHAR(60),
                                 IN destNick CHAR(60),
@@ -119,7 +120,6 @@ BEGIN
   SET srcUser = (SELECT idUsr FROM User WHERE (nickname = srcNick));
   SET destUser = (SELECT idUsr FROM User WHERE (nickname = destNick));
 
-
   SET @tableName = ConvNum;
   SET @q = CONCAT('INSERT INTO `', @tablename, '` (conv,user_src,snick,user_dest,dnick,time,text) VALUES (',Convid,',',srcUser,',"',srcNick,'",',destUser,',"',destNick,'","',InTime,'","',InText,'");');
   PREPARE stmt FROM @q;
@@ -127,6 +127,7 @@ BEGIN
   DEALLOCATE PREPARE stmt;
 
   END //
+
 
 SELECT 'Creating functions' AS 'Message to print';
 
@@ -140,6 +141,7 @@ BEGIN
   END IF;
 END //
 
+
 CREATE PROCEDURE userIsConnected (IN nick CHAR(60),
                                   OUT isConnected SMALLINT)
 BEGIN
@@ -150,10 +152,10 @@ BEGIN
   END IF;
 END //
 
+
 CREATE PROCEDURE databaseAlreadyExists (IN nick1 CHAR(60),
                                         IN nick2 CHAR(60),
                                         OUT conv_name CHAR(120))
-
 BEGIN
   DECLARE temp CHAR(120);
   DECLARE idUser1 SMALLINT UNSIGNED;
@@ -169,6 +171,12 @@ BEGIN
     CALL createNewConversation(nick1,nick2,temp);
     SET conv_name = temp;
   END IF;
+END //
+
+CREATE PROCEDURE getUserId (IN nick CHAR(60),
+                            OUT ID SMALLINT UNSIGNED)
+BEGIN
+  SET ID = (SELECT idUsr FROM User WHERE (nickname = nick));
 END //
 
 /*

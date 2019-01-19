@@ -16,6 +16,8 @@ import database.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -42,8 +44,19 @@ public class Agent {
 		a.StoreMsg(Msg2);
 		a.ShowPreviousMsg(convo_name);
 
-		HistoryMessage Msg3 = new HistoryMessage("MSG3", "Pitou", "Dharsy",convo_name);
+		HistoryMessage Msg3 = new HistoryMessage("MSG3", "Pitou", "Dharsy","PitouDharsy");
 		a.StoreMsg(Msg3);
+
+		a.ShowPreviousMsg("PitouDharsy");
+		try {
+			ResultSet myRs = a.extractConv("Pitou");
+			while (myRs.next()) {
+				System.out.println("User 'Pitou' is in the conversation :"+myRs.getString("tbl_name"));
+			}
+		} catch(SQLException e) {
+		e.printStackTrace();
+		throw new IllegalStateException("Cannot retrieve conversations from the database!", e);
+		}
 	}
 	
 	public Agent () {
