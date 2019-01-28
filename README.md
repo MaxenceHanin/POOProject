@@ -2,9 +2,7 @@
 Projet de clavardage
 
 ## Auteurs:
-BINET Pierre
-HANIN Maxence
-LAGARDERE Victor
+BINET Pierre, HANIN Maxence, LAGARDERE Victor.
 
 ## Technologies utilisées:
 JavaFX pour l'interface visuelle,
