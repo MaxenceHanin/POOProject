@@ -5,8 +5,9 @@ Projet de clavardage
 BINET Pierre, HANIN Maxence, LAGARDERE Victor.
 
 ## Technologies utilisées:
-JavaFX pour l'interface visuelle,
-MySQL et la JDBC pour la persistence des données locales.
+- JavaFX pour l'interface visuelle,
+- MySQL et la JDBC pour la persistence des données locales.
+
 Afin d'utiliser le projet chez vous vous devez installer MySQL,
 creer une base de donnée sur //localhost:3306/chat_app puis depuis le terminal,
 lancer MySQL, et entrer la commande "source (dossier d'installation du GIT)/ChatJava/src/database/database.sql"
