@@ -31,9 +31,9 @@ public class LoginWindow extends Parent {
     	
     	Client client = new Client();
     	
-        TextField txtLog = new TextField("Entrez votre identifiant");
+        TextField txtLog = new TextField("Enter your login");
         Button btnReg = new Button();
-        setBtn(btnReg,"Pas encore inscrit ? inscivez-vous en cliquant");
+        setBtn(btnReg,"Not registered? Register here");
         txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
         btnReg.setMinWidth((int)(0.6*DisplayLogin.X));
 
@@ -45,7 +45,7 @@ public class LoginWindow extends Parent {
             public void handle(ActionEvent event) {
             	StackPane rootReg = new StackPane();
             	Stage stage = new Stage();
-            	stage.setTitle("Register Window");      
+            	stage.setTitle("LavaChat register window");
 
                 Scene scene = new Scene(rootReg, DisplayLogin.X, DisplayLogin.Y, Color.BLANCHEDALMOND); 
                 GridPane grid = new GridPane();
@@ -75,14 +75,14 @@ public class LoginWindow extends Parent {
                     grid3.setAlignment(Pos.CENTER);
                     //grid3.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
                     //grid3.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
-                    stage.setTitle("Chat Window");
+                    stage.setTitle("LavaChat main window");
                     stage.setScene(new Scene(grid3, 600, 400));
                     stage.show();
                     // Hide this current window 
                     ((Node)(event.getSource())).getScene().getWindow().hide();
             	}
                 else {
-                	Label errLog = new Label("Le login a �chou� pour " +"'" + Log + "'");
+                	Label errLog = new Label(Log + " failed to log in");
                 	grid2.add(errLog, 0, 4);
                 }
             }

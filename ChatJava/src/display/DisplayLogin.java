@@ -21,7 +21,7 @@ public class DisplayLogin extends Application {
 
 
     public static void main(String[] args) {
-    	//requete pour mettre base de données à jour
+    	//requete pour mettre base de donnï¿½es ï¿½ jour
     	Application.launch(DisplayLogin.class, args);
 
     }
@@ -30,7 +30,7 @@ public class DisplayLogin extends Application {
 
     public void start(Stage primaryStage) {
 
-        primaryStage.setTitle("Chat application");
+        primaryStage.setTitle("LavaChat login window");
 
         
 
