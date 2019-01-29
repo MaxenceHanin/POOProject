@@ -67,6 +67,7 @@ public class ChatWindow extends Parent {
         gridUseConv.setPrefSize(convscroll.getPrefWidth(),convscroll.getPrefHeight());
 		grid4.add(gridUseConv,0,0);
 		int i = 0;
+		int j = 0;
 		gridUseConv.getChildren().clear();//normalement inutile mais au cas ou
 		
         /*affichage de la conversation entre user actuel et user cliqué*/
@@ -74,7 +75,7 @@ public class ChatWindow extends Parent {
     	ResultSet myRs2 = LoginWindow.BDD.UsersConnected();
     	try {
 			while (myRs1.next()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(currentDestUser);
+				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1[i]);
 				gridUseConv.add(ocouc,0,i);
 				i++;
 			}
