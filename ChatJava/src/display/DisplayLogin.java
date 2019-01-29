@@ -36,8 +36,8 @@ public class DisplayLogin extends Application {
 
         Scene scene = new Scene(root, X, Y, Color.BLANCHEDALMOND); 
         GridPane grid = new GridPane();
-        LoginWindow logWindow = new LoginWindow();
-        grid.getChildren().add(logWindow);
+        //LoginWindow logWindow = new LoginWindow();
+        //grid.getChildren().add(logWindow);
         grid.setAlignment(Pos.CENTER);
         root.getChildren().add(grid);
         

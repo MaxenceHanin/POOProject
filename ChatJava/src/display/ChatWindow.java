@@ -77,14 +77,14 @@ public class ChatWindow extends Parent {
     	ResultSet myRs2 = BDD.UsersConnected();
     	try {
 			while (myRs1.next()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.getString("tbl_name"),BDD);
+				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.getString(1),BDD);
 				//myRs1.getString(6)
 				gridUseConv.add(ocouc,0,i);
 				i++;
 			}
 			while (myRs2.next()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs2.getString("nickname"),BDD);
-				gridUseConv.add(ocouc,0,i);
+				OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.getString("nickname"),BDD);
+				gridUseConv.add(ocouc2,0,i);
 				i++;
 			}
 		} catch (SQLException e) {

@@ -37,11 +37,11 @@ public class Client {
         	/*ne fonctionne pas*/
             @Override
             public void online(String login) {
-                System.out.println("enLigne: " + login);
+                System.out.println("online: " + login);
             }
             @Override
             public void offline(String login) {
-                System.out.println("horsLigne: " + login);
+                System.out.println("offline: " + login);
             }
         });
         
@@ -49,7 +49,7 @@ public class Client {
         addMessageListener(new MessageListener() {
             @Override
             public void onMessage(String fromLogin, String msgBody) {
-                System.out.println("message de " + fromLogin + " -> " + msgBody);
+                System.out.println("message from " + fromLogin + " -> " + msgBody);
             }
         });
     }

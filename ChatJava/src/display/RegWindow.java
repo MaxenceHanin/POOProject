@@ -56,7 +56,7 @@ public class RegWindow extends Parent {
                     ((Node)(event.getSource())).getScene().getWindow().hide();
                 }
             	else {
-            		Label errLog = new Label(Log + "failed to register : login already in use");
+            		Label errLog = new Label(Log + " failed to register: login already in use");
             	    grid2.add(errLog, 0, 4);
                 }
             }
