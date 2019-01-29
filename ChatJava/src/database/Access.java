@@ -4,7 +4,6 @@ import agent.DistantUser;
 import agent.HistoryMessage;
 import agent.LocalUser;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 
 public class Access { //Driver to access the database
