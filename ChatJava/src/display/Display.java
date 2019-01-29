@@ -21,7 +21,7 @@ public class Display extends Application {
 
 
     public static void main(String[] args) {
-    	//requete pour mettre base de données à jour
+    	//requete pour mettre base de donnï¿½es ï¿½ jour
     	Application.launch(Display.class, args);
 
     }

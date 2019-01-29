@@ -33,7 +33,7 @@ public class ConnectBDDWindow extends Parent {
 
     public ConnectBDDWindow() {
     	
-        TextField txtLog = new TextField("Entrez l'identifiant de la base de donnée");
+        TextField txtLog = new TextField("Entrez l'identifiant de la base de donnï¿½e");
         PasswordField pswd = new PasswordField();
         txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
         pswd.setMinWidth((int)(0.6*DisplayLogin.X));
@@ -52,8 +52,8 @@ public class ConnectBDDWindow extends Parent {
             			// Hide this current window 
                         ((Node)(event.getSource())).getScene().getWindow().hide();
             		} catch(SQLException e) {
-            			Label err = new Label(e.getLocalizedMessage());
-            			grid2.add(err, 1, 1);
+            			Label err = new Label("Could not connect to //localhost:3306/chat_app");
+            			grid2.add(err, 0, 4);
             		}
             }
         });
