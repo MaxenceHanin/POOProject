@@ -48,6 +48,9 @@ public class ConnectBDDWindow extends Parent {
             	String pwd = String.valueOf(pswd.getCharacters());
             		try {
             			BDD = new Access(Log,pwd);
+            			DisplayLogin StartApp = new DisplayLogin();
+            			// Hide this current window 
+                        ((Node)(event.getSource())).getScene().getWindow().hide();
             		} catch(SQLException e) {
             			Label err = new Label(e.getLocalizedMessage());
             			grid2.add(err, 1, 1);
