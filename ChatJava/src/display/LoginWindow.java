@@ -49,7 +49,7 @@ public class LoginWindow extends Parent {
 
                 Scene scene = new Scene(rootReg, DisplayLogin.X, DisplayLogin.Y, Color.BLANCHEDALMOND); 
                 GridPane grid = new GridPane();
-                RegWindow RegWindow = new RegWindow(client, BDD);
+                RegWindow RegWindow = new RegWindow(client, ConnectBDDWindow.BDD);
                 grid.getChildren().add(RegWindow);
                 grid.setAlignment(Pos.CENTER);
                 rootReg.getChildren().add(grid);
@@ -65,7 +65,7 @@ public class LoginWindow extends Parent {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {             
             	String Log = String.valueOf(txtLog.getCharacters());
-            	if(client.login(Log, BDD)) {
+            	if(client.login(Log, ConnectBDDWindow.BDD)) {
             		currentLogin = Log;
                 	ChatWindow chatwindow = new ChatWindow();
                     //rootChat.getChildren().add(chatwindow);
