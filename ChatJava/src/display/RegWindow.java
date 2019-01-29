@@ -28,10 +28,10 @@ public class RegWindow extends Parent {
     public RegWindow(Client client, Access BDD) {
     	
     	 
-        TextField txtLog = new TextField("Entrez l'identifiant souhait�");
+        TextField txtLog = new TextField("Enter the desired login");
         txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
     	Button btn = new Button();
-    	setBtn(btn,"Inscription");
+    	setBtn(btn,"Register");
     	GridPane grid2 = new GridPane();
     	
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -49,14 +49,14 @@ public class RegWindow extends Parent {
                     grid3.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
                     grid3.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
                     rootChat.getChildren().add(grid3);
-                    stage.setTitle("Chat Window");
+                    stage.setTitle("LavaChat");
                     stage.setScene(new Scene(rootChat, 800, 600));
                     stage.show();
                     // Hide this current window 
                     ((Node)(event.getSource())).getScene().getWindow().hide();
                 }
             	else {
-            		Label errLog = new Label("L'enregistrement a �chou� pour " +"'" + Log + "'"+": "+"pseudo d�j� utilis�");
+            		Label errLog = new Label(Log + "failed to register : login already in use");
             	    grid2.add(errLog, 0, 4);
                 }
             }

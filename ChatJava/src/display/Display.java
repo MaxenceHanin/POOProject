@@ -30,7 +30,7 @@ public class Display extends Application {
 
     public void start(Stage primaryStage) {
 
-        primaryStage.setTitle("Chat application");
+        primaryStage.setTitle("Database window");
 
         
 

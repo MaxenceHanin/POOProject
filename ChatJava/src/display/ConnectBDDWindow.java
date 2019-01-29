@@ -33,7 +33,7 @@ public class ConnectBDDWindow extends Parent {
 
     public ConnectBDDWindow() {
     	
-        TextField txtLog = new TextField("Entrez l'identifiant de la base de donn�e");
+        TextField txtLog = new TextField("Enter your database login");
         PasswordField pswd = new PasswordField();
         txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
         pswd.setMinWidth((int)(0.6*DisplayLogin.X));
