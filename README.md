@@ -1,5 +1,5 @@
 # BE de COO/POO
-Projet de clavardage
+Projet de clavardage : LavaChat
 
 ## Auteurs:
 BINET Pierre, HANIN Maxence, LAGARDERE Victor.
