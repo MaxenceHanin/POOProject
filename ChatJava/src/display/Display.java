@@ -18,8 +18,6 @@ public class Display extends Application {
 	static int X = 300;
 	static int Y = 200;
 	static StackPane root = new StackPane();
-	static GridPane grid = new GridPane();
-	static ConnectBDDWindow ConnectWindow = new ConnectBDDWindow();
 
 
     public static void main(String[] args) {
@@ -37,6 +35,8 @@ public class Display extends Application {
         
 
         Scene scene = new Scene(root, X, Y, Color.BLANCHEDALMOND); 
+        GridPane grid = new GridPane();
+        ConnectBDDWindow ConnectWindow = new ConnectBDDWindow();
         grid.getChildren().add(ConnectWindow);
         grid.setAlignment(Pos.CENTER);
         root.getChildren().add(grid);
