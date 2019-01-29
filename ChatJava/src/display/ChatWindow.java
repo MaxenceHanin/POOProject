@@ -1,5 +1,6 @@
 package display;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -71,11 +72,12 @@ public class ChatWindow extends Parent {
 		gridUseConv.getChildren().clear();//normalement inutile mais au cas ou
 		
         /*affichage de la conversation entre user actuel et user cliqu�*/
-    	ResultSet myRs1 = LoginWindow.BDD.extractConv(LoginWindow.currentLogin);
-    	ResultSet myRs2 = LoginWindow.BDD.UsersConnected();
+    	ResultSet myRs1 = ConnectBDDWindow.BDD.extractConv(LoginWindow.currentLogin);
+    	ResultSet myRs2 = ConnectBDDWindow.BDD.UsersConnected();
     	try {
 			while (myRs1.next()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1[i]);
+				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.getString(7));
+				//myRs1.getString(6)
 				gridUseConv.add(ocouc,0,i);
 				i++;
 			}
@@ -108,7 +110,7 @@ public class ChatWindow extends Parent {
             public void handle(ActionEvent event) {
                 String message = txt.getText();
 
-                String conv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
+                String conv = ConnectBDDWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
                 //Client.msg(LoginWindow.currentLogin, currentDestUser, conv, message);
 
             }
