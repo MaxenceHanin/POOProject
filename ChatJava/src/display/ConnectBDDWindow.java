@@ -49,9 +49,11 @@ public class ConnectBDDWindow extends Parent {
             	String pwd = String.valueOf(pswd.getCharacters());
             		try {
             			BDD = new Access(Log,pwd);
-            			DisplayLogin.main(null);
+            			LoginWindow logWindow = new LoginWindow();
+            			Display.grid.getChildren().remove(Display.ConnectWindow);
+            	        Display.grid.getChildren().add(logWindow);
             			// Hide this current window 
-                        ((Node)(event.getSource())).getScene().getWindow().hide();
+                        //((Node)(event.getSource())).getScene().getWindow().hide();
             		} catch(SQLException e) {
             			Label err = new Label("Could not connect to //localhost:3306/chat_app");
             			grid2.add(err, 0, 4);
