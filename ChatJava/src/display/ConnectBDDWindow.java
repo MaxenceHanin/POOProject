@@ -35,8 +35,8 @@ public class ConnectBDDWindow extends Parent {
     	
         TextField txtLog = new TextField("Enter your database login");
         PasswordField pswd = new PasswordField();
-        txtLog.setMinWidth((int)(0.6*DisplayLogin.X));
-        pswd.setMinWidth((int)(0.6*DisplayLogin.X));
+        txtLog.setMinWidth((int)(0.6*Display.X));
+        pswd.setMinWidth((int)(0.6*Display.X));
 
     	Button btn = new Button();
     	setBtn(btn,"login");
@@ -52,7 +52,7 @@ public class ConnectBDDWindow extends Parent {
                     	Stage stage = new Stage();
                     	stage.setTitle("Login Window");      
 
-                        Scene scene = new Scene(rootReg, DisplayLogin.X, DisplayLogin.Y, Color.BLANCHEDALMOND); 
+                        Scene scene = new Scene(rootReg, Display.X, Display.Y, Color.BLANCHEDALMOND); 
                         GridPane grid = new GridPane();
                         LoginWindow LogWindow = new LoginWindow(BDD);
                         grid.getChildren().add(LogWindow);
@@ -71,8 +71,8 @@ public class ConnectBDDWindow extends Parent {
             }
         });
         
-        //grid2.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
-        //grid2.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
+        //grid2.prefWidthProperty().bind(Display.root.widthProperty());
+        //grid2.prefHeightProperty().bind(Display.root.heightProperty());
         grid2.setPadding(new Insets(20));
         grid2.setHgap(25);
         grid2.setVgap(15);
