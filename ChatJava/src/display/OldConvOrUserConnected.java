@@ -11,8 +11,8 @@ import javafx.scene.text.Text;
 
 public class OldConvOrUserConnected extends Button{
 	public OldConvOrUserConnected(String currentDestUser, Access BDD) {
-			Button UseLog = new Button("Pitou");
-	    	UseLog.setText("Pitou");
+			Button UseLog = new Button(currentDestUser);
+	    	UseLog.setText(currentDestUser);
 	        //UseLog.setMinWidth(UserLogged.getPrefWidth());
 	    	UseLog.setMinWidth((100/60)*ChatWindow.getGridmsg().getPrefWidth());
 	        UseLog.setOnAction(new EventHandler<ActionEvent>() {

@@ -40,7 +40,7 @@ public class RegWindow extends Parent {
             	if(client.register(Log, BDD)) {
             		currentLogin = Log;
                 	StackPane rootChat = new StackPane();
-                    ChatWindow chatwindow = new ChatWindow();
+                    ChatWindow chatwindow = new ChatWindow(BDD);
                     rootChat.getChildren().add(chatwindow);
                        
                     Stage stage = new Stage();

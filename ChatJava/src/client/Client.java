@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
-import agent.*;
-import server.*;
+
+import agent.DistantUser;
 import database.Access;
-import display.LoginWindow;
 
 public class Client {
 	private InetAddress serverAddress;
