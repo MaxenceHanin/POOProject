@@ -49,7 +49,7 @@ public class ConnectBDDWindow extends Parent {
             	String pwd = String.valueOf(pswd.getCharacters());
             		try {
             			BDD = new Access(Log,pwd);
-            			Application.launch(DisplayLogin.class);
+            			LoginWindow logWindow = new LoginWindow();
             			// Hide this current window 
                         ((Node)(event.getSource())).getScene().getWindow().hide();
             		} catch(SQLException e) {
