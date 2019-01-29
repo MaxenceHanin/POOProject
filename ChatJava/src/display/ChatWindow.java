@@ -24,11 +24,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import client.*;
+import database.Access;
 
 public class ChatWindow extends Parent {
 	static String currentDestUser;
     static GridPane gridmsg = new GridPane();
-    public ChatWindow() {
+    public ChatWindow(Access BDD) {
         TextField txt = new TextField();
         txt.setMinWidth((int)(0.3*Display.X));
         
@@ -72,17 +73,17 @@ public class ChatWindow extends Parent {
 		gridUseConv.getChildren().clear();//normalement inutile mais au cas ou
 		
         /*affichage de la conversation entre user actuel et user cliqu�*/
-    	ResultSet myRs1 = ConnectBDDWindow.BDD.extractConv(LoginWindow.currentLogin);
-    	ResultSet myRs2 = ConnectBDDWindow.BDD.UsersConnected();
+    	ResultSet myRs1 = BDD.extractConv(LoginWindow.currentLogin);
+    	ResultSet myRs2 = BDD.UsersConnected();
     	try {
 			while (myRs1.next()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.getString(7));
+				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.getString("tbl_name"),BDD);
 				//myRs1.getString(6)
 				gridUseConv.add(ocouc,0,i);
 				i++;
 			}
 			while (myRs2.next()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(currentDestUser);
+				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs2.getString("nickname"),BDD);
 				gridUseConv.add(ocouc,0,i);
 				i++;
 			}
@@ -110,7 +111,7 @@ public class ChatWindow extends Parent {
             public void handle(ActionEvent event) {
                 String message = txt.getText();
 
-                String conv = ConnectBDDWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
+                String conv = BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
                 //Client.msg(LoginWindow.currentLogin, currentDestUser, conv, message);
 
             }

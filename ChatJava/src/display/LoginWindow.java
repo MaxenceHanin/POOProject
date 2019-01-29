@@ -27,7 +27,7 @@ public class LoginWindow extends Parent {
         btn.setMinWidth(80);
 	}
 
-    public LoginWindow() {
+    public LoginWindow(Access BDD) {
     	
     	Client client = new Client();
     	
@@ -49,7 +49,7 @@ public class LoginWindow extends Parent {
 
                 Scene scene = new Scene(rootReg, DisplayLogin.X, DisplayLogin.Y, Color.BLANCHEDALMOND); 
                 GridPane grid = new GridPane();
-                RegWindow RegWindow = new RegWindow(client, ConnectBDDWindow.BDD);
+                RegWindow RegWindow = new RegWindow(client, BDD);
                 grid.getChildren().add(RegWindow);
                 grid.setAlignment(Pos.CENTER);
                 rootReg.getChildren().add(grid);
@@ -65,9 +65,9 @@ public class LoginWindow extends Parent {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {             
             	String Log = String.valueOf(txtLog.getCharacters());
-            	if(client.login(Log, ConnectBDDWindow.BDD)) {
+            	if(client.login(Log, BDD)) {
             		currentLogin = Log;
-                	ChatWindow chatwindow = new ChatWindow();
+                	ChatWindow chatwindow = new ChatWindow(BDD);
                     //rootChat.getChildren().add(chatwindow);
                     
                     Stage stage = new Stage();

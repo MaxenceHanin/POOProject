@@ -25,7 +25,6 @@ public class ConnectBDDWindow extends Parent {
 	/*private int btnWidth = 0;*/
 	static GridPane grid3 = new GridPane();
 	static String currentLogin;
-	static Access BDD;
 	
 	public void setBtn(Button btn, String txt){
         btn.setText(txt);
@@ -48,14 +47,14 @@ public class ConnectBDDWindow extends Parent {
             	String Log = String.valueOf(txtLog.getCharacters());
             	String pwd = String.valueOf(pswd.getCharacters());
             		try {
-            			BDD = new Access(Log,pwd);
+            			Access BDD = new Access(Log,pwd);
             			StackPane rootReg = new StackPane();
                     	Stage stage = new Stage();
                     	stage.setTitle("Login Window");      
 
                         Scene scene = new Scene(rootReg, DisplayLogin.X, DisplayLogin.Y, Color.BLANCHEDALMOND); 
                         GridPane grid = new GridPane();
-                        LoginWindow LogWindow = new LoginWindow();
+                        LoginWindow LogWindow = new LoginWindow(BDD);
                         grid.getChildren().add(LogWindow);
                         grid.setAlignment(Pos.CENTER);
                         rootReg.getChildren().add(grid);
