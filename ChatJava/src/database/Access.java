@@ -10,15 +10,11 @@ import java.sql.*;
 public class Access { //Driver to access the database
 	private Connection myConn = null;
 
-	public Access(String userDB, String password) {
+	public Access(String userDB, String password) throws SQLException{
 		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
-		try {
 			this.myConn = DriverManager.getConnection(dataBaseURL,userDB,password);
 			System.out.println("Database connected!");
-		} catch(SQLException e) {
-			e.printStackTrace();
-			throw new IllegalStateException("Cannot connect the database!", e);
-		}
+
 
 	}
 
