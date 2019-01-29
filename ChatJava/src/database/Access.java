@@ -4,17 +4,16 @@ import agent.DistantUser;
 import agent.HistoryMessage;
 import agent.LocalUser;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 
 public class Access { //Driver to access the database
 	private Connection myConn = null;
 
-	public Access() {
+	public Access(String userDB, String password) {
 		String dataBaseURL = "jdbc:mysql://localhost:3306/chat_app"; //default address
-		String userDB = "pitou";
-		String pass = "pwd";
 		try {
-			this.myConn = DriverManager.getConnection(dataBaseURL,userDB,pass);
+			this.myConn = DriverManager.getConnection(dataBaseURL,userDB,password);
 			System.out.println("Database connected!");
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -107,13 +106,9 @@ public class Access { //Driver to access the database
 
 	public ResultSet extractMsg(String ConvNo)  {
 		try {
-			System.out.println("Database connected!");
-
 			String query="SELECT * FROM ".concat(ConvNo).concat(";");
 			CallableStatement statement = myConn.prepareCall(query);
-			ResultSet myRs = statement.executeQuery();
-
-			return myRs;
+			return statement.executeQuery();
 
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -121,10 +116,39 @@ public class Access { //Driver to access the database
 		}
 	}
 
+	public ResultSet extractConv(String nick) {
+		try {
+			CallableStatement stmt1 = myConn.prepareCall("CALL getUserId(?,?)");
+			stmt1.setString(1,nick);
+			stmt1.registerOutParameter("ID", Types.SMALLINT);
+			stmt1.execute();
+			String UserID = stmt1.getString("ID");
+			String query="SELECT tbl_name FROM Conversations WHERE ((user_src = ".concat(UserID).concat(") OR (user_dest = ").concat(UserID).concat("));");
+			CallableStatement statement = myConn.prepareCall(query);
+			return statement.executeQuery();
+
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot retrieve conversations from the database!", e);
+		}
+	}
+
+	public ResultSet UsersConnected() {
+		try {
+			String query="SELECT * FROM User WHERE (connected=1)";
+			CallableStatement statement = myConn.prepareCall(query);
+			return statement.executeQuery();
+
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot retrieve Users from the database!", e);
+		}
+	}
+
 	public void ShowPreviousMsg(String ConvNo) {
 		try {
-			System.out.println("Database connected!");
-
 			String query="SELECT * FROM ".concat(ConvNo).concat(";");
 			CallableStatement statement = myConn.prepareCall(query);
 			ResultSet myRs = statement.executeQuery();
