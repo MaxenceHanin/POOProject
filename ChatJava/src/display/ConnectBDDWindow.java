@@ -1,5 +1,6 @@
 package display;
 import database.Access;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -48,7 +49,7 @@ public class ConnectBDDWindow extends Parent {
             	String pwd = String.valueOf(pswd.getCharacters());
             		try {
             			BDD = new Access(Log,pwd);
-            			DisplayLogin StartApp = new DisplayLogin();
+            			Application.launch(DisplayLogin.class);
             			// Hide this current window 
                         ((Node)(event.getSource())).getScene().getWindow().hide();
             		} catch(SQLException e) {
