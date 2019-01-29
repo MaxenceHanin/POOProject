@@ -19,8 +19,8 @@ public class OldConvOrUserConnected extends Button{
 	            	//on efface la conversation précédente de la fenetre ou s'affiche la conv courante :
 	            	ChatWindow.getGridmsg().getChildren().clear();
 	                /*affichage de la conversation entre user actuel et user cliqué*/
-	            	String ActualConv = LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
-	            	ResultSet myRs = LoginWindow.BDD.extractMsg(ActualConv);
+	            	String ActualConv = ConnectBDDWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
+	            	ResultSet myRs = ConnectBDDWindow.BDD.extractMsg(ActualConv);
 	            	//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
 	            	try {
 						while (myRs.next()) {
@@ -40,7 +40,7 @@ public class OldConvOrUserConnected extends Button{
 						e.printStackTrace();
 					}
 	                /*affichage de la conversation entre user actuel et user selectionné*/
-	            	LoginWindow.BDD.extractMsg(LoginWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin));
+	            	ConnectBDDWindow.BDD.extractMsg(ConnectBDDWindow.BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin));
 	            }
 	        });
 
