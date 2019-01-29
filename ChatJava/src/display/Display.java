@@ -3,23 +3,26 @@ package display;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
 
 
 public class Display extends Application {
-	/*static int X = 400;
-	static int Y = 300;*/
-	static int X = 800;
-	static int Y = 600;
+	static int X = 300;
+	static int Y = 200;
+	static StackPane root = new StackPane();
 
 
     public static void main(String[] args) {
-    	Application.launch(Display.class, args);
+    	//requete pour mettre base de données à jour
+    	Application.launch(DisplayLogin.class, args);
 
     }
     
@@ -29,13 +32,14 @@ public class Display extends Application {
 
         primaryStage.setTitle("Chat application");
 
-        Group root = new Group();
+        
 
         Scene scene = new Scene(root, X, Y, Color.BLANCHEDALMOND); 
-        /*LoginWindow logWindow = new LoginWindow();
-        root.getChildren().add(logWindow);*/
-        ChatWindow chatwindow = new ChatWindow();
-        root.getChildren().add(chatwindow);
+        GridPane grid = new GridPane();
+        ConnectBDDWindow ConnectWindow = new ConnectBDDWindow();
+        grid.getChildren().add(ConnectWindow);
+        grid.setAlignment(Pos.CENTER);
+        root.getChildren().add(grid);
         
         primaryStage.setScene(scene);
         primaryStage.show();
