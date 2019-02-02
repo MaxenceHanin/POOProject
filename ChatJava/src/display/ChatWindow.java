@@ -96,7 +96,7 @@ public class ChatWindow extends Parent {
 						int i;
 						//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
 						for (i=0; i< myRs.size();i++) {
-							Text msg = new Text(myRs.get(i).getText()+"( @"+myRs.get(i).getTime()+")");
+							Text msg = new Text(myRs.get(i).getText()+" (@"+myRs.get(i).getTime()+")");
 							msg.setWrappingWidth(ChatWindow.gridmsg.getPrefWidth()/2);
 							if (myRs.get(i).getUsrSrc().equals(LoginWindow.currentLogin)) {
 								//gridmsg.setHalignment(msg,HPos.LEFT);
