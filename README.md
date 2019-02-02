@@ -4,6 +4,9 @@ Projet de clavardage : LavaChat
 ## Auteurs:
 BINET Pierre, HANIN Maxence, LAGARDERE Victor.
 
+## Manuel d'utilisation:
+https://docs.google.com/document/d/1twvjc2pT7uiuRGVmfk4lnDplnLZjKhEmAPNDjBle8x8/edit?usp=sharing
+
 ## Technologies utilisées:
 - JavaFX pour l'interface visuelle,
 - MySQL et la JDBC pour la persistence des données locales.

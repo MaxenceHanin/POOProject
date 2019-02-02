@@ -83,8 +83,8 @@ public class ChatWindow extends Parent {
 				i++;
 			}
 			while (myRs2.next()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs2.getString("nickname"),BDD);
-				gridUseConv.add(ocouc,0,i);
+				OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.getString("nickname"),BDD);
+				gridUseConv.add(ocouc2,0,i);
 				i++;
 			}
 		} catch (SQLException e) {
