@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -67,6 +68,7 @@ public class ChatWindow extends Parent {
 		//partie affichage des conversations existtantes entre utilisateur local et distant
         //et utilisateurs en ligne (pour pouvoir entamer conversation
         GridPane gridUseConv = new GridPane();
+        gridUseConv.setAlignment(Pos.TOP_RIGHT);
         //gridUseConv.setPrefSize(convscroll.getPrefWidth(),convscroll.getPrefHeight());
 		grid4.add(gridUseConv,0,0);
 		int i;
@@ -119,6 +121,7 @@ public class ChatWindow extends Parent {
 				String CurDestUser =myRs2.get(j);
 				Button UseLog = new Button(CurDestUser);
 				UseLog.setText("Online:"+CurDestUser);
+				UseLog.setMinWidth(150);
 				//UseLog.setMinWidth(UserLogged.getPrefWidth());
 				UseLog.setMinWidth((100/60)*ChatWindow.getGridmsg().getPrefWidth());
 				UseLog.setOnAction(new EventHandler<ActionEvent>() {
