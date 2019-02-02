@@ -89,7 +89,7 @@ public class ChatWindow extends Parent {
 						ChatWindow.getGridmsg().getChildren().clear();
 						/*affichage de la conversation entre user actuel et user cliqu�*/
 						String ActualConv = BDD.databaseAlreadyExists(CurDestUser,LoginWindow.currentLogin);
-						List<agent.HistoryMessage> myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin));
+						List<agent.HistoryMessage> myRs = BDD.extractMsg(ActualConv);
 						int i;
 						//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
 						for (i=0; i< myRs.size();i++) {
@@ -114,10 +114,11 @@ public class ChatWindow extends Parent {
 				gridUseConv.add(UseLog,0,i);
 			}
 			for (j=0; j<myRs2.size();j++) {
+				if(!(myRs1.contains(myRs2.get(j)))) {
 				//OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.get(j),BDD);
 				String CurDestUser =myRs2.get(j);
 				Button UseLog = new Button(CurDestUser);
-				UseLog.setText(CurDestUser);
+				UseLog.setText("Online:"+CurDestUser);
 				//UseLog.setMinWidth(UserLogged.getPrefWidth());
 				UseLog.setMinWidth((100/60)*ChatWindow.getGridmsg().getPrefWidth());
 				UseLog.setOnAction(new EventHandler<ActionEvent>() {
@@ -126,7 +127,7 @@ public class ChatWindow extends Parent {
 						ChatWindow.getGridmsg().getChildren().clear();
 						/*affichage de la conversation entre user actuel et user cliqu�*/
 						String ActualConv = BDD.databaseAlreadyExists(CurDestUser,LoginWindow.currentLogin);
-						List<agent.HistoryMessage> myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin));
+						List<agent.HistoryMessage> myRs = BDD.extractMsg(ActualConv);
 						int i;
 						//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
 						for (i=0; i< myRs.size();i++) {
@@ -149,6 +150,7 @@ public class ChatWindow extends Parent {
 				//gridUseConv.add(ocouc2,0,i);
 				gridUseConv.add(UseLog,0,i);
 				i++;
+			}
 			}
     	//------------------------------------------------
 		
