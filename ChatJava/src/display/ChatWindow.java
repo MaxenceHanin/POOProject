@@ -4,6 +4,7 @@ import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -66,26 +67,27 @@ public class ChatWindow extends Parent {
 		//partie affichage des conversations existtantes entre utilisateur local et distant
         //et utilisateurs en ligne (pour pouvoir entamer conversation
         GridPane gridUseConv = new GridPane();
-        gridUseConv.setPrefSize(convscroll.getPrefWidth(),convscroll.getPrefHeight());
+        //gridUseConv.setPrefSize(convscroll.getPrefWidth(),convscroll.getPrefHeight());
 		grid4.add(gridUseConv,0,0);
 		int i = 0;
 		int j = 0;
 		gridUseConv.getChildren().clear();//normalement inutile mais au cas ou
 		
         /*affichage de la conversation entre user actuel et user cliqu�*/
-    	ResultSet myRs1 = BDD.extractConv(LoginWindow.currentLogin);
-    	ResultSet myRs2 = BDD.UsersConnected();
+    	List<String> myRs1 = BDD.extractConv(LoginWindow.currentLogin);
+    	List<String> myRs2 = BDD.UsersConnected();
     	try {
-			while (myRs1.next()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.getString(1),BDD);
+			while (!myRs1.isEmpty()) {
+				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.get(i),BDD);
 				//myRs1.getString(6)
 				gridUseConv.add(ocouc,0,i);
 				i++;
 			}
-			while (myRs2.next()) {
-				OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.getString("nickname"),BDD);
+			while (!myRs2.isEmpty()) {
+				OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.get(j),BDD);
 				gridUseConv.add(ocouc2,0,i);
 				i++;
+				j++;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -113,7 +115,6 @@ public class ChatWindow extends Parent {
 
                 String conv = BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
                 //Client.msg(LoginWindow.currentLogin, currentDestUser, conv, message);
-
             }
         });
         this.getChildren().add(grid4);

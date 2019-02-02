@@ -66,7 +66,7 @@ public class ConnectBDDWindow extends Parent {
                         ((Node)(event.getSource())).getScene().getWindow().hide();
             		} catch(SQLException e) {
             			Label err = new Label("Could not connect to //localhost:3306/chat_app");
-            			grid2.add(err, 0, 4);
+            			grid2.add(err, 1, 4);
             		}
             }
         });
@@ -76,9 +76,13 @@ public class ConnectBDDWindow extends Parent {
         grid2.setPadding(new Insets(20));
         grid2.setHgap(25);
         grid2.setVgap(15);
-        grid2.add(txtLog,0,1);
-        grid2.add(pswd,0,2);
-        grid2.add(btn, 0, 3);
+        Label loginlbl = new Label("Login");
+		grid2.add(loginlbl, 0, 1);
+        Label password = new Label("¨Password");
+		grid2.add(password, 0, 2);
+        grid2.add(txtLog,1,1);
+        grid2.add(pswd,1,2);
+        grid2.add(btn, 1, 3);
         this.getChildren().add(grid2);
     }
 

@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 
 
 public class Display extends Application {
-	static int X = 300;
-	static int Y = 200;
+	static int X = 600;
+	static int Y = 400;
 	static StackPane root = new StackPane();
 
 
