@@ -80,9 +80,10 @@ public class ChatWindow extends Parent {
     	List<String> myRs2 = BDD.UsersConnected();
 			for (i=0; i< myRs1.size();i++) {
 				//OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.get(i),BDD);
-				String CurDestUser =myRs1.get(i);
+				String CurDestUserConv =myRs1.get(i);
+				if ( !(myRs2.contains(BDD.ReturnsOtherUser(CurDestUserConv, LoginWindow.currentLogin)))){
 				Button UseLog = new Button();
-				UseLog.setText(BDD.ReturnsOtherUser(CurDestUser, LoginWindow.currentLogin));
+				UseLog.setText(BDD.ReturnsOtherUser(CurDestUserConv, LoginWindow.currentLogin));
 				//UseLog.setMinWidth(UserLogged.getPrefWidth());
 				UseLog.setMinWidth((100/60)*ChatWindow.getGridmsg().getPrefWidth());
 				UseLog.setOnAction(new EventHandler<ActionEvent>() {
@@ -90,7 +91,7 @@ public class ChatWindow extends Parent {
 						//on efface la conversation pr�c�dente de la fenetre ou s'affiche la conv courante :
 						ChatWindow.getGridmsg().getChildren().clear();
 						/*affichage de la conversation entre user actuel et user cliqu�*/
-						String ActualConv = BDD.databaseAlreadyExists(CurDestUser,LoginWindow.currentLogin);
+						String ActualConv = BDD.databaseAlreadyExists(CurDestUserConv,LoginWindow.currentLogin);
 						List<agent.HistoryMessage> myRs = BDD.extractMsg(ActualConv);
 						int i;
 						//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
@@ -114,11 +115,12 @@ public class ChatWindow extends Parent {
 				//myRs1.getString(6)
 				//gridUseConv.add(ocouc,0,i);
 				gridUseConv.add(UseLog,0,i);
-			}
+				}
+				}
 			for (j=0; j<myRs2.size();j++) {
 				//OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.get(j),BDD);
 				String CurDestUser =myRs2.get(j);
-				if (!CurDestUser.equals(LoginWindow.currentLogin) && !(myRs1.contains(CurDestUser))) {
+				if (!CurDestUser.equals(LoginWindow.currentLogin)) {
 				Button UseLog = new Button(CurDestUser);
 				UseLog.setText("Online:"+CurDestUser);
 				UseLog.setMinWidth(150);
