@@ -93,20 +93,20 @@ public class ChatWindow extends Parent {
 						/*affichage de la conversation entre user actuel et user cliqu�*/
 						String ActualConv = BDD.databaseAlreadyExists(BDD.ReturnsOtherUser(CurDestUserConv, LoginWindow.currentLogin),LoginWindow.currentLogin);
 						List<agent.HistoryMessage> myRs = BDD.extractMsg(ActualConv);
-						int i;
+						int k;
 						//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
-						for (i=0; i< myRs.size();i++) {
-							Text msg = new Text(myRs.get(i).getText()+" (@"+myRs.get(i).getTime()+")");
+						for (k=0; k< myRs.size();k++) {
+							Text msg = new Text(myRs.get(k).getText()+" (@"+myRs.get(k).getTime()+")");
 							msg.setWrappingWidth(ChatWindow.gridmsg.getPrefWidth()/2);
-							if (myRs.get(i).getUsrSrc().equals(LoginWindow.currentLogin)) {
+							if (myRs.get(k).getUsrSrc().equals(LoginWindow.currentLogin)) {
 								//gridmsg.setHalignment(msg,HPos.LEFT);
-								ChatWindow.gridmsg.add(msg,0,i);
+								ChatWindow.gridmsg.add(msg,0,k);
 								//ConvSet.add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
 							} else {
-								ChatWindow.gridmsg.add(msg,1,i);
+								ChatWindow.gridmsg.add(msg,1,k);
 								//gridmsg.setHalignment(msg,HPos.LEFT);
 							}
-							i++;
+							k++;
 						}
 						/*affichage de la conversation entre user actuel et user selectionn�*/
 						//BDD.extractMsg(BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin));
