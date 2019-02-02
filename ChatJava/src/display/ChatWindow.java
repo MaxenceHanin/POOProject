@@ -91,7 +91,7 @@ public class ChatWindow extends Parent {
 						//on efface la conversation pr�c�dente de la fenetre ou s'affiche la conv courante :
 						ChatWindow.getGridmsg().getChildren().clear();
 						/*affichage de la conversation entre user actuel et user cliqu�*/
-						String ActualConv = BDD.databaseAlreadyExists(CurDestUserConv,LoginWindow.currentLogin);
+						String ActualConv = BDD.databaseAlreadyExists(BDD.ReturnsOtherUser(CurDestUserConv, LoginWindow.currentLogin),LoginWindow.currentLogin);
 						List<agent.HistoryMessage> myRs = BDD.extractMsg(ActualConv);
 						int i;
 						//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
