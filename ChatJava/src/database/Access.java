@@ -5,6 +5,9 @@ import agent.HistoryMessage;
 import agent.LocalUser;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
 public class Access { //Driver to access the database
 	private Connection myConn = null;
@@ -91,6 +94,7 @@ public class Access { //Driver to access the database
 			CallableStatement statement = myConn.prepareCall("CALL databaseAlreadyExists(?,?,?)");
 			statement.setString(1,user1);
 			statement.setString(2,user2);
+			statement.registerOutParameter("conv_name", Types.VARCHAR);
 			statement.execute();
 			return statement.getString("conv_name");
 		} catch(SQLException e) {
@@ -99,28 +103,39 @@ public class Access { //Driver to access the database
 		}
 	}
 
-	public ResultSet extractMsg(String ConvNo)  {
+	public List<HistoryMessage> extractMsg(String ConvNo)  {
 		try {
+			List<HistoryMessage> result = new ArrayList<>();
 			String query="SELECT * FROM ".concat(ConvNo).concat(";");
 			CallableStatement statement = myConn.prepareCall(query);
-			return statement.executeQuery();
+			ResultSet myRs = statement.executeQuery();
+			while (myRs.next()){
 
+				//result.add(myRs.getString("nickname"));
+			}
+			return result;
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new IllegalStateException("Cannot connect the database!", e);
 		}
 	}
 
-	public ResultSet extractConv(String nick) {
+	public List<String> extractConv(String nick) {
 		try {
+			List<String> result = new ArrayList<>();
 			CallableStatement stmt1 = myConn.prepareCall("CALL getUserId(?,?)");
 			stmt1.setString(1,nick);
 			stmt1.registerOutParameter("ID", Types.SMALLINT);
 			stmt1.execute();
 			String UserID = stmt1.getString("ID");
 			String query="SELECT tbl_name FROM Conversations WHERE ((user_src = ".concat(UserID).concat(") OR (user_dest = ").concat(UserID).concat("));");
+
 			CallableStatement statement = myConn.prepareCall(query);
-			return statement.executeQuery();
+			ResultSet myRs = statement.executeQuery();
+			while (myRs.next()){
+				result.add(myRs.getString("tbl_name"));
+			}
+			return result;
 
 
 		} catch(SQLException e) {
@@ -129,16 +144,35 @@ public class Access { //Driver to access the database
 		}
 	}
 
-	public ResultSet UsersConnected() {
+	public List<String> UsersConnected() {
 		try {
-			String query="SELECT * FROM User WHERE (connected=1)";
+			List<String> result = new ArrayList<>();
+			String query="SELECT nickname FROM User WHERE (connected=1)";
 			CallableStatement statement = myConn.prepareCall(query);
-			return statement.executeQuery();
-
+			ResultSet myRs = statement.executeQuery();
+			while (myRs.next()){
+				result.add(myRs.getString("nickname"));
+			}
+			return result;
 
 		} catch(SQLException e) {
 			e.printStackTrace();
 			throw new IllegalStateException("Cannot retrieve Users from the database!", e);
+		}
+	}
+
+	public String ReturnsOtherUser(String conversation, String nicknameLocalUser) {
+		try {
+			CallableStatement stmt1 = myConn.prepareCall("CALL returnsotherUser(?,?,?)");
+			stmt1.setString(1,conversation);
+			stmt1.setString(2,nicknameLocalUser);
+			stmt1.registerOutParameter("nick_dest", Types.VARCHAR);
+			stmt1.execute();
+			return stmt1.getString("nick_dest");
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new IllegalStateException("Cannot retrieve other conversation user from the database!", e);
 		}
 	}
 

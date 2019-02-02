@@ -1,9 +1,11 @@
 DELIMITER ;
 
+/*
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Conversations;
 DROP TABLE IF EXISTS MaxouPitou;
 DROP TABLE IF EXISTS PitouDharsy;
+*/
 
 DROP PROCEDURE IF EXISTS insertUser;
 DROP PROCEDURE IF EXISTS createNewConversation;
@@ -14,6 +16,7 @@ DROP PROCEDURE IF EXISTS userAlreadyExists;
 DROP PROCEDURE IF EXISTS userIsConnected;
 DROP PROCEDURE IF EXISTS databaseAlreadyExists;
 DROP PROCEDURE IF EXISTS getUserId;
+DROP PROCEDURE IF EXISTS returnsotherUser;
 
 SELECT 'Creating tables' AS 'Message to print';
 CREATE TABLE User(idUsr SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -179,6 +182,24 @@ BEGIN
   SET ID = (SELECT idUsr FROM User WHERE (nickname = nick));
 END //
 
+CREATE PROCEDURE returnsotherUser (IN convname CHAR(120),
+                                   IN nick_src CHAR(60),
+                                   OUT nick_dest CHAR(60))
+BEGIN
+  DECLARE srcUser SMALLINT UNSIGNED;
+  DECLARE destUser SMALLINT UNSIGNED;
+
+  SET srcUser = (SELECT idUsr FROM User WHERE (nickname = nick_src));
+  IF EXISTS(SELECT user_dest FROM Conversations WHERE ((tbl_name = convname) AND (user_src = srcUser))) THEN
+    SET destUser = (SELECT user_dest FROM Conversations WHERE ((tbl_name = convname) AND (user_src = srcUser)));
+  ELSE
+    SET destUser = (SELECT user_src FROM Conversations WHERE ((tbl_name = convname) AND (user_dest = srcUser)));
+  END IF;
+  SET nick_dest = (SELECT nickname FROM User WHERE (idUsr = destUser));
+
+END //
+
+
 /*
 CREATE FUNCTION getUser (IN idUser SMALLINT)
   RETURNS CHAR(60) DETERMINISTIC
@@ -186,7 +207,7 @@ CREATE FUNCTION getUser (IN idUser SMALLINT)
     DECLARE nick CHAR(60);
     SET @nick = (SELECT nickname FROM User WHERE (idUsr = idUser));
     RETURN @nick;
-  END //
+  END
 */
 
 
