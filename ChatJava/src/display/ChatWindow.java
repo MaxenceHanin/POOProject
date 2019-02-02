@@ -69,24 +69,86 @@ public class ChatWindow extends Parent {
         GridPane gridUseConv = new GridPane();
         //gridUseConv.setPrefSize(convscroll.getPrefWidth(),convscroll.getPrefHeight());
 		grid4.add(gridUseConv,0,0);
-		int i = 0;
-		int j = 0;
+		int i;
+		int j;
 		gridUseConv.getChildren().clear();//normalement inutile mais au cas ou
 		
         /*affichage de la conversation entre user actuel et user cliqu�*/
     	List<String> myRs1 = BDD.extractConv(LoginWindow.currentLogin);
     	List<String> myRs2 = BDD.UsersConnected();
-			while (!myRs1.isEmpty()) {
-				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.get(i),BDD);
+			for (i=0; i< myRs1.size();i++) {
+				//OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.get(i),BDD);
+				String CurDestUser =myRs1.get(i);
+				Button UseLog = new Button(CurDestUser);
+				UseLog.setText(CurDestUser);
+				//UseLog.setMinWidth(UserLogged.getPrefWidth());
+				UseLog.setMinWidth((100/60)*ChatWindow.getGridmsg().getPrefWidth());
+				UseLog.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						//on efface la conversation pr�c�dente de la fenetre ou s'affiche la conv courante :
+						ChatWindow.getGridmsg().getChildren().clear();
+						/*affichage de la conversation entre user actuel et user cliqu�*/
+						String ActualConv = BDD.databaseAlreadyExists(CurDestUser,LoginWindow.currentLogin);
+						List<agent.HistoryMessage> myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin));
+						int i;
+						//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
+						for (i=0; i< myRs.size();i++) {
+							Text msg = new Text(myRs.get(i).getText()+"( @"+myRs.get(i).getTime()+")");
+							msg.setWrappingWidth(ChatWindow.gridmsg.getPrefWidth()/2);
+							if (myRs.get(i).getUsrSrc().equals(LoginWindow.currentLogin)) {
+								//gridmsg.setHalignment(msg,HPos.LEFT);
+								ChatWindow.gridmsg.add(msg,0,i);
+								//ConvSet.add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
+							} else {
+								ChatWindow.gridmsg.add(msg,1,i);
+								//gridmsg.setHalignment(msg,HPos.LEFT);
+							}
+							i++;
+						}
+						/*affichage de la conversation entre user actuel et user selectionn�*/
+						//BDD.extractMsg(BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin));
+					}
+				});
 				//myRs1.getString(6)
-				gridUseConv.add(ocouc,0,i);
-				i++;
+				//gridUseConv.add(ocouc,0,i);
+				gridUseConv.add(UseLog,0,i);
 			}
-			while (!myRs2.isEmpty()) {
-				OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.get(j),BDD);
-				gridUseConv.add(ocouc2,0,i);
+			for (j=0; j<myRs2.size();j++) {
+				//OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.get(j),BDD);
+				String CurDestUser =myRs2.get(j);
+				Button UseLog = new Button(CurDestUser);
+				UseLog.setText(CurDestUser);
+				//UseLog.setMinWidth(UserLogged.getPrefWidth());
+				UseLog.setMinWidth((100/60)*ChatWindow.getGridmsg().getPrefWidth());
+				UseLog.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						//on efface la conversation pr�c�dente de la fenetre ou s'affiche la conv courante :
+						ChatWindow.getGridmsg().getChildren().clear();
+						/*affichage de la conversation entre user actuel et user cliqu�*/
+						String ActualConv = BDD.databaseAlreadyExists(CurDestUser,LoginWindow.currentLogin);
+						List<agent.HistoryMessage> myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin));
+						int i;
+						//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
+						for (i=0; i< myRs.size();i++) {
+							Text msg = new Text(myRs.get(i).getText()+"( @"+myRs.get(i).getTime()+")");
+							msg.setWrappingWidth(ChatWindow.gridmsg.getPrefWidth()/2);
+							if (myRs.get(i).getUsrSrc().equals(LoginWindow.currentLogin)) {
+								//gridmsg.setHalignment(msg,HPos.LEFT);
+								ChatWindow.gridmsg.add(msg,0,i);
+								//ConvSet.add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
+							} else {
+								ChatWindow.gridmsg.add(msg,1,i);
+								//gridmsg.setHalignment(msg,HPos.LEFT);
+							}
+							i++;
+						}
+						/*affichage de la conversation entre user actuel et user selectionn�*/
+						BDD.extractMsg(BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin));
+					}
+				});
+				//gridUseConv.add(ocouc2,0,i);
+				gridUseConv.add(UseLog,0,i);
 				i++;
-				j++;
 			}
     	//------------------------------------------------
 		

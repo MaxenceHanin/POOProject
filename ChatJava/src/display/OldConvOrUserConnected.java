@@ -7,10 +7,11 @@ import java.util.List;
 import database.Access;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-public class OldConvOrUserConnected extends Button{
+public class OldConvOrUserConnected extends Button {
 	public OldConvOrUserConnected(String currentDestUser, Access BDD) {
 			Button UseLog = new Button(currentDestUser);
 	    	UseLog.setText(currentDestUser);
@@ -18,9 +19,9 @@ public class OldConvOrUserConnected extends Button{
 	    	UseLog.setMinWidth((100/60)*ChatWindow.getGridmsg().getPrefWidth());
 	        UseLog.setOnAction(new EventHandler<ActionEvent>() {
 	            public void handle(ActionEvent event) {
-	            	//on efface la conversation précédente de la fenetre ou s'affiche la conv courante :
+	            	//on efface la conversation prï¿½cï¿½dente de la fenetre ou s'affiche la conv courante :
 	            	ChatWindow.getGridmsg().getChildren().clear();
-	                /*affichage de la conversation entre user actuel et user cliqué*/
+	                /*affichage de la conversation entre user actuel et user cliquï¿½*/
 	            	String ActualConv = BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
 	            	List<agent.HistoryMessage> myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin));
 	            	int i =0;
@@ -38,7 +39,7 @@ public class OldConvOrUserConnected extends Button{
 						}
 							i++;
 						}
-	                /*affichage de la conversation entre user actuel et user selectionné*/
+	                /*affichage de la conversation entre user actuel et user selectionnï¿½*/
 	            	BDD.extractMsg(BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin));
 	            }
 	        });

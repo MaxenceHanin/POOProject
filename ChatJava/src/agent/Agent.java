@@ -13,6 +13,7 @@ package agent;
 
 /*import a voir*/
 import database.*;
+import jdk.nashorn.internal.ir.WhileNode;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -26,37 +27,35 @@ public class Agent {
 	public List<String> listChatOpened = new LinkedList<String>();
 
 	public void DebugDB() {
+
 		try {
 			Access a = new Access("pitou", "pwd");
-			/* débug de l'insertion de message dans la database */
-			/*
-			HistoryMessage Msg = new HistoryMessage("La BDD marche", "Pitou", "Maxou","Conv02");
-			HistoryMessage Msg2 = new HistoryMessage("Oui", "Maxou", "Pitou","Conv02");
-			a.StoreMsg(Msg);
-			a.StoreMsg(Msg2);
 
-			a.ShowPreviousMsg("Conv02");
-			*/
+			List<String> b = a.extractConv("Pitou");
+			System.out.println("These are all the conversations where Pitou is in :");
+			for(int i =0; i<b.size();i++) {
+				System.out.println(b.get(i));
+			}
+
+			//a.ShowPreviousMsg("Conv02");
+
 			String convo_name = a.databaseAlreadyExists("Maxou","Pitou");
 			System.out.println("nom de la convo : "+convo_name);
-			HistoryMessage Msg = new HistoryMessage("MSG1", "Pitou", "Maxou",convo_name);
-			HistoryMessage Msg2 = new HistoryMessage("MSG2", "Maxou", "Pitou",convo_name);
-			a.StoreMsg(Msg);
-			a.StoreMsg(Msg2);
+			List<HistoryMessage> c = a.extractMsg(convo_name);
+			for(int i =0; i<c.size();i++) {
+				System.out.println("from "+c.get(i).getUsrSrc()+" to "+c.get(i).getUsrDest()+" : "+c.get(i).getText());
+			}
+
 			a.ShowPreviousMsg(convo_name);
 
-			HistoryMessage Msg3 = new HistoryMessage("MSG3", "Pitou", "Dharsy","PitouDharsy");
-			a.StoreMsg(Msg3);
-
 			a.ShowPreviousMsg("PitouDharsy");
-			ResultSet myRs = a.extractConv("Pitou");
-			while (myRs.next()) {
-				System.out.println("User 'Pitou' is in the conversation :"+myRs.getString("tbl_name"));
-			}
+
+
 		} catch(SQLException e) {
 		e.printStackTrace();
 		throw new IllegalStateException("Cannot retrieve conversations from the database!", e);
 		}
+
 	}
 	
 	public Agent () {
