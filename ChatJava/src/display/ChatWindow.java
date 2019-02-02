@@ -76,7 +76,6 @@ public class ChatWindow extends Parent {
         /*affichage de la conversation entre user actuel et user cliqu�*/
     	List<String> myRs1 = BDD.extractConv(LoginWindow.currentLogin);
     	List<String> myRs2 = BDD.UsersConnected();
-    	try {
 			while (!myRs1.isEmpty()) {
 				OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.get(i),BDD);
 				//myRs1.getString(6)
@@ -89,10 +88,6 @@ public class ChatWindow extends Parent {
 				i++;
 				j++;
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     	//------------------------------------------------
 		
 		

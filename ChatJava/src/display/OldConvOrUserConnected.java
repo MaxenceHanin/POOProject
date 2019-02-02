@@ -22,7 +22,7 @@ public class OldConvOrUserConnected extends Button{
 	            	ChatWindow.getGridmsg().getChildren().clear();
 	                /*affichage de la conversation entre user actuel et user cliqué*/
 	            	String ActualConv = BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
-	            	List<agent.HistoryMessage> myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin);
+	            	List<agent.HistoryMessage> myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin));
 	            	int i =0;
 	            	//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
 						while (!myRs.isEmpty()) {
