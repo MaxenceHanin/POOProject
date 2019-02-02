@@ -2,6 +2,7 @@ package display;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import database.Access;
 import javafx.event.ActionEvent;
@@ -21,25 +22,22 @@ public class OldConvOrUserConnected extends Button{
 	            	ChatWindow.getGridmsg().getChildren().clear();
 	                /*affichage de la conversation entre user actuel et user cliqué*/
 	            	String ActualConv = BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin);
-	            	ResultSet myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin);
+	            	List<agent.HistoryMessage> myRs = BDD.extractMsg(BDD.ReturnsOtherUser(ActualConv, LoginWindow.currentLogin);
+	            	int i =0;
 	            	//System.out.println(myRs.getString("snick")+" -> "+myRs.getString("dnick")+" @"+myRs.getTime("time")+" : "+myRs.getString("text"));
-	            	try {
-						while (myRs.next()) {
-							Text msg = new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")");
+						while (!myRs.isEmpty()) {
+							Text msg = new Text(myRs.get(i).getText()+"( @"+myRs.get(i).getTime()+")");
 							msg.setWrappingWidth(ChatWindow.gridmsg.getPrefWidth()/2);
-							if (myRs.getString("snick").equals(LoginWindow.currentLogin)) {
+							if (myRs.get(i).getUsrSrc().equals(LoginWindow.currentLogin)) {
 								//gridmsg.setHalignment(msg,HPos.LEFT);
-								ChatWindow.gridmsg.add(msg,0,0);	
+								ChatWindow.gridmsg.add(msg,0,i);	
 							//ConvSet.add(new Text(myRs.getString("text")+"( @"+myRs.getTime("time")+")"));
 						} else {
-							ChatWindow.gridmsg.add(msg,1,0);
+							ChatWindow.gridmsg.add(msg,1,i);
 							//gridmsg.setHalignment(msg,HPos.LEFT);
 						}
+							i++;
 						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 	                /*affichage de la conversation entre user actuel et user selectionné*/
 	            	BDD.extractMsg(BDD.databaseAlreadyExists(currentDestUser,LoginWindow.currentLogin));
 	            }
