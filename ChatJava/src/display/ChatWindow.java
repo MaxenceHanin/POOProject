@@ -116,7 +116,7 @@ public class ChatWindow extends Parent {
 				gridUseConv.add(UseLog,0,i);
 			}
 			for (j=0; j<myRs2.size();j++) {
-				if(!(myRs1.contains(myRs2.get(j)))) {
+				if(!(myRs1.contains(myRs2.get(j))&& !(myRs1.get(j).equals(LoginWindow.currentLogin)))) {
 				//OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.get(j),BDD);
 				String CurDestUser =myRs2.get(j);
 				Button UseLog = new Button(CurDestUser);

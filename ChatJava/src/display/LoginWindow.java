@@ -76,7 +76,7 @@ public class LoginWindow extends Parent {
                     //grid3.prefWidthProperty().bind(DisplayLogin.root.widthProperty());
                     //grid3.prefHeightProperty().bind(DisplayLogin.root.heightProperty());
                     stage.setTitle("LavaChat main window");
-                    stage.setScene(new Scene(grid3, 600, 400));
+                    stage.setScene(new Scene(grid3, 800, 500));
                     stage.show();
                     // Hide this current window 
                     ((Node)(event.getSource())).getScene().getWindow().hide();
