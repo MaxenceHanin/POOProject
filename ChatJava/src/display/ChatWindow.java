@@ -116,9 +116,10 @@ public class ChatWindow extends Parent {
 				gridUseConv.add(UseLog,0,i);
 			}
 			for (j=0; j<myRs2.size();j++) {
-				if(!(myRs1.contains(myRs2.get(j))&& !(myRs1.get(j).equals(LoginWindow.currentLogin)))) {
+				if(!(myRs1.contains(myRs2.get(j))))) {
 				//OldConvOrUserConnected ocouc2 = new OldConvOrUserConnected(myRs2.get(j),BDD);
 				String CurDestUser =myRs2.get(j);
+				if (!CurDestUser.equals(LoginWindow.currentLogin)) {
 				Button UseLog = new Button(CurDestUser);
 				UseLog.setText("Online:"+CurDestUser);
 				UseLog.setMinWidth(150);
@@ -153,6 +154,7 @@ public class ChatWindow extends Parent {
 				//gridUseConv.add(ocouc2,0,i);
 				gridUseConv.add(UseLog,0,i);
 				i++;
+			}
 			}
 			}
     	//------------------------------------------------
