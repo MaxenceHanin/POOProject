@@ -110,8 +110,7 @@ public class Access { //Driver to access the database
 			CallableStatement statement = myConn.prepareCall(query);
 			ResultSet myRs = statement.executeQuery();
 			while (myRs.next()){
-
-				//result.add(myRs.getString("nickname"));
+				result.add(new HistoryMessage(myRs.getString("text"),myRs.getString("snick"),myRs.getString("dnick"),ConvNo,myRs.getTime("time")));
 			}
 			return result;
 		} catch(SQLException e) {
