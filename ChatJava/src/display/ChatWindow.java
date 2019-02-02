@@ -79,8 +79,8 @@ public class ChatWindow extends Parent {
 			for (i=0; i< myRs1.size();i++) {
 				//OldConvOrUserConnected ocouc = new OldConvOrUserConnected(myRs1.get(i),BDD);
 				String CurDestUser =myRs1.get(i);
-				Button UseLog = new Button(CurDestUser);
-				UseLog.setText(CurDestUser);
+				Button UseLog = new Button();
+				UseLog.setText(BDD.ReturnsOtherUser(CurDestUser, LoginWindow.currentLogin));
 				//UseLog.setMinWidth(UserLogged.getPrefWidth());
 				UseLog.setMinWidth((100/60)*ChatWindow.getGridmsg().getPrefWidth());
 				UseLog.setOnAction(new EventHandler<ActionEvent>() {
